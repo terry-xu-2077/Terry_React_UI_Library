@@ -22,25 +22,26 @@
   --tc-value-text:var(--tc-text-bright);
 }
 
-/* Light mode uses a dedicated hierarchy instead of simply inverting the dark palette. */
+/* Light mode uses a deliberately stronger three-level hierarchy:
+   page -> section/card -> control. */
 .tc-theme[data-mode="light"],
 :root[data-tc-mode="light"]{
-  --tc-bg:color-mix(in srgb,var(--tc-base) 5%,white 95%);
-  --tc-surface:color-mix(in srgb,var(--tc-base) 13%,white 87%);
-  --tc-surface-2:color-mix(in srgb,var(--tc-base) 22%,white 78%);
-  --tc-panel:color-mix(in srgb,var(--tc-base) 28%,white 72%);
-  --tc-panel-2:color-mix(in srgb,var(--tc-base) 18%,white 82%);
-  --tc-panel-focus:color-mix(in srgb,var(--tc-base) 22%,var(--tc-accent) 18%,white 60%);
-  --tc-border-color:color-mix(in srgb,var(--tc-base) 44%,var(--tc-accent) 10%,white 46%);
-  --tc-line:color-mix(in srgb,var(--tc-base) 34%,var(--tc-accent) 8%,white 58%);
-  --tc-row-hover:color-mix(in srgb,var(--tc-base) 20%,var(--tc-effect) 10%,white 70%);
-  --tc-shadow:color-mix(in srgb,var(--tc-base) 28%,black 18%,transparent 54%);
-  --tc-text:color-mix(in srgb,var(--tc-base) 84%,black 16%);
-  --tc-text-muted:color-mix(in srgb,var(--tc-base) 64%,black 36%);
-  --tc-text-subtle:color-mix(in srgb,var(--tc-base) 48%,black 52%);
-  --tc-tooltip-bg:color-mix(in srgb,var(--tc-effect) 18%,white 82%);
-  --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 82%,black 18%);
-  --tc-header-neutral:linear-gradient(30deg,color-mix(in srgb,var(--tc-base) 28%,white 72%),color-mix(in srgb,var(--tc-base) 42%,white 58%));
+  --tc-bg:color-mix(in srgb,var(--tc-base) 4%,white 96%);
+  --tc-surface:color-mix(in srgb,var(--tc-base) 22%,white 78%);
+  --tc-surface-2:color-mix(in srgb,var(--tc-base) 31%,white 69%);
+  --tc-panel:color-mix(in srgb,var(--tc-base) 39%,white 61%);
+  --tc-panel-2:color-mix(in srgb,var(--tc-base) 27%,white 73%);
+  --tc-panel-focus:color-mix(in srgb,var(--tc-base) 30%,var(--tc-accent) 20%,white 50%);
+  --tc-border-color:color-mix(in srgb,var(--tc-base) 58%,var(--tc-accent) 8%,white 34%);
+  --tc-line:color-mix(in srgb,var(--tc-base) 48%,var(--tc-accent) 6%,white 46%);
+  --tc-row-hover:color-mix(in srgb,var(--tc-base) 30%,var(--tc-effect) 10%,white 60%);
+  --tc-shadow:color-mix(in srgb,var(--tc-base) 38%,black 20%,transparent 42%);
+  --tc-text:color-mix(in srgb,var(--tc-base) 92%,black 8%);
+  --tc-text-muted:color-mix(in srgb,var(--tc-base) 70%,black 30%);
+  --tc-text-subtle:color-mix(in srgb,var(--tc-base) 54%,black 46%);
+  --tc-tooltip-bg:color-mix(in srgb,var(--tc-effect) 22%,white 78%);
+  --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 88%,black 12%);
+  --tc-header-neutral:linear-gradient(30deg,color-mix(in srgb,var(--tc-base) 32%,white 68%),color-mix(in srgb,var(--tc-base) 48%,white 52%));
   color-scheme:light;
 }
 
@@ -60,12 +61,19 @@
 .tc-theme[data-mode="light"] .tc-number,
 :root[data-tc-mode="light"] .tc-text input,
 :root[data-tc-mode="light"] .tc-number{
-  color:color-mix(in srgb,var(--tc-text-bright) 16%,var(--tc-base) 84%);
+  color:color-mix(in srgb,var(--tc-text-bright) 10%,var(--tc-base) 90%);
+  background:var(--tc-panel);
 }
 .tc-theme[data-mode="light"] .tc-select-button,
 :root[data-tc-mode="light"] .tc-select-button{
   background:var(--tc-panel);
   color:var(--tc-text);
+}
+.tc-theme[data-mode="light"] .tc-bool,
+.tc-theme[data-mode="light"] .tc-slider,
+:root[data-tc-mode="light"] .tc-bool,
+:root[data-tc-mode="light"] .tc-slider{
+  background:linear-gradient(0deg,var(--tc-panel) 32%,var(--tc-panel-2) 28%,var(--tc-panel-2) 72%,var(--tc-panel) 68%);
 }
 .tc-theme[data-mode="light"] .tc-property-row:nth-child(odd),
 :root[data-tc-mode="light"] .tc-property-row:nth-child(odd){
@@ -74,6 +82,17 @@
 .tc-theme[data-mode="light"] .tc-button,
 :root[data-tc-mode="light"] .tc-button{
   background:linear-gradient(to bottom,var(--tc-surface-2),var(--tc-panel));
+}
+.tc-theme[data-mode="light"] .tc-pop,
+.tc-theme[data-mode="light"] .tc-picker,
+:root[data-tc-mode="light"] .tc-pop,
+:root[data-tc-mode="light"] .tc-picker{
+  background:var(--tc-surface-2);
+  box-shadow:0 10px 22px color-mix(in srgb,var(--tc-base) 24%,transparent);
+}
+.tc-theme[data-mode="light"] .tc-select-item,
+:root[data-tc-mode="light"] .tc-select-item{
+  background:var(--tc-panel-2);
 }
 .tc-button:hover:not(:disabled){
   border-color:var(--tc-effect);
