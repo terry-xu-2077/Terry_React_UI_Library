@@ -5,6 +5,7 @@ import "./theme-system.css";
 
 export type OptionItem = { value: string; label?: string; group?: string };
 export type AccentTone = "accent" | "blue" | "red" | "purple" | "neutral";
+export type MultiSelectMode = "menu" | "confirm";
 
 export function Tooltip({ text, children }: { text?: string; children: ReactNode }) {
   if (!text) return <>{children}</>;
@@ -26,9 +27,9 @@ export function BoolSwitch({ value, rawValue, onChange, trueValue = "yes", false
   return <div className="tc-control-wrap"><button type="button" disabled={disabled} className={`tc-control tc-bool ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? falseValue : trueValue)}><span className="tc-bool-knob">{on ? "ON 开" : "OFF 关"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
 }
 
-function useOutsideClose(open: boolean, close: ()=>void) {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(()=>{ if (!open) return; const fn=(e:MouseEvent)=>{if(ref.current&&!ref.current.contains(e.target as Node))close()}; document.addEventListener("mousedown",fn); return()=>document.removeEventListener("mousedown",fn); },[open,close]);
+function useOutsideClose(open:boolean, close:()=>void, enabled=true) {
+  const ref=useRef<HTMLDivElement>(null);
+  useEffect(()=>{ if(!open||!enabled)return; const fn=(e:MouseEvent)=>{if(ref.current&&!ref.current.contains(e.target as Node))close()}; document.addEventListener("mousedown",fn); return()=>document.removeEventListener("mousedown",fn); },[open,close,enabled]);
   return ref;
 }
 
@@ -42,9 +43,24 @@ export function Slider({ value, rawValue, min=0, max=100, step=1, onChange, disa
   return <div className="tc-control-wrap"><div className="tc-control tc-slider"><input className="tc-range" disabled={disabled} type="range" min={min} max={max} step={step} value={value} onChange={e=>onChange(Number(e.target.value))}/><input className="tc-number" disabled={disabled} type="number" min={min} max={max} step={step} value={value} onChange={e=>onChange(Number(e.target.value))}/></div>{rawValue!==undefined&&<ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
 }
 
-export function MultiSelect({ values, rawValues, options, onChange, title="选择项目", disabled }: { values:string[]; rawValues?:string[]; options:OptionItem[]; onChange:(v:string[])=>void; title?:string; disabled?:boolean }) {
-  const [open,setOpen]=useState(false); const ref=useOutsideClose(open,()=>setOpen(false)); const changed=rawValues!==undefined&&rawValues.join(",")!==values.join(","); const labels=useMemo(()=>values.map(v=>options.find(o=>o.value===v)?.label??v).join(", "),[values,options]); const toggle=(v:string)=>onChange(values.includes(v)?values.filter(x=>x!==v):[...values,v]);
-  return <div className="tc-control-wrap" ref={ref}><div className={`tc-control tc-multi ${open?"is-open":""}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={()=>setOpen(v=>!v)}><span>{labels||"未选择"}</span><ChevronDown size={20}/></button>{open&&<div className="tc-pop tc-picker tc-pop-in"><div className="tc-picker-title">{title}</div><div className="tc-picker-body">{options.map(o=><label className="tc-check-row" key={o.value}><input type="checkbox" checked={values.includes(o.value)} onChange={()=>toggle(o.value)}/><span className="tc-check-box">{values.includes(o.value)&&<Check size={13}/>}</span><span>{o.label??o.value}</span>{o.group&&<em>{o.group}</em>}</label>)}</div><div className="tc-picker-actions"><button type="button" onClick={()=>setOpen(false)}><Check size={15}/>确定</button><button type="button" onClick={()=>setOpen(false)}><X size={15}/>关闭</button></div></div>}</div>{rawValues&&<ResetButton visible={changed} onClick={()=>onChange(rawValues)}/>}</div>;
+export type MultiSelectProps={values:string[];rawValues?:string[];options:OptionItem[];onChange:(v:string[])=>void;title?:string;disabled?:boolean;mode?:MultiSelectMode;confirmLabel?:string;closeLabel?:string};
+export function MultiSelect({values,rawValues,options,onChange,title="选择项目",disabled,mode="menu",confirmLabel="确定",closeLabel="关闭"}:MultiSelectProps){
+  const [open,setOpen]=useState(false);
+  const [draft,setDraft]=useState<string[]>(values);
+  const isConfirm=mode==="confirm";
+  const shownValues=isConfirm&&open?draft:values;
+  const ref=useOutsideClose(open,()=>setOpen(false),!isConfirm);
+  const changed=rawValues!==undefined&&rawValues.join(",")!==values.join(",");
+  const labels=useMemo(()=>shownValues.map(v=>options.find(o=>o.value===v)?.label??v).join(", "),[shownValues,options]);
+  const openPicker=()=>{if(disabled)return; if(!open&&isConfirm)setDraft(values); setOpen(v=>!v)};
+  const toggle=(v:string)=>{
+    const current=isConfirm?draft:values;
+    const next=current.includes(v)?current.filter(x=>x!==v):[...current,v];
+    if(isConfirm)setDraft(next); else onChange(next);
+  };
+  const confirm=()=>{onChange(draft);setOpen(false)};
+  const close=()=>{setDraft(values);setOpen(false)};
+  return <div className="tc-control-wrap" ref={ref}><div className={`tc-control tc-multi ${open?"is-open":""} mode-${mode}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={openPicker}><span>{labels||"未选择"}</span><ChevronDown size={20}/></button>{open&&<div className="tc-pop tc-picker tc-pop-in"><div className="tc-picker-title">{title}</div><div className="tc-picker-body">{options.map(o=>{const checked=shownValues.includes(o.value);return <label className="tc-check-row" key={o.value}><input type="checkbox" checked={checked} onChange={()=>toggle(o.value)}/><span className="tc-check-box">{checked&&<Check size={13}/>}</span><span>{o.label??o.value}</span>{o.group&&<em>{o.group}</em>}</label>})}</div>{isConfirm&&<div className="tc-picker-actions"><button type="button" onClick={confirm}><Check size={15}/>{confirmLabel}</button><button type="button" onClick={close}><X size={15}/>{closeLabel}</button></div>}</div>}</div>{rawValues&&<ResetButton visible={changed} onClick={()=>onChange(rawValues)}/>}</div>;
 }
 
 export type EntityHeaderProps={tone?:AccentTone;icon?:ReactNode;title:string;subtitle?:string;watermark?:string;pinned?:boolean;onPin?:()=>void;className?:string;style?:CSSProperties};
