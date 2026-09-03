@@ -3,6 +3,7 @@ import { Check, ChevronDown, RotateCcw, X } from "lucide-react";
 import "./theme.css";
 import "./theme-system.css";
 import "./motion.css";
+import "./slider.css";
 
 export type OptionItem = { value: string; label?: string; group?: string };
 export type AccentTone = "accent" | "blue" | "red" | "purple" | "neutral";
