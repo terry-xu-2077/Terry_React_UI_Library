@@ -1,0 +1,33 @@
+.tc-bool{
+  position:relative!important;
+  width:104px!important;
+  min-width:104px!important;
+  max-width:104px!important;
+  flex:0 0 104px!important;
+  height:26px!important;
+  padding:0!important;
+  overflow:hidden!important;
+}
+.tc-bool-knob{
+  position:absolute!important;
+  left:2px!important;
+  top:2px!important;
+  width:48px!important;
+  height:18px!important;
+  box-sizing:border-box!important;
+  transform:translateX(0)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  white-space:nowrap!important;
+}
+.tc-bool.is-on .tc-bool-knob{
+  left:2px!important;
+  transform:translateX(50px)!important;
+}
+.tc-control-wrap:has(>.tc-bool){
+  width:104px;
+  min-width:104px;
+  max-width:104px;
+  flex:0 0 104px;
+}
