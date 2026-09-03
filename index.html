@@ -1,13 +1,99 @@
 <!doctype html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark" />
-    <title>Terry React UI Library</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Terry React UI Library</title>
+  <link rel="stylesheet" href="./src/styles/legacy-classic/theme.css" />
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#0d1421;color:#dbe7f4;font-family:Inter,"Segoe UI","Microsoft YaHei",sans-serif}button,input{font:inherit}.library-shell{min-height:100vh}.library-topbar{position:sticky;top:0;z-index:50;height:58px;display:flex;align-items:center;gap:24px;padding:0 24px;background:rgba(13,20,33,.94);border-bottom:1px solid rgba(105,172,230,.18);backdrop-filter:blur(14px)}.brand{font-weight:700;letter-spacing:.4px}.style-tabs{display:flex;align-self:stretch;gap:4px}.style-tab{position:relative;border:0;background:transparent;color:rgba(219,231,244,.55);padding:0 18px;cursor:pointer}.style-tab:hover{color:#fff}.style-tab.is-active{color:#fff}.style-tab.is-active:after{content:"";position:absolute;left:12px;right:12px;bottom:0;height:2px;background:rgb(20,178,231);box-shadow:0 0 10px rgb(20,178,231)}.style-tab.is-disabled{opacity:.28;cursor:default}.showcase{width:min(1120px,calc(100% - 40px));margin:28px auto 80px}.intro{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;margin-bottom:20px}.intro h1{margin:0 0 7px;font-size:26px}.intro p{margin:0;color:rgba(219,231,244,.5);font-size:13px}.section{margin-top:24px;background:rgba(17,27,42,.72);border:1px solid rgba(101,119,179,.22);box-shadow:0 12px 28px rgba(0,0,0,.18)}.section-title{height:40px;display:flex;align-items:center;padding:0 14px;border-bottom:1px solid rgba(101,119,179,.2);font-size:13px;font-weight:600;color:rgba(219,231,244,.72)}.section-body{padding:22px}.control-grid{display:grid;grid-template-columns:repeat(2,minmax(320px,1fr));gap:20px 46px}.demo-item{min-height:54px;display:grid;grid-template-columns:120px 1fr;align-items:center}.demo-label{font-size:12px;color:rgba(219,231,244,.42)}.rows{overflow:visible}.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.note{font-size:12px;color:rgba(219,231,244,.42);margin-top:10px}.static-dialog-layer{display:none;position:fixed;inset:0;z-index:3000;background:rgba(7,10,18,.62);align-items:center;justify-content:center;backdrop-filter:blur(4px)}.static-dialog-layer.is-open{display:flex}.static-dialog{min-width:420px;max-width:min(760px,90vw);background:rgb(41,41,41);color:#fff;border:2px solid rgba(101,119,179,.336);border-radius:6px;box-shadow:0 10px 16px 4px rgba(0,0,0,.6);overflow:hidden;animation:legacyDialogIn .5s}.static-dialog header{height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;background:linear-gradient(to bottom,rgb(80,80,80),rgb(48,48,48))}.static-dialog header button{border:0;background:none;color:#fff;cursor:pointer}.static-dialog .body{padding:18px;font-size:14px;line-height:1.6}.legacy-control-wrap{position:relative;display:inline-flex;align-items:center;gap:8px}.legacy-control{position:relative;width:220px;height:26px;border-radius:5px;outline:2px solid transparent;transition:all .2s ease}.legacy-control:hover{outline-color:rgb(135,207,255);box-shadow:0 0 10px 2px rgb(135,207,255)}.legacy-text input{width:100%;height:100%;border:2px solid rgba(101,119,179,.336);border-radius:5px;background:rgb(32,39,65);color:rgb(135,207,255);padding:0 6px;outline:0;font-size:15px}.legacy-text input:focus{color:#fff;background:rgba(32,62,126,.842)}.legacy-bool{padding:0;border:2px solid rgba(101,119,179,.336);background:linear-gradient(0deg,rgb(32,39,65) 30%,rgba(18,20,35,.87) 26%,rgba(18,20,35,.87) 74%,rgb(32,39,65) 70%);cursor:pointer}.legacy-bool-knob{position:absolute;left:0;top:0;width:90px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:4px;border:2px solid rgba(255,255,255,.311);color:rgba(255,255,255,.598);background:linear-gradient(90deg,rgb(75,75,75) 10%,rgb(165,165,165) 20%,rgb(75,75,75) 60%);transition:all .2s ease}.legacy-bool.is-on .legacy-bool-knob{left:126px;color:rgba(255,255,255,.781);background:linear-gradient(90deg,#018b74 60%,#28fdda 80%,#018b74 90%)}.legacy-select-button{width:100%;height:100%;border:2px solid rgba(101,119,179,.336);border-radius:5px;background:rgb(32,39,65);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 6px;cursor:pointer}.legacy-select:hover .legacy-select-button{background:rgb(2,189,158)}.chevron{color:rgb(2,189,158);font-size:16px}.legacy-select-list{display:none;position:absolute;left:0;top:32px;z-index:1000;width:220px;border:2px solid rgba(101,119,179,.336);border-radius:5px;background:rgb(32,39,65);overflow:hidden;box-shadow:0 8px 16px rgba(0,0,0,.2);animation:legacyPopIn .5s}.legacy-select.is-open .legacy-select-list{display:block}.legacy-select-item{display:block;width:100%;height:26px;border:0;border-bottom:1px solid rgba(172,172,172,.5);background:rgba(90,90,90,.83);color:#fff;text-align:left;padding:0 6px;cursor:pointer}.legacy-select-item:hover{background:rgb(2,189,158)}.legacy-slider{display:flex;border:2px solid rgba(101,119,179,.336);background:linear-gradient(0deg,rgb(32,39,65) 30%,rgba(18,20,35,.87) 26%,rgba(18,20,35,.87) 74%,rgb(32,39,65) 70%)}.legacy-range{-webkit-appearance:none;width:170px;height:100%;margin:0;background:none}.legacy-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:22px;border:2px solid rgba(255,255,255,.64);border-radius:4px;background:rgb(2,189,158);cursor:e-resize}.legacy-number{width:46px;height:22px;margin:0;padding:0;border:0;border-left:2px solid rgba(101,119,179,.336);background:rgb(32,39,65);color:rgb(135,207,255);text-align:center;outline:0}.legacy-number:focus{background:rgba(32,62,126,.842);color:#fff}.legacy-number::-webkit-inner-spin-button,.legacy-number::-webkit-outer-spin-button{-webkit-appearance:none}.legacy-reset{height:26px;border:2px solid rgba(101,119,179,.336);border-radius:5px;background:transparent;color:rgba(255,255,255,.386);padding:0 8px;cursor:pointer;opacity:0;pointer-events:none;transition:.1s}.legacy-reset.is-visible{opacity:1;pointer-events:auto}.legacy-reset:hover{background:rgb(2,189,158);color:#fff}.legacy-entity-header{position:relative;min-height:60px;display:flex;align-items:center;overflow:hidden;color:#fff;background:linear-gradient(30deg,rgba(20,60,139,.694),rgba(69,154,239,.806))}.legacy-entity-watermark{position:absolute;right:10px;top:-9px;font-size:70px;line-height:70px;letter-spacing:4px;font-style:italic;font-weight:800;opacity:.15;white-space:nowrap}.legacy-entity-icon{width:78px;height:60px;display:flex;align-items:center;justify-content:center;border-right:2px solid rgba(255,255,255,.25);font-size:28px}.legacy-entity-title{padding-left:10px;display:flex;flex-direction:column;gap:2px;z-index:1}.legacy-entity-title strong{font-size:20px}.legacy-entity-title span{font-size:12px;color:rgb(185,185,185)}.legacy-pin{position:absolute;right:14px;bottom:6px;border:0;background:transparent;font-size:25px;opacity:0;transform:translate(18px,-18px) rotate(40deg);transition:.1s;cursor:pointer}.legacy-entity-header:hover .legacy-pin,.legacy-pin.is-pinned{opacity:1;transform:translate(0,0) rotate(40deg)}.legacy-pin.is-pinned span{display:inline-block;animation:legacyPinWiggle .35s}.legacy-property-row{position:relative;display:grid;grid-template-columns:40% 60%;min-height:42px;border-bottom:1px solid rgba(55,102,205,.4);color:rgba(135,207,255,.911);transition:.06s}.legacy-property-row:nth-child(odd){background:rgba(255,255,255,.02)}.legacy-property-row:hover{background:rgba(30,63,133,.514);box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:2}.legacy-property-label,.legacy-property-value{display:flex;align-items:center}.legacy-property-label{justify-content:flex-end;padding-right:8px}.legacy-property-label>div{display:flex;flex-direction:column;align-items:flex-end}.legacy-property-label strong{font-size:15px;font-weight:500}.legacy-property-label span{font-size:12px;opacity:.4}.legacy-property-value{padding-left:8px;border-left:1px solid rgba(55,102,205,.4)}.legacy-button{box-sizing:border-box;border:1px solid rgba(115,115,115,.829);border-radius:13px;background:linear-gradient(to bottom,rgb(103,103,103),rgba(72,72,72,.792));color:rgba(228,228,228,.881);height:26px;min-width:110px;padding:0 12px;cursor:pointer;transition:.12s ease-in}.legacy-button:hover{border-color:rgb(20,178,231);color:#fff;background:linear-gradient(to bottom,rgb(32,56,130),rgb(48,77,176));filter:drop-shadow(2px 6px 6px rgba(0,0,0,.5))}.legacy-button:active{background:linear-gradient(to bottom,rgb(40,40,40),rgb(53,53,53))}.legacy-status-pill{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:10px;border:1px solid rgba(255,255,255,.18);font-size:11px;color:rgba(255,255,255,.72);background:rgba(255,255,255,.06)}.tone-active{color:rgba(107,255,174,.897);border-color:rgba(107,255,174,.35)}.tone-warning{color:rgba(255,186,83,.897);border-color:rgba(255,186,83,.35)}.tone-danger{color:rgba(255,83,178,.897);border-color:rgba(255,83,178,.35)}@keyframes legacyPopIn{0%{transform:scale(.5)}30%{transform:scale(1.2)}100%{transform:scale(1)}}@keyframes legacyDialogIn{0%{transform:scale(.72);opacity:0}35%{transform:scale(1.04);opacity:1}100%{transform:scale(1);opacity:1}}@keyframes legacyPinWiggle{0%,20%,100%{transform:rotate(40deg)}50%{transform:rotate(60deg)}80%{transform:rotate(30deg)}}@media(max-width:760px){.control-grid{grid-template-columns:1fr}.demo-item{grid-template-columns:100px 1fr}.showcase{width:calc(100% - 20px)}}
+  </style>
+</head>
+<body>
+<div class="library-shell">
+  <header class="library-topbar">
+    <div class="brand">Terry React UI Library</div>
+    <nav class="style-tabs" aria-label="UI styles">
+      <button class="style-tab is-active" type="button">Legacy Classic</button>
+      <button class="style-tab is-disabled" type="button" disabled>New Style +</button>
+    </nav>
+  </header>
+
+  <main class="showcase">
+    <div class="intro"><div><h1>Legacy Classic</h1><p>当前第一套 UI 风格 · 从旧 Web 视觉与动效语言提炼为通用组件。</p></div><span class="legacy-status-pill tone-active">Live Showcase</span></div>
+
+    <section class="section">
+      <div class="section-title">Entity Header</div>
+      <div class="legacy-entity-header">
+        <div class="legacy-entity-watermark">LEGACY</div>
+        <div class="legacy-entity-icon">◇</div>
+        <div class="legacy-entity-title"><strong>Entity Header</strong><span>Reusable header component</span></div>
+        <button id="pin" class="legacy-pin" type="button"><span>📌</span></button>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Controls</div>
+      <div class="section-body control-grid">
+        <div class="demo-item"><span class="demo-label">TextField</span><div class="legacy-control-wrap"><div class="legacy-control legacy-text"><input id="textInput" value="示例文本" /></div><button id="resetText" class="legacy-reset" type="button">↶ 还原</button></div></div>
+        <div class="demo-item"><span class="demo-label">BoolSwitch</span><button id="boolSwitch" class="legacy-control legacy-bool is-on" type="button"><span class="legacy-bool-knob">ON 开</span></button></div>
+        <div class="demo-item"><span class="demo-label">Select</span><div id="select" class="legacy-control legacy-select"><button class="legacy-select-button" type="button"><span id="selectValue">Alpha</span><span class="chevron">⌄</span></button><div class="legacy-select-list"><button class="legacy-select-item" data-value="Alpha">Alpha</button><button class="legacy-select-item" data-value="Beta">Beta</button><button class="legacy-select-item" data-value="Gamma">Gamma</button></div></div></div>
+        <div class="demo-item"><span class="demo-label">Slider</span><div class="legacy-control legacy-slider"><input id="range" class="legacy-range" type="range" min="0" max="100" value="42"/><input id="number" class="legacy-number" type="number" min="0" max="100" value="42"/></div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Property Rows</div>
+      <div class="rows">
+        <div class="legacy-property-row"><div class="legacy-property-label"><div><strong>Primary value</strong><span>通用属性行</span></div></div><div class="legacy-property-value"><div class="legacy-control legacy-text"><input value="示例内容"/></div></div></div>
+        <div class="legacy-property-row"><div class="legacy-property-label"><div><strong>Enabled</strong><span>支持任意业务语义</span></div></div><div class="legacy-property-value"><button class="legacy-control legacy-bool" type="button"><span class="legacy-bool-knob">OFF 关</span></button></div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Actions & Status</div>
+      <div class="section-body"><div class="actions"><button id="dialogBtn" class="legacy-button" type="button">打开弹窗</button><span class="legacy-status-pill tone-active">Active</span><span class="legacy-status-pill tone-warning">Warning</span><span class="legacy-status-pill tone-danger">Danger</span></div><div class="note">展示页无需 npm、Vite 或 React 编译；React 组件源码仍保留在 src/styles/legacy-classic/。</div></div>
+    </section>
+  </main>
+</div>
+
+<div id="dialogLayer" class="static-dialog-layer"><section class="static-dialog"><header><strong>Legacy Classic Dialog</strong><button id="dialogClose" type="button">✕</button></header><div class="body">这套风格保留旧 Web 版的弹性进入动画、边框、渐变、阴影和操作反馈。</div></section></div>
+
+<script>
+(() => {
+  const text = document.getElementById('textInput');
+  const reset = document.getElementById('resetText');
+  const syncReset = () => reset.classList.toggle('is-visible', text.value !== '示例文本');
+  text.addEventListener('input', syncReset);
+  reset.addEventListener('click', () => { text.value='示例文本'; syncReset(); });
+
+  document.querySelectorAll('.legacy-bool').forEach(btn => btn.addEventListener('click', () => {
+    btn.classList.toggle('is-on');
+    const knob = btn.querySelector('.legacy-bool-knob');
+    knob.textContent = btn.classList.contains('is-on') ? 'ON 开' : 'OFF 关';
+  }));
+
+  const select = document.getElementById('select');
+  select.querySelector('.legacy-select-button').addEventListener('click', () => select.classList.toggle('is-open'));
+  select.querySelectorAll('.legacy-select-item').forEach(item => item.addEventListener('click', () => {
+    document.getElementById('selectValue').textContent = item.dataset.value;
+    select.classList.remove('is-open');
+  }));
+  document.addEventListener('click', e => { if(!select.contains(e.target)) select.classList.remove('is-open'); });
+
+  const range = document.getElementById('range'), number = document.getElementById('number');
+  range.addEventListener('input', () => number.value = range.value);
+  number.addEventListener('input', () => range.value = number.value);
+
+  const pin = document.getElementById('pin');
+  pin.addEventListener('click', () => pin.classList.toggle('is-pinned'));
+
+  const layer = document.getElementById('dialogLayer');
+  document.getElementById('dialogBtn').addEventListener('click', () => layer.classList.add('is-open'));
+  document.getElementById('dialogClose').addEventListener('click', () => layer.classList.remove('is-open'));
+  layer.addEventListener('mousedown', e => { if(e.target === layer) layer.classList.remove('is-open'); });
+})();
+</script>
+</body>
 </html>
