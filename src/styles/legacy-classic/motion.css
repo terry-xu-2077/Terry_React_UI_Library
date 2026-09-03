@@ -1,24 +1,6 @@
-/* Motion belongs to the shared UI library so every consumer gets the same behavior.
-   Keep list/property rows static: transforms on every row create stacking contexts,
-   which can trap dropdowns beneath later siblings and also cause excessive repainting. */
-.tc-property-row{
-  animation:none!important;
-  transform:none!important;
-  transition:none!important;
-}
-.tc-property-row:hover{
-  transform:none!important;
-  box-shadow:none!important;
-  z-index:auto!important;
-}
-.tc-property-row:nth-child(odd):hover{
-  background:color-mix(in srgb,var(--tc-surface) 92%,white 8%)!important;
-}
-.tc-property-row:nth-child(even):hover{
-  background:transparent!important;
-}
+/* Motion belongs to the shared UI library so every consumer gets the same behavior. */
 
-/* Popovers must sit above sticky headers and subsequent property groups. */
+/* Popovers must sit above sticky headers and subsequent business rows. */
 .tc-pop{
   z-index:5000!important;
 }
