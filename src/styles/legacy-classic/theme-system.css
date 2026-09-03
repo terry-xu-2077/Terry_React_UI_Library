@@ -77,6 +77,36 @@
 }
 .tc-theme[data-mode="light"] .tc-select-button,
 :root[data-tc-mode="light"] .tc-select-button{background:var(--tc-panel)}
+
+/* In light mode highlighted/open controls keep readable dark theme text.
+   White text is reserved for dark mode and explicit high-contrast surfaces. */
+.tc-theme[data-mode="light"] .tc-select:hover .tc-select-button,
+.tc-theme[data-mode="light"] .tc-select.is-open .tc-select-button,
+.tc-theme[data-mode="light"] .tc-multi:hover .tc-select-button,
+.tc-theme[data-mode="light"] .tc-multi.is-open .tc-select-button,
+:root[data-tc-mode="light"] .tc-select:hover .tc-select-button,
+:root[data-tc-mode="light"] .tc-select.is-open .tc-select-button,
+:root[data-tc-mode="light"] .tc-multi:hover .tc-select-button,
+:root[data-tc-mode="light"] .tc-multi.is-open .tc-select-button{
+  color:var(--tc-text-main);
+}
+.tc-theme[data-mode="light"] .tc-select:hover .tc-chevron,
+.tc-theme[data-mode="light"] .tc-select.is-open .tc-chevron,
+.tc-theme[data-mode="light"] .tc-multi:hover .tc-chevron,
+.tc-theme[data-mode="light"] .tc-multi.is-open .tc-chevron,
+:root[data-tc-mode="light"] .tc-select:hover .tc-chevron,
+:root[data-tc-mode="light"] .tc-select.is-open .tc-chevron,
+:root[data-tc-mode="light"] .tc-multi:hover .tc-chevron,
+:root[data-tc-mode="light"] .tc-multi.is-open .tc-chevron{
+  border-color:var(--tc-text-main);
+}
+.tc-theme[data-mode="light"] .tc-select-item:hover,
+.tc-theme[data-mode="light"] .tc-check-row:hover,
+:root[data-tc-mode="light"] .tc-select-item:hover,
+:root[data-tc-mode="light"] .tc-check-row:hover{
+  color:var(--tc-text-main);
+}
+
 .tc-theme[data-mode="light"] .tc-bool,
 .tc-theme[data-mode="light"] .tc-slider,
 :root[data-tc-mode="light"] .tc-bool,
