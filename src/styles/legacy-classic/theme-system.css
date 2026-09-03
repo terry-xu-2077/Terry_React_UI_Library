@@ -78,17 +78,19 @@
 .tc-theme[data-mode="light"] .tc-select-button,
 :root[data-tc-mode="light"] .tc-select-button{background:var(--tc-panel)}
 
-/* Light mode keeps the visible Accent fill for hover/open states,
-   while using dark readable theme text instead of forced white text. */
+/* Light mode uses a restrained Accent tint for hover and a slightly stronger tint for open state. */
 .tc-theme[data-mode="light"] .tc-select:hover .tc-select-button,
-.tc-theme[data-mode="light"] .tc-select.is-open .tc-select-button,
 .tc-theme[data-mode="light"] .tc-multi:hover .tc-select-button,
-.tc-theme[data-mode="light"] .tc-multi.is-open .tc-select-button,
 :root[data-tc-mode="light"] .tc-select:hover .tc-select-button,
+:root[data-tc-mode="light"] .tc-multi:hover .tc-select-button{
+  background:color-mix(in srgb,var(--tc-accent) 22%,white 78%);
+  color:var(--tc-text-main);
+}
+.tc-theme[data-mode="light"] .tc-select.is-open .tc-select-button,
+.tc-theme[data-mode="light"] .tc-multi.is-open .tc-select-button,
 :root[data-tc-mode="light"] .tc-select.is-open .tc-select-button,
-:root[data-tc-mode="light"] .tc-multi:hover .tc-select-button,
 :root[data-tc-mode="light"] .tc-multi.is-open .tc-select-button{
-  background:color-mix(in srgb,var(--tc-accent) 54%,white 46%);
+  background:color-mix(in srgb,var(--tc-accent) 30%,white 70%);
   color:var(--tc-text-main);
 }
 .tc-theme[data-mode="light"] .tc-select:hover .tc-chevron,
@@ -105,7 +107,7 @@
 .tc-theme[data-mode="light"] .tc-check-row:hover,
 :root[data-tc-mode="light"] .tc-select-item:hover,
 :root[data-tc-mode="light"] .tc-check-row:hover{
-  background:color-mix(in srgb,var(--tc-accent) 38%,white 62%);
+  background:color-mix(in srgb,var(--tc-accent) 16%,white 84%);
   color:var(--tc-text-main);
 }
 
