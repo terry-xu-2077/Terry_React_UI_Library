@@ -1,0 +1,30 @@
+:root{
+  /* Four public theme channels. Consumers can override only these. */
+  --tc-base:#0d1421;
+  --tc-accent:#02bd9e;
+  --tc-effect:#87cfff;
+  --tc-text-bright:#87cfff;
+
+  /* Effect-derived colors: glow/hover/focus effects only. */
+  --tc-glow:var(--tc-effect);
+  --tc-hover-effect:color-mix(in srgb,var(--tc-effect) 82%,white 18%);
+  --tc-focus-effect:color-mix(in srgb,var(--tc-effect) 72%,transparent);
+  --tc-particle:color-mix(in srgb,var(--tc-effect) 88%,white 12%);
+
+  /* Bright text is independent from control accent. */
+  --tc-value-text:var(--tc-text-bright);
+}
+
+.tc-control:hover{
+  outline-color:var(--tc-effect);
+  box-shadow:0 0 10px 2px color-mix(in srgb,var(--tc-effect) 80%,transparent);
+}
+.tc-text input,.tc-number,.tc-property-row{color:var(--tc-value-text)}
+.tc-text input:focus,.tc-number:focus{
+  color:color-mix(in srgb,var(--tc-text-bright) 72%,white 28%);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tc-effect) 55%,transparent),0 0 7px color-mix(in srgb,var(--tc-effect) 42%,transparent);
+}
+.tc-button:hover:not(:disabled){border-color:var(--tc-effect);filter:drop-shadow(2px 6px 6px var(--tc-shadow)) drop-shadow(0 0 5px color-mix(in srgb,var(--tc-effect) 42%,transparent))}
+.tc-changed{color:var(--tc-effect)}
+.tc-status-pill.tone-active{border-color:color-mix(in srgb,var(--tc-effect) 40%,transparent)}
+.tc-tooltip{box-shadow:0 0 10px color-mix(in srgb,var(--tc-effect) 24%,transparent)}
