@@ -25,11 +25,13 @@ export function TextField({ value, rawValue, onChange, placeholder, tooltip, dis
 }
 
 export function BoolSwitch({ value, rawValue, onChange, trueValue = "yes", falseValue = "no", disabled }: { value: string; rawValue?: string; onChange:(v:string)=>void; trueValue?: string; falseValue?: string; disabled?:boolean }) {
-  const on = value.toLowerCase() === trueValue.toLowerCase();
+  const dialectProbe = (value || rawValue || "").trim().toLowerCase();
+  const usesLiteralBoolean = dialectProbe === "true" || dialectProbe === "false";
+  const effectiveTrue = usesLiteralBoolean ? "true" : trueValue;
+  const effectiveFalse = usesLiteralBoolean ? "false" : falseValue;
+  const on = value.trim().toLowerCase() === effectiveTrue.toLowerCase();
   const changed = rawValue !== undefined && value !== rawValue;
-  const switchStyle: CSSProperties = { width: 104, flex: "0 0 104px" };
-  const knobStyle: CSSProperties = { width: "50%", left: on ? "50%" : 0 };
-  return <div className="tc-control-wrap"><button style={switchStyle} type="button" disabled={disabled} className={`tc-control tc-bool ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? falseValue : trueValue)}><span style={knobStyle} className="tc-bool-knob">{on ? "ON 开" : "OFF 关"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
+  return <div className="tc-control-wrap"><button type="button" disabled={disabled} className={`tc-control tc-bool ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? effectiveFalse : effectiveTrue)}><span className="tc-bool-knob">{on ? "ON 开" : "OFF 关"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
 }
 
 function useOutsideClose(open:boolean, close:()=>void, enabled=true) {
