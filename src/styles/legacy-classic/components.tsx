@@ -7,6 +7,7 @@ import "./motion.css";
 export type OptionItem = { value: string; label?: string; group?: string };
 export type AccentTone = "accent" | "blue" | "red" | "purple" | "neutral";
 export type MultiSelectMode = "menu" | "confirm";
+export type DialogSize = "default" | "wide";
 
 export function Tooltip({ text, children }: { text?: string; children: ReactNode }) {
   if (!text) return <>{children}</>;
@@ -72,6 +73,6 @@ export function EntityHeader({tone="accent",icon,title,subtitle,watermark,pinned
 export type PropertyRowProps={label:string;description?:string;changed?:boolean;children:ReactNode};
 export function PropertyRow({label,description,changed,children}:PropertyRowProps){const rowId=useId();return <div id={rowId} className={`tc-property-row ${changed?"is-changed":""}`}><div className="tc-property-label"><div><strong>{label}</strong>{description&&<span>{description}</span>}</div></div><div className="tc-property-value">{children}</div>{changed&&<span className="tc-changed">已修改</span>}</div>}
 
-export function Dialog({open,title,children,onClose}:{open:boolean;title:string;children:ReactNode;onClose:()=>void}){if(!open)return null;return <div className="tc-dialog-layer" onMouseDown={e=>{if(e.currentTarget===e.target)onClose()}}><section className="tc-dialog tc-dialog-in" role="dialog" aria-modal="true"><header><strong>{title}</strong><button type="button" onClick={onClose}><X size={18}/></button></header><div className="tc-dialog-body">{children}</div></section></div>}
+export function Dialog({open,title,children,onClose,size="default"}:{open:boolean;title:string;children:ReactNode;onClose:()=>void;size?:DialogSize}){if(!open)return null;return <div className="tc-dialog-layer" onMouseDown={e=>{if(e.currentTarget===e.target)onClose()}}><section className={`tc-dialog tc-dialog-in size-${size}`} role="dialog" aria-modal="true"><header><strong>{title}</strong><button type="button" onClick={onClose}><X size={18}/></button></header><div className="tc-dialog-body">{children}</div></section></div>}
 export function Button({children,onClick,disabled=false,className=""}:React.PropsWithChildren<{onClick?:()=>void;disabled?:boolean;className?:string}>){return <button type="button" className={`tc-button ${className}`} disabled={disabled} onClick={onClick}>{children}</button>}
 export function StatusPill({children,tone="normal"}:React.PropsWithChildren<{tone?:"normal"|"active"|"warning"|"danger"}>){return <span className={`tc-status-pill tone-${tone}`}>{children}</span>}
