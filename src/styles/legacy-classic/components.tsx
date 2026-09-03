@@ -4,6 +4,7 @@ import "./theme.css";
 import "./theme-system.css";
 import "./motion.css";
 import "./slider.css";
+import "./bool-switch.css";
 
 export type OptionItem = { value: string; label?: string; group?: string };
 export type AccentTone = "accent" | "blue" | "red" | "purple" | "neutral";
@@ -38,7 +39,7 @@ export function BoolSwitch({ value, rawValue, onChange, trueValue = "yes", false
   const effectiveFalse = usesLiteralBoolean ? "false" : falseValue;
   const on = value.trim().toLowerCase() === effectiveTrue.toLowerCase();
   const changed = rawValue !== undefined && value !== rawValue;
-  return <div className="tc-control-wrap"><button type="button" disabled={disabled} className={`tc-control tc-bool ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? effectiveFalse : effectiveTrue)}><span className="tc-bool-knob">{on ? "ON 开" : "OFF 关"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
+  return <div className="tc-control-wrap tc-bool-wrap"><button type="button" disabled={disabled} className={`tc-control tc-bool ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? effectiveFalse : effectiveTrue)}><span className="tc-bool-knob">{on ? "ON 开" : "OFF 关"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
 }
 
 function useOutsideClose(open:boolean, close:()=>void, enabled=true) {
