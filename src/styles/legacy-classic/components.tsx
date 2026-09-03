@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode, useEffect, useId, useMemo, useRef, useState } from "react";
+import React, { CSSProperties, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown, RotateCcw, X } from "lucide-react";
 import "./theme.css";
 import "./theme-system.css";
@@ -69,9 +69,6 @@ export function MultiSelect({values,rawValues,options,onChange,title="选择项�
 
 export type EntityHeaderProps={tone?:AccentTone;icon?:ReactNode;title:string;subtitle?:string;watermark?:string;pinned?:boolean;onPin?:()=>void;className?:string;style?:CSSProperties};
 export function EntityHeader({tone="accent",icon,title,subtitle,watermark,pinned=false,onPin,className="",style}:EntityHeaderProps){return <header className={`tc-entity-header tone-${tone} ${className}`.trim()} style={style}><div className="tc-entity-watermark">{watermark??title}</div><div className="tc-entity-icon">{icon??<span>?</span>}</div><div className="tc-entity-title"><strong>{title}</strong>{subtitle&&<span>{subtitle}</span>}</div>{onPin&&<button className={`tc-pin ${pinned?"is-pinned":""}`} type="button" onClick={onPin} aria-label="固定"><span>📌</span></button>}</header>}
-
-export type PropertyRowProps={label:string;description?:string;changed?:boolean;children:ReactNode};
-export function PropertyRow({label,description,changed,children}:PropertyRowProps){const rowId=useId();return <div id={rowId} className={`tc-property-row ${changed?"is-changed":""}`}><div className="tc-property-label"><div><strong>{label}</strong>{description&&<span>{description}</span>}</div></div><div className="tc-property-value">{children}</div>{changed&&<span className="tc-changed">已修改</span>}</div>}
 
 export function Dialog({open,title,children,onClose,size="default"}:{open:boolean;title:string;children:ReactNode;onClose:()=>void;size?:DialogSize}){if(!open)return null;return <div className="tc-dialog-layer" onMouseDown={e=>{if(e.currentTarget===e.target)onClose()}}><section className={`tc-dialog tc-dialog-in size-${size}`} role="dialog" aria-modal="true"><header><strong>{title}</strong><button type="button" onClick={onClose}><X size={18}/></button></header><div className="tc-dialog-body">{children}</div></section></div>}
 export function Button({children,onClick,disabled=false,className=""}:React.PropsWithChildren<{onClick?:()=>void;disabled?:boolean;className?:string}>){return <button type="button" className={`tc-button ${className}`} disabled={disabled} onClick={onClick}>{children}</button>}
