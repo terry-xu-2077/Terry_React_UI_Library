@@ -3,6 +3,12 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "exports": {
+    ".": "./src/styles/legacy-classic/index.ts",
+    "./legacy-classic": "./src/styles/legacy-classic/index.ts",
+    "./legacy-classic/theme.css": "./src/styles/legacy-classic/theme.css",
+    "./legacy-classic/theme-system.css": "./src/styles/legacy-classic/theme-system.css"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
