@@ -10,6 +10,13 @@ export type AccentTone = "accent" | "blue" | "red" | "purple" | "neutral";
 export type MultiSelectMode = "menu" | "confirm";
 export type DialogSize = "default" | "wide";
 
+function optionDisplayLabel(option: OptionItem) {
+  const label = option.label?.trim();
+  if (!label) return option.value;
+  const suffix = ` · ${option.value}`;
+  return label.endsWith(suffix) ? label.slice(0, -suffix.length).trim() || option.value : label;
+}
+
 export function Tooltip({ text, children }: { text?: string; children: ReactNode }) {
   if (!text) return <>{children}</>;
   return <span className="tc-tooltip-host">{children}<span className="tc-tooltip">{text}</span></span>;
@@ -42,7 +49,7 @@ function useOutsideClose(open:boolean, close:()=>void, enabled=true) {
 
 export function Select({ value, rawValue, options, onChange, tooltip, disabled }: { value:string; rawValue?:string; options:OptionItem[]; onChange:(v:string)=>void; tooltip?:string; disabled?:boolean }) {
   const [open,setOpen]=useState(false); const ref=useOutsideClose(open,()=>setOpen(false)); const selected=options.find(o=>o.value===value); const changed=rawValue!==undefined&&value!==rawValue;
-  return <div className="tc-control-wrap" ref={ref}><Tooltip text={tooltip}><div className={`tc-control tc-select ${open?"is-open":""}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={()=>setOpen(v=>!v)}><span>{selected?.label??value}</span><ChevronDown size={20}/></button>{open&&<div className="tc-pop tc-select-list tc-pop-in">{options.map(o=><button type="button" key={o.value} className="tc-select-item" onClick={()=>{onChange(o.value);setOpen(false)}}>{o.label??o.value}</button>)}</div>}</div></Tooltip>{rawValue!==undefined&&<ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
+  return <div className="tc-control-wrap" ref={ref}><Tooltip text={tooltip}><div className={`tc-control tc-select ${open?"is-open":""}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={()=>setOpen(v=>!v)}><span>{selected?optionDisplayLabel(selected):value}</span><ChevronDown size={20}/></button>{open&&<div className="tc-pop tc-select-list tc-pop-in">{options.map(o=><button type="button" key={o.value} className="tc-select-item" onClick={()=>{onChange(o.value);setOpen(false)}}>{optionDisplayLabel(o)}</button>)}</div>}</div></Tooltip>{rawValue!==undefined&&<ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
 }
 
 export function Slider({ value, rawValue, min=0, max=100, step=1, onChange, disabled }: { value:number; rawValue?:number; min?:number; max?:number; step?:number; onChange:(v:number)=>void; disabled?:boolean }) {
@@ -58,7 +65,7 @@ export function MultiSelect({values,rawValues,options,onChange,title="选择项�
   const shownValues=isConfirm&&open?draft:values;
   const ref=useOutsideClose(open,()=>setOpen(false),!isConfirm);
   const changed=rawValues!==undefined&&rawValues.join(",")!==values.join(",");
-  const labels=useMemo(()=>shownValues.map(v=>options.find(o=>o.value===v)?.label??v).join(", "),[shownValues,options]);
+  const labels=useMemo(()=>shownValues.map(v=>{const option=options.find(o=>o.value===v);return option?optionDisplayLabel(option):v}).join(", "),[shownValues,options]);
   const openPicker=()=>{if(disabled)return; if(!open&&isConfirm)setDraft(values); setOpen(v=>!v)};
   const toggle=(v:string)=>{
     const current=isConfirm?draft:values;
@@ -67,7 +74,7 @@ export function MultiSelect({values,rawValues,options,onChange,title="选择项�
   };
   const confirm=()=>{onChange(draft);setOpen(false)};
   const close=()=>{setDraft(values);setOpen(false)};
-  return <div className="tc-control-wrap" ref={ref}><div className={`tc-control tc-multi ${open?"is-open":""} mode-${mode}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={openPicker}><span>{labels||"未选择"}</span><ChevronDown size={20}/></button>{open&&<div className="tc-pop tc-picker tc-pop-in"><div className="tc-picker-title">{title}</div><div className="tc-picker-body">{options.map(o=>{const checked=shownValues.includes(o.value);return <label className="tc-check-row" key={o.value}><input type="checkbox" checked={checked} onChange={()=>toggle(o.value)}/><span className="tc-check-box">{checked&&<Check size={13}/>}</span><span>{o.label??o.value}</span>{o.group&&<em>{o.group}</em>}</label>})}</div>{isConfirm&&<div className="tc-picker-actions"><button type="button" onClick={confirm}><Check size={15}/>{confirmLabel}</button><button type="button" onClick={close}><X size={15}/>{closeLabel}</button></div>}</div>}</div>{rawValues&&<ResetButton visible={changed} onClick={()=>onChange(rawValues)}/>}</div>;
+  return <div className="tc-control-wrap" ref={ref}><div className={`tc-control tc-multi ${open?"is-open":""} mode-${mode}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={openPicker}><span>{labels||"未选择"}</span><ChevronDown size={20}/></button>{open&&<div className="tc-pop tc-picker tc-pop-in"><div className="tc-picker-title">{title}</div><div className="tc-picker-body">{options.map(o=>{const checked=shownValues.includes(o.value);return <label className="tc-check-row" key={o.value}><input type="checkbox" checked={checked} onChange={()=>toggle(o.value)}/><span className="tc-check-box">{checked&&<Check size={13}/>}</span><span>{optionDisplayLabel(o)}</span>{o.group&&<em>{o.group}</em>}</label>})}</div>{isConfirm&&<div className="tc-picker-actions"><button type="button" onClick={confirm}><Check size={15}/>{confirmLabel}</button><button type="button" onClick={close}><X size={15}/>{closeLabel}</button></div>}</div>}</div>{rawValues&&<ResetButton visible={changed} onClick={()=>onChange(rawValues)}/>}</div>;
 }
 
 export type EntityHeaderProps={tone?:AccentTone;icon?:ReactNode;title:string;subtitle?:string;watermark?:string;pinned?:boolean;onPin?:()=>void;className?:string;style?:CSSProperties};
