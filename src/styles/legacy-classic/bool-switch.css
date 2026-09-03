@@ -1,4 +1,15 @@
-.tc-bool{
+/* BoolSwitch owns its geometry. Generic control/container sizing must not stretch it. */
+.tc-control-wrap.tc-bool-wrap{
+  width:104px!important;
+  min-width:104px!important;
+  max-width:104px!important;
+  flex:0 0 104px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:0!important;
+}
+.tc-bool-wrap>.tc-bool{
   position:relative!important;
   width:104px!important;
   min-width:104px!important;
@@ -7,27 +18,29 @@
   height:26px!important;
   padding:0!important;
   overflow:hidden!important;
+  box-sizing:border-box!important;
 }
-.tc-bool-knob{
+.tc-bool-wrap .tc-bool-knob{
   position:absolute!important;
   left:2px!important;
   top:2px!important;
   width:48px!important;
-  height:18px!important;
+  height:20px!important;
   box-sizing:border-box!important;
   transform:translateX(0)!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
+  border-radius:4px!important;
   white-space:nowrap!important;
+  overflow:hidden!important;
+  transition:transform .17s cubic-bezier(.2,.8,.2,1),background .17s,box-shadow .17s,color .17s!important;
 }
-.tc-bool.is-on .tc-bool-knob{
+.tc-bool-wrap .tc-bool.is-on .tc-bool-knob{
   left:2px!important;
   transform:translateX(50px)!important;
+  color:#fff!important;
+  background:var(--tc-accent-on)!important;
 }
-.tc-control-wrap:has(>.tc-bool){
-  width:104px;
-  min-width:104px;
-  max-width:104px;
-  flex:0 0 104px;
-}
+.tc-bool-wrap .tc-reset{left:calc(100% + 8px)!important}
+@media(prefers-reduced-motion:reduce){.tc-bool-wrap .tc-bool-knob{transition:none!important}}
