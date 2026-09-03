@@ -1,31 +1,85 @@
-/* Motion belongs to the shared UI library so every consumer gets the same behavior. */
+/* Motion belongs to the shared UI library so every consumer gets the same behavior.
+   Keep list/property rows static: transforms on every row create stacking contexts,
+   which can trap dropdowns beneath later siblings and also cause excessive repainting. */
 .tc-property-row{
-  animation:tcRowEnter .16s ease-out both;
-  transition:background .12s ease,box-shadow .12s ease,transform .12s ease;
+  animation:none!important;
+  transform:none!important;
+  transition:none!important;
 }
-.tc-property-row:hover{transform:translateY(-1px)}
-.tc-pop-in{animation:tcPopInCompact .16s ease-out both}
-.tc-dialog-in{animation:tcDialogInCompact .18s ease-out both}
-.tc-bool-knob{transition:left .16s ease,background .16s ease,color .16s ease,border-color .16s ease}
-.tc-reset{transition:opacity .12s ease,background .12s ease,color .12s ease}
+.tc-property-row:hover{
+  transform:none!important;
+  box-shadow:none!important;
+  z-index:auto!important;
+}
+.tc-property-row:nth-child(odd):hover{
+  background:color-mix(in srgb,var(--tc-surface) 92%,white 8%)!important;
+}
+.tc-property-row:nth-child(even):hover{
+  background:transparent!important;
+}
 
-@keyframes tcRowEnter{
-  from{opacity:0;transform:translateY(4px)}
+/* Popovers must sit above sticky headers and subsequent property groups. */
+.tc-pop{
+  z-index:5000!important;
+}
+
+/* Only animate controls that actually benefit from motion. Avoid transition:all. */
+.tc-control{
+  transition:outline-color .1s ease,box-shadow .1s ease!important;
+}
+.tc-pop-in{
+  animation:tcPopInCompact .12s cubic-bezier(.2,.8,.2,1) both!important;
+  transform-origin:top center;
+  will-change:transform,opacity;
+}
+.tc-dialog-in{
+  animation:tcDialogInCompact .14s cubic-bezier(.2,.8,.2,1) both!important;
+  will-change:transform,opacity;
+}
+
+/* BoolSwitch is a compact fixed-size switch. The knob moves with transform only,
+   which is smoother and avoids the old left/width mismatch in constrained layouts. */
+.tc-bool{
+  width:104px!important;
+  flex:0 0 104px!important;
+  overflow:hidden;
+}
+.tc-bool-knob{
+  left:2px!important;
+  top:2px!important;
+  width:48px!important;
+  height:18px!important;
+  transition:transform .14s cubic-bezier(.2,.8,.2,1),background .12s ease,color .12s ease,border-color .12s ease!important;
+  will-change:transform;
+}
+.tc-bool.is-on .tc-bool-knob{
+  left:2px!important;
+  transform:translateX(50px);
+}
+
+.tc-reset{
+  transition:opacity .1s ease,background .1s ease,color .1s ease!important;
+}
+.tc-tooltip{
+  transition:opacity .08s ease,transform .08s ease!important;
+}
+
+@keyframes tcPopInCompact{
+  from{opacity:0;transform:translateY(-3px)}
   to{opacity:1;transform:translateY(0)}
 }
-@keyframes tcPopInCompact{
-  from{opacity:0;transform:translateY(-4px) scale(.985)}
-  to{opacity:1;transform:translateY(0) scale(1)}
-}
 @keyframes tcDialogInCompact{
-  from{opacity:0;transform:translateY(8px) scale(.985)}
-  to{opacity:1;transform:translateY(0) scale(1)}
+  from{opacity:0;transform:translateY(5px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 @media(prefers-reduced-motion:reduce){
-  .tc-property-row,.tc-pop-in,.tc-dialog-in,.tc-bool-knob,.tc-reset{
+  .tc-pop-in,.tc-dialog-in,.tc-bool-knob,.tc-reset,.tc-tooltip{
     animation:none!important;
     transition:none!important;
     transform:none!important;
+  }
+  .tc-bool.is-on .tc-bool-knob{
+    transform:translateX(50px)!important;
   }
 }
