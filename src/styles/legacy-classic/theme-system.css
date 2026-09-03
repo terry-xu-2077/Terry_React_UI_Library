@@ -1,29 +1,28 @@
 :root{
-  /* Four public theme channels. */
+  /* Five public theme channels. */
   --tc-base:#011437;
   --tc-accent:#2ad5b8;
   --tc-effect:#70eeff;
-  --tc-text-bright:#ffffff;
+  --tc-text-main:#ffffff;
+  --tc-text-bright:#7fe8d8;
 
-  /* Dark mode derived text/background helpers. */
-  --tc-page-text:color-mix(in srgb,var(--tc-base) 10%,white 90%);
-  --tc-page-text-muted:color-mix(in srgb,var(--tc-base) 48%,white 52%);
-  --tc-scheme-surface-mix:white;
-  --tc-scheme-panel-mix:white;
-  --tc-scheme-shadow:black;
+  /* Normal text hierarchy is derived only from Text. */
+  --tc-text:var(--tc-text-main);
+  --tc-text-muted:color-mix(in srgb,var(--tc-text-main) 58%,transparent);
+  --tc-text-subtle:color-mix(in srgb,var(--tc-text-main) 34%,transparent);
+  --tc-placeholder:color-mix(in srgb,var(--tc-text-main) 30%,transparent);
 
-  /* Effect-derived colors: glow/hover/focus effects only. */
+  /* Effect-derived colors: glow / focus / particles only. */
   --tc-glow:var(--tc-effect);
   --tc-hover-effect:color-mix(in srgb,var(--tc-effect) 82%,white 18%);
   --tc-focus-effect:color-mix(in srgb,var(--tc-effect) 72%,transparent);
   --tc-particle:color-mix(in srgb,var(--tc-effect) 88%,white 12%);
 
-  /* Bright text is independent from control accent. */
+  /* Bright text is independent from normal text and control accent. */
   --tc-value-text:var(--tc-text-bright);
 }
 
-/* Light mode uses a deliberately stronger three-level hierarchy:
-   page -> section/card -> control. */
+/* Light mode uses a deliberately strong page -> card -> control hierarchy. */
 .tc-theme[data-mode="light"],
 :root[data-tc-mode="light"]{
   --tc-bg:color-mix(in srgb,var(--tc-base) 4%,white 96%);
@@ -36,11 +35,8 @@
   --tc-line:color-mix(in srgb,var(--tc-base) 48%,var(--tc-accent) 6%,white 46%);
   --tc-row-hover:color-mix(in srgb,var(--tc-base) 30%,var(--tc-effect) 10%,white 60%);
   --tc-shadow:color-mix(in srgb,var(--tc-base) 38%,black 20%,transparent 42%);
-  --tc-text:color-mix(in srgb,var(--tc-base) 92%,black 8%);
-  --tc-text-muted:color-mix(in srgb,var(--tc-base) 70%,black 30%);
-  --tc-text-subtle:color-mix(in srgb,var(--tc-base) 54%,black 46%);
   --tc-tooltip-bg:color-mix(in srgb,var(--tc-effect) 22%,white 78%);
-  --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 88%,black 12%);
+  --tc-tooltip-text:var(--tc-text-main);
   --tc-header-neutral:linear-gradient(30deg,color-mix(in srgb,var(--tc-base) 32%,white 68%),color-mix(in srgb,var(--tc-base) 48%,white 52%));
   color-scheme:light;
 }
@@ -48,27 +44,39 @@
 .tc-theme[data-mode="dark"],
 :root[data-tc-mode="dark"]{color-scheme:dark}
 
+/* Normal text / placeholder roles. */
+.tc-theme,.tc-select-button,.tc-check-row,.tc-button,.tc-dialog{color:var(--tc-text)}
+.tc-property-label strong,.tc-picker-title{color:var(--tc-text)}
+.tc-property-label span,.tc-entity-title span{color:var(--tc-text-muted)}
+.tc-text input::placeholder,.tc-number::placeholder{color:var(--tc-placeholder)}
+
+/* Bright/value text roles. */
+.tc-text input,.tc-number,.tc-property-value,.tc-changed{color:var(--tc-value-text)}
+.tc-text input:focus,.tc-number:focus{
+  color:var(--tc-text-bright);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tc-effect) 55%,transparent),0 0 7px color-mix(in srgb,var(--tc-effect) 42%,transparent);
+}
+
 .tc-control:hover{
   outline-color:var(--tc-effect);
   box-shadow:0 0 10px 2px color-mix(in srgb,var(--tc-effect) 80%,transparent);
 }
-.tc-text input,.tc-number,.tc-property-row{color:var(--tc-value-text)}
-.tc-text input:focus,.tc-number:focus{
-  color:color-mix(in srgb,var(--tc-text-bright) 72%,white 28%);
-  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tc-effect) 55%,transparent),0 0 7px color-mix(in srgb,var(--tc-effect) 42%,transparent);
+.tc-button:hover:not(:disabled){
+  border-color:var(--tc-effect);
+  filter:drop-shadow(2px 6px 6px var(--tc-shadow)) drop-shadow(0 0 5px color-mix(in srgb,var(--tc-effect) 42%,transparent));
 }
+.tc-status-pill.tone-active{border-color:color-mix(in srgb,var(--tc-effect) 40%,transparent)}
+.tc-tooltip{box-shadow:0 0 10px color-mix(in srgb,var(--tc-effect) 24%,transparent)}
+
+/* Light-mode control treatment. */
 .tc-theme[data-mode="light"] .tc-text input,
 .tc-theme[data-mode="light"] .tc-number,
 :root[data-tc-mode="light"] .tc-text input,
 :root[data-tc-mode="light"] .tc-number{
-  color:color-mix(in srgb,var(--tc-text-bright) 10%,var(--tc-base) 90%);
   background:var(--tc-panel);
 }
 .tc-theme[data-mode="light"] .tc-select-button,
-:root[data-tc-mode="light"] .tc-select-button{
-  background:var(--tc-panel);
-  color:var(--tc-text);
-}
+:root[data-tc-mode="light"] .tc-select-button{background:var(--tc-panel)}
 .tc-theme[data-mode="light"] .tc-bool,
 .tc-theme[data-mode="light"] .tc-slider,
 :root[data-tc-mode="light"] .tc-bool,
@@ -76,13 +84,9 @@
   background:linear-gradient(0deg,var(--tc-panel) 32%,var(--tc-panel-2) 28%,var(--tc-panel-2) 72%,var(--tc-panel) 68%);
 }
 .tc-theme[data-mode="light"] .tc-property-row:nth-child(odd),
-:root[data-tc-mode="light"] .tc-property-row:nth-child(odd){
-  background:var(--tc-surface-2);
-}
+:root[data-tc-mode="light"] .tc-property-row:nth-child(odd){background:var(--tc-surface-2)}
 .tc-theme[data-mode="light"] .tc-button,
-:root[data-tc-mode="light"] .tc-button{
-  background:linear-gradient(to bottom,var(--tc-surface-2),var(--tc-panel));
-}
+:root[data-tc-mode="light"] .tc-button{background:linear-gradient(to bottom,var(--tc-surface-2),var(--tc-panel))}
 .tc-theme[data-mode="light"] .tc-pop,
 .tc-theme[data-mode="light"] .tc-picker,
 :root[data-tc-mode="light"] .tc-pop,
@@ -91,13 +95,4 @@
   box-shadow:0 10px 22px color-mix(in srgb,var(--tc-base) 24%,transparent);
 }
 .tc-theme[data-mode="light"] .tc-select-item,
-:root[data-tc-mode="light"] .tc-select-item{
-  background:var(--tc-panel-2);
-}
-.tc-button:hover:not(:disabled){
-  border-color:var(--tc-effect);
-  filter:drop-shadow(2px 6px 6px var(--tc-shadow)) drop-shadow(0 0 5px color-mix(in srgb,var(--tc-effect) 42%,transparent));
-}
-.tc-changed{color:var(--tc-effect)}
-.tc-status-pill.tone-active{border-color:color-mix(in srgb,var(--tc-effect) 40%,transparent)}
-.tc-tooltip{box-shadow:0 0 10px color-mix(in srgb,var(--tc-effect) 24%,transparent)}
+:root[data-tc-mode="light"] .tc-select-item{background:var(--tc-panel-2)}
