@@ -22,25 +22,25 @@
   --tc-value-text:var(--tc-text-bright);
 }
 
-/* Light mode keeps the same four public channels. It changes only the way the base color is interpreted. */
+/* Light mode uses a dedicated hierarchy instead of simply inverting the dark palette. */
 .tc-theme[data-mode="light"],
 :root[data-tc-mode="light"]{
-  --tc-bg:color-mix(in srgb,var(--tc-base) 10%,white 90%);
-  --tc-surface:color-mix(in srgb,var(--tc-base) 7%,white 93%);
-  --tc-surface-2:color-mix(in srgb,var(--tc-base) 14%,white 86%);
-  --tc-panel:color-mix(in srgb,var(--tc-base) 18%,white 82%);
-  --tc-panel-2:color-mix(in srgb,var(--tc-base) 9%,white 91%);
-  --tc-panel-focus:color-mix(in srgb,var(--tc-base) 14%,var(--tc-accent) 18%,white 68%);
-  --tc-border-color:color-mix(in srgb,var(--tc-base) 28%,var(--tc-accent) 12%,white 60%);
-  --tc-line:color-mix(in srgb,var(--tc-base) 24%,var(--tc-accent) 10%,white 66%);
-  --tc-row-hover:color-mix(in srgb,var(--tc-base) 11%,var(--tc-effect) 9%,white 80%);
-  --tc-shadow:color-mix(in srgb,var(--tc-base) 20%,black 22%,transparent 58%);
-  --tc-text:color-mix(in srgb,var(--tc-base) 82%,black 18%);
-  --tc-text-muted:color-mix(in srgb,var(--tc-base) 56%,black 44%);
-  --tc-text-subtle:color-mix(in srgb,var(--tc-base) 38%,black 62%);
-  --tc-tooltip-bg:color-mix(in srgb,var(--tc-effect) 14%,white 86%);
-  --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 78%,black 22%);
-  --tc-header-neutral:linear-gradient(30deg,color-mix(in srgb,var(--tc-base) 20%,white 80%),color-mix(in srgb,var(--tc-base) 32%,white 68%));
+  --tc-bg:color-mix(in srgb,var(--tc-base) 5%,white 95%);
+  --tc-surface:color-mix(in srgb,var(--tc-base) 13%,white 87%);
+  --tc-surface-2:color-mix(in srgb,var(--tc-base) 22%,white 78%);
+  --tc-panel:color-mix(in srgb,var(--tc-base) 28%,white 72%);
+  --tc-panel-2:color-mix(in srgb,var(--tc-base) 18%,white 82%);
+  --tc-panel-focus:color-mix(in srgb,var(--tc-base) 22%,var(--tc-accent) 18%,white 60%);
+  --tc-border-color:color-mix(in srgb,var(--tc-base) 44%,var(--tc-accent) 10%,white 46%);
+  --tc-line:color-mix(in srgb,var(--tc-base) 34%,var(--tc-accent) 8%,white 58%);
+  --tc-row-hover:color-mix(in srgb,var(--tc-base) 20%,var(--tc-effect) 10%,white 70%);
+  --tc-shadow:color-mix(in srgb,var(--tc-base) 28%,black 18%,transparent 54%);
+  --tc-text:color-mix(in srgb,var(--tc-base) 84%,black 16%);
+  --tc-text-muted:color-mix(in srgb,var(--tc-base) 64%,black 36%);
+  --tc-text-subtle:color-mix(in srgb,var(--tc-base) 48%,black 52%);
+  --tc-tooltip-bg:color-mix(in srgb,var(--tc-effect) 18%,white 82%);
+  --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 82%,black 18%);
+  --tc-header-neutral:linear-gradient(30deg,color-mix(in srgb,var(--tc-base) 28%,white 72%),color-mix(in srgb,var(--tc-base) 42%,white 58%));
   color-scheme:light;
 }
 
@@ -60,7 +60,20 @@
 .tc-theme[data-mode="light"] .tc-number,
 :root[data-tc-mode="light"] .tc-text input,
 :root[data-tc-mode="light"] .tc-number{
-  color:color-mix(in srgb,var(--tc-text-bright) 24%,var(--tc-base) 76%);
+  color:color-mix(in srgb,var(--tc-text-bright) 16%,var(--tc-base) 84%);
+}
+.tc-theme[data-mode="light"] .tc-select-button,
+:root[data-tc-mode="light"] .tc-select-button{
+  background:var(--tc-panel);
+  color:var(--tc-text);
+}
+.tc-theme[data-mode="light"] .tc-property-row:nth-child(odd),
+:root[data-tc-mode="light"] .tc-property-row:nth-child(odd){
+  background:var(--tc-surface-2);
+}
+.tc-theme[data-mode="light"] .tc-button,
+:root[data-tc-mode="light"] .tc-button{
+  background:linear-gradient(to bottom,var(--tc-surface-2),var(--tc-panel));
 }
 .tc-button:hover:not(:disabled){
   border-color:var(--tc-effect);
