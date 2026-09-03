@@ -1,7 +1,8 @@
 import React, { CSSProperties, ReactNode, useEffect, useId, useMemo, useRef, useState } from "react";
-import { Check, ChevronDown, RotateCcw, X } from "lucide-react";
+import { Check, ChevronDown, Copy, RotateCcw, X } from "lucide-react";
 import "./theme.css";
 import "./theme-system.css";
+import "./motion.css";
 
 export type OptionItem = { value: string; label?: string; group?: string };
 export type AccentTone = "accent" | "blue" | "red" | "purple" | "neutral";
@@ -24,7 +25,9 @@ export function TextField({ value, rawValue, onChange, placeholder, tooltip, dis
 export function BoolSwitch({ value, rawValue, onChange, trueValue = "yes", falseValue = "no", disabled }: { value: string; rawValue?: string; onChange:(v:string)=>void; trueValue?: string; falseValue?: string; disabled?:boolean }) {
   const on = value.toLowerCase() === trueValue.toLowerCase();
   const changed = rawValue !== undefined && value !== rawValue;
-  return <div className="tc-control-wrap"><button type="button" disabled={disabled} className={`tc-control tc-bool ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? falseValue : trueValue)}><span className="tc-bool-knob">{on ? "ON 开" : "OFF 关"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
+  const switchStyle: CSSProperties = { width: 104, flex: "0 0 104px" };
+  const knobStyle: CSSProperties = { width: "50%", left: on ? "50%" : 0 };
+  return <div className="tc-control-wrap"><button style={switchStyle} type="button" disabled={disabled} className={`tc-control tc-bool ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? falseValue : trueValue)}><span style={knobStyle} className="tc-bool-knob">{on ? "ON 开" : "OFF 关"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
 }
 
 function useOutsideClose(open:boolean, close:()=>void, enabled=true) {
@@ -66,7 +69,7 @@ export function MultiSelect({values,rawValues,options,onChange,title="选择项�
 export type EntityHeaderProps={tone?:AccentTone;icon?:ReactNode;title:string;subtitle?:string;watermark?:string;pinned?:boolean;onPin?:()=>void;className?:string;style?:CSSProperties};
 export function EntityHeader({tone="accent",icon,title,subtitle,watermark,pinned=false,onPin,className="",style}:EntityHeaderProps){return <header className={`tc-entity-header tone-${tone} ${className}`.trim()} style={style}><div className="tc-entity-watermark">{watermark??title}</div><div className="tc-entity-icon">{icon??<span>?</span>}</div><div className="tc-entity-title"><strong>{title}</strong>{subtitle&&<span>{subtitle}</span>}</div>{onPin&&<button className={`tc-pin ${pinned?"is-pinned":""}`} type="button" onClick={onPin} aria-label="固定"><span>📌</span></button>}</header>}
 
-export function PropertyRow({label,description,changed,children,onCopy}:{label:string;description?:string;changed?:boolean;children:ReactNode;onCopy?:()=>void}){const rowId=useId();return <div id={rowId} className={`tc-property-row ${changed?"is-changed":""}`}><div className="tc-property-label">{onCopy&&<button type="button" className="tc-copy" onClick={onCopy}>↩</button>}<div><strong>{label}</strong>{description&&<span>{description}</span>}</div></div><div className="tc-property-value">{children}</div>{changed&&<span className="tc-changed">已修改</span>}</div>}
+export function PropertyRow({label,description,changed,children,onCopy}:{label:string;description?:string;changed?:boolean;children:ReactNode;onCopy?:()=>void}){const rowId=useId();return <div id={rowId} className={`tc-property-row ${changed?"is-changed":""}`}><div className="tc-property-label">{onCopy&&<button type="button" className="tc-copy" onClick={onCopy} aria-label="复制值" title="复制值"><Copy size={15}/></button>}<div><strong>{label}</strong>{description&&<span>{description}</span>}</div></div><div className="tc-property-value">{children}</div>{changed&&<span className="tc-changed">已修改</span>}</div>}
 
 export function Dialog({open,title,children,onClose}:{open:boolean;title:string;children:ReactNode;onClose:()=>void}){if(!open)return null;return <div className="tc-dialog-layer" onMouseDown={e=>{if(e.currentTarget===e.target)onClose()}}><section className="tc-dialog tc-dialog-in" role="dialog" aria-modal="true"><header><strong>{title}</strong><button type="button" onClick={onClose}><X size={18}/></button></header><div className="tc-dialog-body">{children}</div></section></div>}
 export function Button({children,onClick,disabled=false,className=""}:React.PropsWithChildren<{onClick?:()=>void;disabled?:boolean;className?:string}>){return <button type="button" className={`tc-button ${className}`} disabled={disabled} onClick={onClick}>{children}</button>}
