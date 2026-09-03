@@ -78,8 +78,8 @@
 .tc-theme[data-mode="light"] .tc-select-button,
 :root[data-tc-mode="light"] .tc-select-button{background:var(--tc-panel)}
 
-/* In light mode highlighted/open controls keep readable dark theme text.
-   White text is reserved for dark mode and explicit high-contrast surfaces. */
+/* Light mode keeps the visible Accent fill for hover/open states,
+   while using dark readable theme text instead of forced white text. */
 .tc-theme[data-mode="light"] .tc-select:hover .tc-select-button,
 .tc-theme[data-mode="light"] .tc-select.is-open .tc-select-button,
 .tc-theme[data-mode="light"] .tc-multi:hover .tc-select-button,
@@ -88,6 +88,7 @@
 :root[data-tc-mode="light"] .tc-select.is-open .tc-select-button,
 :root[data-tc-mode="light"] .tc-multi:hover .tc-select-button,
 :root[data-tc-mode="light"] .tc-multi.is-open .tc-select-button{
+  background:color-mix(in srgb,var(--tc-accent) 54%,white 46%);
   color:var(--tc-text-main);
 }
 .tc-theme[data-mode="light"] .tc-select:hover .tc-chevron,
@@ -104,6 +105,7 @@
 .tc-theme[data-mode="light"] .tc-check-row:hover,
 :root[data-tc-mode="light"] .tc-select-item:hover,
 :root[data-tc-mode="light"] .tc-check-row:hover{
+  background:color-mix(in srgb,var(--tc-accent) 38%,white 62%);
   color:var(--tc-text-main);
 }
 
