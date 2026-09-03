@@ -1,3 +1,5 @@
+@import "./bool-switch.css";
+
 /* Motion belongs to the shared UI library so every consumer gets the same behavior. */
 
 /* Popovers must sit above sticky headers and subsequent business rows. */
@@ -37,24 +39,9 @@
   will-change:transform,opacity;
 }
 
-/* BoolSwitch is a compact fixed-size switch. The knob moves with transform only,
-   which is smoother and avoids the old left/width mismatch in constrained layouts. */
-.tc-bool{
-  width:104px!important;
-  flex:0 0 104px!important;
-  overflow:hidden;
-}
 .tc-bool-knob{
-  left:2px!important;
-  top:2px!important;
-  width:48px!important;
-  height:18px!important;
   transition:transform .14s cubic-bezier(.2,.8,.2,1),background .12s ease,color .12s ease,border-color .12s ease!important;
   will-change:transform;
-}
-.tc-bool.is-on .tc-bool-knob{
-  left:2px!important;
-  transform:translateX(50px);
 }
 
 .tc-reset{
@@ -84,9 +71,5 @@
   .tc-pop-in,.tc-dialog-in,.tc-bool-knob,.tc-reset,.tc-tooltip{
     animation:none!important;
     transition:none!important;
-    transform:none!important;
-  }
-  .tc-bool.is-on .tc-bool-knob{
-    transform:translateX(50px)!important;
   }
 }
