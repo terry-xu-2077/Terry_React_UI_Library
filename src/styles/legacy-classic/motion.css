@@ -1,0 +1,31 @@
+/* Motion belongs to the shared UI library so every consumer gets the same behavior. */
+.tc-property-row{
+  animation:tcRowEnter .16s ease-out both;
+  transition:background .12s ease,box-shadow .12s ease,transform .12s ease;
+}
+.tc-property-row:hover{transform:translateY(-1px)}
+.tc-pop-in{animation:tcPopInCompact .16s ease-out both}
+.tc-dialog-in{animation:tcDialogInCompact .18s ease-out both}
+.tc-bool-knob{transition:left .16s ease,background .16s ease,color .16s ease,border-color .16s ease}
+.tc-reset{transition:opacity .12s ease,background .12s ease,color .12s ease}
+
+@keyframes tcRowEnter{
+  from{opacity:0;transform:translateY(4px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes tcPopInCompact{
+  from{opacity:0;transform:translateY(-4px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes tcDialogInCompact{
+  from{opacity:0;transform:translateY(8px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .tc-property-row,.tc-pop-in,.tc-dialog-in,.tc-bool-knob,.tc-reset{
+    animation:none!important;
+    transition:none!important;
+    transform:none!important;
+  }
+}
