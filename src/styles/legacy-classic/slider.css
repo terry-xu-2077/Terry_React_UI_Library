@@ -1,0 +1,3 @@
+.tc-slider{min-width:0!important}
+.tc-slider .tc-range{flex:1 1 auto!important;width:auto!important;min-width:0!important}
+.tc-slider .tc-number{flex:0 0 64px!important;width:64px!important}
