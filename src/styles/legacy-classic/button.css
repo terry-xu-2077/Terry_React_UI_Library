@@ -39,4 +39,19 @@
   color:color-mix(in srgb,var(--tc-base) 78%,black 22%);
   background:color-mix(in srgb,var(--tc-panel-2) 46%,white 54%);
 }
-.tc-theme[data-mode="light"] .tc-button.variant-accent{color:#fff}
+/* The light theme has a generic `.tc-theme[data-mode=light] .tc-button` rule. Keep the
+ * explicit accent role at equal/higher specificity so primary actions never fall back
+ * to the pale default button treatment. */
+.tc-theme[data-mode="light"] .tc-button.variant-accent{
+  color:#fff;
+  border-color:color-mix(in srgb,var(--tc-accent) 72%,white 28%);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--tc-accent) 86%,white 14%),color-mix(in srgb,var(--tc-accent) 76%,black 24%));
+  box-shadow:0 2px 7px color-mix(in srgb,var(--tc-accent) 22%,transparent);
+}
+.tc-theme[data-mode="light"] .tc-button.variant-accent:hover:not(:disabled){
+  color:#fff;
+  border-color:color-mix(in srgb,var(--tc-effect) 54%,var(--tc-accent) 46%);
+  background:linear-gradient(180deg,color-mix(in srgb,var(--tc-accent) 78%,white 22%),color-mix(in srgb,var(--tc-accent) 82%,black 18%));
+  filter:none;
+  box-shadow:0 3px 9px color-mix(in srgb,var(--tc-accent) 25%,transparent);
+}
