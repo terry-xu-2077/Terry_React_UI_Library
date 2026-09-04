@@ -1,5 +1,6 @@
-/* BoolSwitch owns its geometry. Parent layouts may override --tc-bool-width for a contextual slot.
-   Geometry and relief are ported from RulesmdEditorWeb's edit-wg-check. */
+/* BoolSwitch is a fully isolated control. Parent layouts may override only --tc-bool-width.
+   The button and knob are reset before rebuilding the legacy RulesmdEditorWeb geometry,
+   so old .tc-control/.tc-bool rules cannot leak into settings or table contexts. */
 .tc-control-wrap.tc-bool-wrap{
   --tc-bool-width:78px;
   --tc-bool-height:26px;
@@ -12,80 +13,83 @@
   align-items:center!important;
   justify-content:flex-start!important;
   gap:0!important;
+  margin:0!important;
+  padding:0!important;
 }
 .tc-bool-wrap>.tc-bool{
+  all:unset;
   position:relative!important;
+  display:block!important;
   width:var(--tc-bool-width)!important;
   min-width:var(--tc-bool-width)!important;
   max-width:var(--tc-bool-width)!important;
-  flex:0 0 var(--tc-bool-width)!important;
   height:var(--tc-bool-height)!important;
-  padding:0!important;
-  overflow:hidden!important;
+  flex:0 0 var(--tc-bool-width)!important;
   box-sizing:border-box!important;
+  overflow:hidden!important;
   border:2px solid color-mix(in srgb,var(--tc-border-color) 78%,transparent)!important;
   border-radius:5px!important;
-  outline:none!important;
   cursor:pointer!important;
-  /* Legacy web recessed track: light edge -> dark channel -> dark channel -> light edge. */
+  color:inherit!important;
+  /* Legacy recessed channel: raised blue-grey edges around a darker inner groove. */
   background:linear-gradient(
     0deg,
-    color-mix(in srgb,var(--tc-panel-2) 88%,white 12%) 30%,
-    color-mix(in srgb,var(--tc-base) 80%,black 20%) 26%,
-    color-mix(in srgb,var(--tc-base) 80%,black 20%) 74%,
-    color-mix(in srgb,var(--tc-panel-2) 88%,white 12%) 70%
+    color-mix(in srgb,var(--tc-panel) 72%,#526583 28%) 0 29%,
+    color-mix(in srgb,var(--tc-base) 78%,#25324c 22%) 29% 71%,
+    color-mix(in srgb,var(--tc-panel) 72%,#526583 28%) 71% 100%
   )!important;
-  box-shadow:none!important;
+  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 9%,transparent),inset 0 -1px 0 color-mix(in srgb,#000 22%,transparent)!important;
 }
 .tc-bool-wrap>.tc-bool:hover{
-  outline:none!important;
   border-color:color-mix(in srgb,var(--tc-accent) 54%,var(--tc-border-color))!important;
-  box-shadow:none!important;
 }
 .tc-bool-wrap .tc-bool-knob{
+  all:unset;
   position:absolute!important;
-  z-index:1!important;
+  z-index:2!important;
   left:0!important;
-  right:auto!important;
   top:0!important;
-  width:calc(var(--tc-bool-width) * var(--tc-bool-knob-ratio))!important;
-  height:22px!important;
-  box-sizing:border-box!important;
-  transform:none!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
+  width:calc(var(--tc-bool-width) * var(--tc-bool-knob-ratio))!important;
+  height:22px!important;
+  box-sizing:border-box!important;
   border:2px solid color-mix(in srgb,#fff 31%,transparent)!important;
   border-radius:4px!important;
+  font:700 10px/1 system-ui,-apple-system,"Segoe UI",sans-serif!important;
   white-space:nowrap!important;
   overflow:hidden!important;
-  font-size:10px!important;
-  font-weight:700!important;
-  line-height:1!important;
-  color:color-mix(in srgb,var(--tc-text) 60%,transparent)!important;
-  /* Legacy web OFF: dark -> bright -> dark, producing the raised metal block. */
-  background:linear-gradient(
-    90deg,
-    color-mix(in srgb,var(--tc-panel) 66%,black 34%) 10%,
-    color-mix(in srgb,var(--tc-panel) 42%,white 58%) 20%,
-    color-mix(in srgb,var(--tc-panel) 66%,black 34%) 60%
-  )!important;
-  box-shadow:none!important;
-  transition:left .2s ease,background .2s ease,color .2s ease,border-color .2s ease!important;
+  color:#d8e0ec!important;
+  /* Legacy OFF relief: steel-grey dark -> light -> dark, not black. */
+  background:linear-gradient(90deg,#4f5b70 8%,#a5b1c2 24%,#68758a 54%,#4f5b70 88%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 1px 1px rgba(0,0,0,.18)!important;
+  transform:translateX(0)!important;
+  transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease!important;
 }
 .tc-bool-wrap .tc-bool.is-on .tc-bool-knob{
-  left:calc(var(--tc-bool-width) - (var(--tc-bool-width) * var(--tc-bool-knob-ratio)) - 4px)!important;
-  right:auto!important;
-  transform:none!important;
-  color:color-mix(in srgb,#fff 82%,transparent)!important;
-  border-color:color-mix(in srgb,#fff 31%,transparent)!important;
-  /* Legacy web ON: dark accent -> bright accent -> dark accent. */
-  background:linear-gradient(
-    90deg,
-    color-mix(in srgb,var(--tc-accent) 70%,black 30%) 10%,
-    color-mix(in srgb,var(--tc-accent) 62%,white 38%) 80%,
-    color-mix(in srgb,var(--tc-accent) 70%,black 30%) 90%
-  )!important;
+  transform:translateX(calc(var(--tc-bool-width) - (var(--tc-bool-width) * var(--tc-bool-knob-ratio)) - 4px))!important;
+  color:#fff!important;
+  border-color:rgba(255,255,255,.32)!important;
+  /* Legacy ON relief: dark accent -> bright accent -> dark accent. */
+  background:linear-gradient(90deg,color-mix(in srgb,var(--tc-accent) 72%,#006f62 28%) 8%,color-mix(in srgb,var(--tc-accent) 62%,white 38%) 72%,color-mix(in srgb,var(--tc-accent) 74%,#006f62 26%) 92%)!important;
 }
 .tc-bool-wrap>.tc-bool:disabled{cursor:default!important;opacity:.55!important}
+
+/* Light mode keeps exactly the same geometry and relief direction, changing palette only. */
+.tc-theme[data-mode="light"] .tc-bool-wrap>.tc-bool{
+  border-color:#7f9caf!important;
+  background:linear-gradient(0deg,#d7e2ea 0 29%,#aebfcb 29% 71%,#d7e2ea 71% 100%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78),inset 0 -1px 0 rgba(61,84,101,.17)!important;
+}
+.tc-theme[data-mode="light"] .tc-bool-wrap .tc-bool-knob{
+  color:#40566a!important;
+  border-color:rgba(255,255,255,.72)!important;
+  background:linear-gradient(90deg,#8193a4 8%,#f3f7fa 24%,#b6c4d0 54%,#8193a4 88%)!important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78),0 1px 1px rgba(44,67,84,.16)!important;
+}
+.tc-theme[data-mode="light"] .tc-bool-wrap .tc-bool.is-on .tc-bool-knob{
+  color:#fff!important;
+  background:linear-gradient(90deg,#137d70 8%,#43d2bd 72%,#168a7b 92%)!important;
+}
 @media(prefers-reduced-motion:reduce){.tc-bool-wrap .tc-bool-knob{transition:none!important}}
