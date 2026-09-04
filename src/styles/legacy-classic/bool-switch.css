@@ -13,10 +13,10 @@
 }
 
 /*
- * Keep the knob in normal flex flow instead of positioning it against the button.
- * With a 26px border-box, 2px border and 2px padding, the content height is exactly
- * 18px — the same as the knob. That makes vertical alignment deterministic in WebView2
- * and ordinary browsers, while the width prop can still own the overall geometry.
+ * The outer 2px border is the only inset around the moving block. The knob itself fills
+ * the whole inner track (22px high), so there is no second padded ring between block and
+ * slot. Width remains component-owned and works identically for the default and custom
+ * width props.
  */
 .tc-legacy-switch{
   all:unset;
@@ -25,7 +25,7 @@
   box-sizing:border-box;
   display:flex;
   align-items:center;
-  padding:2px;
+  padding:0;
   border:2px solid color-mix(in srgb,var(--tc-border-color) 78%,transparent);
   border-radius:5px;
   overflow:hidden;
@@ -54,28 +54,28 @@
   all:unset;
   margin:0;
   padding:0;
-  flex:0 0 calc(50% - 1px);
+  flex:0 0 50%;
   min-width:0;
-  height:18px;
+  height:22px;
   box-sizing:border-box;
   display:flex;
   align-items:center;
   justify-content:center;
-  border:1px solid color-mix(in srgb,#fff 34%,transparent);
-  border-radius:4px;
+  border:1px solid color-mix(in srgb,#fff 28%,transparent);
+  border-radius:3px;
   font:700 10px/1 system-ui,-apple-system,"Segoe UI",sans-serif;
   white-space:nowrap;
   overflow:hidden;
   color:#d8e0ec;
   background:linear-gradient(90deg,#4b5568 10%,#a5a5a5 20%,#4b5568 60%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 1px 1px rgba(0,0,0,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 1px 1px rgba(0,0,0,.14);
   transform:translateX(0);
   transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease;
 }
 .tc-legacy-switch.is-on .tc-legacy-switch-knob{
-  transform:translateX(calc(100% + 2px));
-  color:rgba(255,255,255,.82);
-  border-color:rgba(255,255,255,.32);
+  transform:translateX(100%);
+  color:rgba(255,255,255,.9);
+  border-color:rgba(255,255,255,.24);
   background:linear-gradient(
     90deg,
     color-mix(in srgb,var(--tc-accent) 78%,black 22%) 60%,
@@ -88,13 +88,13 @@
 .tc-theme[data-mode="light"] .tc-legacy-switch{
   border-color:#7f9caf;
   background:linear-gradient(0deg,#d7e2ea 0 29%,#aebfcb 29% 71%,#d7e2ea 71% 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.78),inset 0 -1px 0 rgba(61,84,101,.17);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.72),inset 0 -1px 0 rgba(61,84,101,.14);
 }
 .tc-theme[data-mode="light"] .tc-legacy-switch-knob{
   color:#40566a;
-  border-color:rgba(255,255,255,.72);
+  border-color:rgba(255,255,255,.56);
   background:linear-gradient(90deg,#7f8b98 10%,#f1f4f7 20%,#8a97a5 60%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.78),0 1px 1px rgba(44,67,84,.16);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.62),0 1px 1px rgba(44,67,84,.12);
 }
 .tc-theme[data-mode="light"] .tc-legacy-switch.is-on .tc-legacy-switch-knob{
   color:#fff;
