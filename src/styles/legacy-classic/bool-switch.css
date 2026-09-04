@@ -1,9 +1,8 @@
-/* BoolSwitch is a fully isolated control. Parent layouts may override only --tc-bool-width.
-   Geometry is shared by dark/light modes; themes change palette only. */
+/* BoolSwitch is rebuilt as a standalone two-cell control.
+   Parent layouts may override only --tc-bool-width. No .tc-control geometry is reused here. */
 .tc-control-wrap.tc-bool-wrap{
   --tc-bool-width:78px;
   --tc-bool-height:26px;
-  --tc-bool-knob-ratio:.5;
   width:var(--tc-bool-width)!important;
   min-width:var(--tc-bool-width)!important;
   max-width:var(--tc-bool-width)!important;
@@ -15,21 +14,20 @@
   margin:0!important;
   padding:0!important;
 }
-.tc-bool-wrap>.tc-bool{
+
+.tc-legacy-switch{
   all:unset;
-  position:relative!important;
-  display:block!important;
   width:var(--tc-bool-width)!important;
-  min-width:var(--tc-bool-width)!important;
-  max-width:var(--tc-bool-width)!important;
   height:var(--tc-bool-height)!important;
-  flex:0 0 var(--tc-bool-width)!important;
   box-sizing:border-box!important;
-  overflow:hidden!important;
+  display:grid!important;
+  grid-template-columns:1fr 1fr!important;
+  align-items:center!important;
+  padding:2px!important;
   border:2px solid color-mix(in srgb,var(--tc-border-color) 78%,transparent)!important;
   border-radius:5px!important;
+  overflow:hidden!important;
   cursor:pointer!important;
-  color:inherit!important;
   background:linear-gradient(
     0deg,
     color-mix(in srgb,var(--tc-panel) 72%,#526583 28%) 0 29%,
@@ -38,54 +36,57 @@
   )!important;
   box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 9%,transparent),inset 0 -1px 0 color-mix(in srgb,#000 18%,transparent)!important;
 }
-.tc-bool-wrap>.tc-bool:hover{
+.tc-legacy-switch:hover{
   border-color:color-mix(in srgb,var(--tc-accent) 54%,var(--tc-border-color))!important;
 }
-.tc-bool-wrap .tc-bool-knob{
+.tc-legacy-switch:disabled{cursor:default!important;opacity:.55!important}
+
+.tc-legacy-switch-knob{
   all:unset;
-  position:absolute!important;
-  z-index:2!important;
-  left:0!important;
-  top:2px!important;
+  grid-column:1!important;
+  width:100%!important;
+  height:18px!important;
+  box-sizing:border-box!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
-  width:50%!important;
-  height:18px!important;
-  box-sizing:border-box!important;
   border:1px solid color-mix(in srgb,#fff 34%,transparent)!important;
   border-radius:4px!important;
   font:700 10px/1 system-ui,-apple-system,"Segoe UI",sans-serif!important;
   white-space:nowrap!important;
   overflow:hidden!important;
   color:#d8e0ec!important;
-  background:linear-gradient(90deg,#536176 8%,#a9b5c5 24%,#718096 54%,#536176 88%)!important;
+  background:linear-gradient(90deg,#4b5568 10%,#a5a5a5 20%,#4b5568 60%)!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 1px 1px rgba(0,0,0,.18)!important;
-  transform:none!important;
-  transition:left .18s ease,background .18s ease,color .18s ease,border-color .18s ease!important;
+  transition:background .18s ease,color .18s ease,border-color .18s ease!important;
 }
-.tc-bool-wrap .tc-bool.is-on .tc-bool-knob{
-  left:50%!important;
-  color:#fff!important;
+.tc-legacy-switch.is-on .tc-legacy-switch-knob{
+  grid-column:2!important;
+  color:rgba(255,255,255,.82)!important;
   border-color:rgba(255,255,255,.32)!important;
-  background:linear-gradient(90deg,color-mix(in srgb,var(--tc-accent) 72%,#006f62 28%) 8%,color-mix(in srgb,var(--tc-accent) 62%,white 38%) 72%,color-mix(in srgb,var(--tc-accent) 74%,#006f62 26%) 92%)!important;
+  background:linear-gradient(
+    90deg,
+    color-mix(in srgb,var(--tc-accent) 78%,black 22%) 60%,
+    color-mix(in srgb,var(--tc-accent) 62%,white 38%) 80%,
+    color-mix(in srgb,var(--tc-accent) 78%,black 22%) 90%
+  )!important;
 }
-.tc-bool-wrap>.tc-bool:disabled{cursor:default!important;opacity:.55!important}
 
-/* Light mode keeps exactly the same geometry; only colors change. */
-.tc-theme[data-mode="light"] .tc-bool-wrap>.tc-bool{
+/* Light mode preserves the exact same geometry and relief direction. */
+.tc-theme[data-mode="light"] .tc-legacy-switch{
   border-color:#7f9caf!important;
   background:linear-gradient(0deg,#d7e2ea 0 29%,#aebfcb 29% 71%,#d7e2ea 71% 100%)!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.78),inset 0 -1px 0 rgba(61,84,101,.17)!important;
 }
-.tc-theme[data-mode="light"] .tc-bool-wrap .tc-bool-knob{
+.tc-theme[data-mode="light"] .tc-legacy-switch-knob{
   color:#40566a!important;
   border-color:rgba(255,255,255,.72)!important;
-  background:linear-gradient(90deg,#8193a4 8%,#f3f7fa 24%,#b6c4d0 54%,#8193a4 88%)!important;
+  background:linear-gradient(90deg,#7f8b98 10%,#f1f4f7 20%,#8a97a5 60%)!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.78),0 1px 1px rgba(44,67,84,.16)!important;
 }
-.tc-theme[data-mode="light"] .tc-bool-wrap .tc-bool.is-on .tc-bool-knob{
+.tc-theme[data-mode="light"] .tc-legacy-switch.is-on .tc-legacy-switch-knob{
   color:#fff!important;
-  background:linear-gradient(90deg,#137d70 8%,#43d2bd 72%,#168a7b 92%)!important;
+  background:linear-gradient(90deg,#137d70 60%,#43d2bd 80%,#168a7b 90%)!important;
 }
-@media(prefers-reduced-motion:reduce){.tc-bool-wrap .tc-bool-knob{transition:none!important}}
+
+@media(prefers-reduced-motion:reduce){.tc-legacy-switch-knob{transition:none!important}}
