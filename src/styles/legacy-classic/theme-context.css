@@ -1,0 +1,15 @@
+/*
+ * Re-derive semantic typography from the public text channels at the actual theme host.
+ *
+ * Do not define these only on :root. A consumer such as Rulesmd Editor overrides
+ * --tc-text-main / --tc-text-bright on .tc-theme[data-mode="light"]. If --tc-text and
+ * friends are inherited from :root they keep the root's dark-theme values and light
+ * controls end up with white/invisible text.
+ */
+.tc-theme{
+  --tc-text:var(--tc-text-main);
+  --tc-text-muted:color-mix(in srgb,var(--tc-text-main) 58%,transparent);
+  --tc-text-subtle:color-mix(in srgb,var(--tc-text-main) 34%,transparent);
+  --tc-placeholder:color-mix(in srgb,var(--tc-text-main) 30%,transparent);
+  --tc-value-text:var(--tc-text-bright);
+}
