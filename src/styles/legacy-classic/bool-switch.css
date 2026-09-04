@@ -1,6 +1,5 @@
 /* BoolSwitch is a fully isolated control. Parent layouts may override only --tc-bool-width.
-   The button and knob are reset before rebuilding the legacy RulesmdEditorWeb geometry,
-   so old .tc-control/.tc-bool rules cannot leak into settings or table contexts. */
+   Geometry and relief are ported from RulesmdEditorWeb's edit-wg-check. */
 .tc-control-wrap.tc-bool-wrap{
   --tc-bool-width:78px;
   --tc-bool-height:26px;
@@ -31,14 +30,13 @@
   border-radius:5px!important;
   cursor:pointer!important;
   color:inherit!important;
-  /* Legacy recessed channel: raised blue-grey edges around a darker inner groove. */
   background:linear-gradient(
     0deg,
     color-mix(in srgb,var(--tc-panel) 72%,#526583 28%) 0 29%,
-    color-mix(in srgb,var(--tc-base) 78%,#25324c 22%) 29% 71%,
+    color-mix(in srgb,var(--tc-base) 78%,#31405f 22%) 29% 71%,
     color-mix(in srgb,var(--tc-panel) 72%,#526583 28%) 71% 100%
   )!important;
-  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 9%,transparent),inset 0 -1px 0 color-mix(in srgb,#000 22%,transparent)!important;
+  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 9%,transparent),inset 0 -1px 0 color-mix(in srgb,#000 18%,transparent)!important;
 }
 .tc-bool-wrap>.tc-bool:hover{
   border-color:color-mix(in srgb,var(--tc-accent) 54%,var(--tc-border-color))!important;
@@ -48,7 +46,7 @@
   position:absolute!important;
   z-index:2!important;
   left:0!important;
-  top:0!important;
+  top:50%!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
@@ -61,22 +59,20 @@
   white-space:nowrap!important;
   overflow:hidden!important;
   color:#d8e0ec!important;
-  /* Legacy OFF relief: steel-grey dark -> light -> dark, not black. */
-  background:linear-gradient(90deg,#4f5b70 8%,#a5b1c2 24%,#68758a 54%,#4f5b70 88%)!important;
+  background:linear-gradient(90deg,#536176 8%,#a9b5c5 24%,#718096 54%,#536176 88%)!important;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 1px 1px rgba(0,0,0,.18)!important;
-  transform:translateX(0)!important;
+  transform:translate(0,-50%)!important;
   transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease!important;
 }
 .tc-bool-wrap .tc-bool.is-on .tc-bool-knob{
-  transform:translateX(calc(var(--tc-bool-width) - (var(--tc-bool-width) * var(--tc-bool-knob-ratio)) - 4px))!important;
+  transform:translate(calc(var(--tc-bool-width) - (var(--tc-bool-width) * var(--tc-bool-knob-ratio))),-50%)!important;
   color:#fff!important;
   border-color:rgba(255,255,255,.32)!important;
-  /* Legacy ON relief: dark accent -> bright accent -> dark accent. */
   background:linear-gradient(90deg,color-mix(in srgb,var(--tc-accent) 72%,#006f62 28%) 8%,color-mix(in srgb,var(--tc-accent) 62%,white 38%) 72%,color-mix(in srgb,var(--tc-accent) 74%,#006f62 26%) 92%)!important;
 }
 .tc-bool-wrap>.tc-bool:disabled{cursor:default!important;opacity:.55!important}
 
-/* Light mode keeps exactly the same geometry and relief direction, changing palette only. */
+/* Light mode keeps exactly the same dimensions, centerline, travel distance and relief structure; only colors change. */
 .tc-theme[data-mode="light"] .tc-bool-wrap>.tc-bool{
   border-color:#7f9caf!important;
   background:linear-gradient(0deg,#d7e2ea 0 29%,#aebfcb 29% 71%,#d7e2ea 71% 100%)!important;
