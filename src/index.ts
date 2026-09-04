@@ -1,2 +1,2 @@
-import "./styles/legacy-classic/register";
+import "./style.css";
 export * from "./components";

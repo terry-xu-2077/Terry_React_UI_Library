@@ -1,0 +1,9 @@
+@import "./styles/legacy-classic/theme.css";
+@import "./styles/legacy-classic/theme-system.css";
+@import "./styles/legacy-classic/motion.css";
+@import "./styles/legacy-classic/slider.css";
+@import "./styles/legacy-classic/bool-switch.css";
+@import "./styles/legacy-classic/multi-select-overflow.css";
+@import "./styles/legacy-classic/select-search.css";
+@import "./styles/legacy-classic/reset-button.css";
+@import "./styles/legacy-classic/visual-multi-select.css";

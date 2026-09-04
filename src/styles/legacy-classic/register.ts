@@ -1,9 +1,2 @@
-import "./theme.css";
-import "./theme-system.css";
-import "./motion.css";
-import "./slider.css";
-import "./bool-switch.css";
-import "./multi-select-overflow.css";
-import "./select-search.css";
-import "./reset-button.css";
-import "./visual-multi-select.css";
+// Source compatibility style entry. The package entry imports src/style.css directly.
+import "../../style.css";
