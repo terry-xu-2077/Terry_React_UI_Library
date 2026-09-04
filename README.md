@@ -111,9 +111,10 @@ The single style registration entry is `src/styles/legacy-classic/register.ts`. 
 - Consumers may size and place documented outer hosts / public props only.
 - A component bug must be fixed here and verified in the showcase before a product adds a workaround.
 - Broad consumer selectors such as `.panel span`, `.row button` or `.dialog input` are unsafe around shared components.
+- Stateful icon rules must target the icon role itself. Selectors such as `.is-open svg`, `.is-active svg`, or `.control:hover svg` are forbidden because they also mutate nested action/check/status icons. Scope transforms to the trigger icon or an explicit icon class.
 - New component behavior belongs under `src/components/<Component>/`; new visual rules belong in the active style pack.
 
-The BoolSwitch / Select cascade incident in Rulesmd Editor is the reference red-line case for these rules.
+The BoolSwitch / Select cascade incident in Rulesmd Editor is the reference red-line case for these rules. The inverted MultiSelect checkmark caused by an open-state descendant `svg` transform is the corresponding icon-scope red-line case.
 
 ## Compatibility
 
