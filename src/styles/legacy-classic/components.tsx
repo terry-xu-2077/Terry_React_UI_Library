@@ -42,8 +42,9 @@ export function BoolSwitch({ value, rawValue, onChange, trueValue = "yes", false
   const effectiveFalse = usesLiteralBoolean ? "false" : falseValue;
   const on = value.trim().toLowerCase() === effectiveTrue.toLowerCase();
   const changed = rawValue !== undefined && value !== rawValue;
-  const widthStyle = width == null ? undefined : ({ "--tc-bool-width": typeof width === "number" ? `${width}px` : width } as CSSProperties);
-  return <div className={`tc-control-wrap tc-bool-wrap ${fluid ? "is-fluid" : ""}`} style={widthStyle}><button type="button" disabled={disabled} className={`tc-legacy-switch ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? effectiveFalse : effectiveTrue)} aria-pressed={on}><span className="tc-legacy-switch-knob">{on ? "ON" : "OFF"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
+  const resolvedWidth = width == null ? undefined : (typeof width === "number" ? `${width}px` : width);
+  const wrapperStyle = resolvedWidth == null ? undefined : ({ width: resolvedWidth, minWidth: resolvedWidth, maxWidth: resolvedWidth, flexBasis: resolvedWidth } as CSSProperties);
+  return <div className={`tc-control-wrap tc-bool-wrap ${fluid ? "is-fluid" : ""}`} style={wrapperStyle}><button type="button" disabled={disabled} className={`tc-legacy-switch ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? effectiveFalse : effectiveTrue)} aria-pressed={on}><span className="tc-legacy-switch-knob">{on ? "ON" : "OFF"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
 }
 
 function useOutsideClose(open:boolean, close:()=>void, enabled=true) {
