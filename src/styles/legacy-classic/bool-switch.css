@@ -1,9 +1,10 @@
-/* BoolSwitch owns its geometry. Parent layouts can position it but never stretch the default form. */
+/* BoolSwitch owns its geometry. Parent layouts may override --tc-bool-width for a contextual slot. */
 .tc-control-wrap.tc-bool-wrap{
-  width:78px!important;
-  min-width:78px!important;
-  max-width:78px!important;
-  flex:0 0 78px!important;
+  --tc-bool-width:78px;
+  width:var(--tc-bool-width)!important;
+  min-width:var(--tc-bool-width)!important;
+  max-width:var(--tc-bool-width)!important;
+  flex:0 0 var(--tc-bool-width)!important;
   display:inline-flex!important;
   align-items:center!important;
   justify-content:flex-start!important;
@@ -11,10 +12,10 @@
 }
 .tc-bool-wrap>.tc-bool{
   position:relative!important;
-  width:78px!important;
-  min-width:78px!important;
-  max-width:78px!important;
-  flex:0 0 78px!important;
+  width:var(--tc-bool-width)!important;
+  min-width:var(--tc-bool-width)!important;
+  max-width:var(--tc-bool-width)!important;
+  flex:0 0 var(--tc-bool-width)!important;
   height:26px!important;
   padding:0!important;
   overflow:hidden!important;
@@ -25,15 +26,20 @@
   box-shadow:inset 0 1px 3px color-mix(in srgb,var(--tc-shadow) 58%,transparent)!important;
   outline:none!important;
 }
-.tc-bool-wrap>.tc-bool:hover{outline:none!important;box-shadow:inset 0 1px 3px color-mix(in srgb,var(--tc-shadow) 58%,transparent)!important;border-color:var(--tc-accent)!important}
+.tc-bool-wrap>.tc-bool:hover{
+  outline:none!important;
+  box-shadow:inset 0 1px 3px color-mix(in srgb,var(--tc-shadow) 58%,transparent)!important;
+  border-color:var(--tc-accent)!important;
+}
 .tc-bool-wrap .tc-bool-knob{
   position:absolute!important;
   left:2px!important;
+  right:auto!important;
   top:2px!important;
-  width:36px!important;
+  width:calc((var(--tc-bool-width) - 6px)/2)!important;
   height:20px!important;
   box-sizing:border-box!important;
-  transform:translateX(0)!important;
+  transform:none!important;
   display:flex!important;
   align-items:center!important;
   justify-content:center!important;
@@ -45,36 +51,19 @@
   font-weight:700!important;
   line-height:1!important;
   color:var(--tc-text-muted)!important;
-  background:linear-gradient(180deg,color-mix(in srgb,var(--tc-panel) 72%,white 28%),var(--tc-panel))!important;
-  box-shadow:0 1px 2px color-mix(in srgb,var(--tc-shadow) 45%,transparent)!important;
-  transition:transform .15s cubic-bezier(.2,.8,.2,1),background .15s,color .15s,border-color .15s!important;
+  /* OFF relief runs bottom-light to top-dark. */
+  background:linear-gradient(0deg,color-mix(in srgb,var(--tc-panel) 66%,white 34%),color-mix(in srgb,var(--tc-panel) 92%,black 8%))!important;
+  box-shadow:0 1px 2px color-mix(in srgb,var(--tc-shadow) 45%,transparent),inset 0 -1px 0 color-mix(in srgb,#fff 18%,transparent)!important;
+  transition:left .15s cubic-bezier(.2,.8,.2,1),right .15s cubic-bezier(.2,.8,.2,1),background .15s,color .15s,border-color .15s!important;
 }
 .tc-bool-wrap .tc-bool.is-on .tc-bool-knob{
-  left:2px!important;
-  transform:translateX(36px)!important;
+  left:auto!important;
+  right:2px!important;
+  transform:none!important;
   color:#fff!important;
   border-color:color-mix(in srgb,var(--tc-accent) 70%,white 30%)!important;
-  background:var(--tc-accent-on)!important;
+  /* ON relief intentionally runs in the opposite direction. */
+  background:linear-gradient(180deg,color-mix(in srgb,var(--tc-accent) 68%,white 32%),var(--tc-accent-dark))!important;
+  box-shadow:0 1px 2px color-mix(in srgb,var(--tc-shadow) 42%,transparent),inset 0 1px 0 color-mix(in srgb,#fff 28%,transparent)!important;
 }
-
-/* Fluid variant is opt-in for editor slots: track fills the slot and thumb stays near half width. */
-.tc-control-wrap.tc-bool-wrap.is-fluid{
-  width:100%!important;
-  min-width:0!important;
-  max-width:none!important;
-  flex:1 1 auto!important;
-}
-.tc-bool-wrap.is-fluid>.tc-bool{
-  width:100%!important;
-  min-width:0!important;
-  max-width:none!important;
-  flex:1 1 auto!important;
-}
-.tc-bool-wrap.is-fluid .tc-bool-knob{
-  width:calc(50% - 3px)!important;
-}
-.tc-bool-wrap.is-fluid .tc-bool.is-on .tc-bool-knob{
-  transform:translateX(calc(100% + 2px))!important;
-}
-
 @media(prefers-reduced-motion:reduce){.tc-bool-wrap .tc-bool-knob{transition:none!important}}
