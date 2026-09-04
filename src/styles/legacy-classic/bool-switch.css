@@ -43,8 +43,17 @@
 }
 .tc-legacy-switch:disabled{cursor:default;opacity:.55}
 
-.tc-legacy-switch-knob{
+/*
+ * The compound selector is intentional. Consumer pages may have broad rules such as
+ * `.settingRow span { margin-top: ... }`. A plain `.tc-legacy-switch-knob` selector can
+ * lose that cascade even when the component itself uses `all: unset`, because the
+ * consumer selector is more specific and is loaded later. Keep all knob geometry owned
+ * by the component so surrounding typography/layout rules cannot move it vertically.
+ */
+.tc-control-wrap.tc-bool-wrap .tc-legacy-switch-knob{
   all:unset;
+  margin:0;
+  padding:0;
   flex:0 0 calc(50% - 1px);
   min-width:0;
   height:18px;
