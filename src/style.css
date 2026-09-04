@@ -1,5 +1,6 @@
 @import "./styles/legacy-classic/theme.css";
 @import "./styles/legacy-classic/theme-system.css";
+@import "./styles/legacy-classic/theme-context.css";
 @import "./styles/legacy-classic/motion.css";
 @import "./styles/legacy-classic/slider.css";
 @import "./styles/legacy-classic/bool-switch.css";
@@ -8,4 +9,5 @@
 @import "./styles/legacy-classic/reset-button.css";
 @import "./styles/legacy-classic/visual-multi-select.css";
 @import "./styles/legacy-classic/button.css";
+@import "./styles/legacy-classic/dialog.css";
 @import "./styles/legacy-classic/icon-roles.css";
