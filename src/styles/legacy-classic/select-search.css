@@ -9,18 +9,29 @@
   padding-bottom:0!important;
   line-height:1!important;
 }
-.tc-select-current{
+
+/*
+ * Keep Select text geometry inside the component boundary. Consumer pages may contain
+ * broad rules such as `.settingRow span { margin-top: ... }`; both the current-value
+ * host and its text node are spans, so an external typography rule can otherwise move
+ * the visible label even though the button itself is correctly centered.
+ */
+.tc-control.tc-select .tc-select-current{
   min-width:0;
   height:100%;
+  margin:0;
+  padding:0;
   display:flex!important;
   align-items:center!important;
   gap:7px;
   overflow:hidden;
   line-height:1!important;
 }
-.tc-select-current>span:last-child{
+.tc-control.tc-select .tc-select-current>span:last-child{
   min-width:0;
   height:100%;
+  margin:0;
+  padding:0;
   display:flex!important;
   align-items:center!important;
   overflow:hidden;
@@ -34,8 +45,8 @@
 .tc-select-scroll{width:100%;max-height:280px;overflow:auto}
 .tc-select-item{width:100%;box-sizing:border-box;min-height:34px;height:auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:8px;padding:4px 7px}
 .tc-select-item:not(:has(.tc-option-icon)){grid-template-columns:minmax(0,1fr) auto}
-.tc-select-item>span:not(.tc-option-icon){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tc-select .tc-select-item>span:not(.tc-option-icon){margin:0;padding:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tc-select-item em{font-style:normal;font-size:10px;color:var(--tc-text-subtle);justify-self:end}
 .tc-select-item.is-selected{box-shadow:inset 3px 0 0 var(--tc-accent);background:color-mix(in srgb,var(--tc-accent) 16%,var(--tc-surface-2))}
 .tc-select-empty{padding:14px 10px;text-align:center;color:var(--tc-text-subtle);font-size:12px}
-.tc-select .tc-option-icon{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center}
+.tc-control.tc-select .tc-option-icon{margin:0;padding:0;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center}
