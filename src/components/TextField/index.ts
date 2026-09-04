@@ -1,1 +1,2 @@
-export { TextField } from "../../styles/legacy-classic/components";
+export { TextField } from "./TextField";
+export type { TextFieldProps } from "./TextField";

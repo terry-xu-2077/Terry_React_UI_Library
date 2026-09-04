@@ -1,2 +1,2 @@
-export { Dialog } from "../../styles/legacy-classic/components";
-export type { DialogSize } from "../../styles/legacy-classic/components";
+export { Dialog } from "./Dialog";
+export type { DialogProps, DialogSize } from "./Dialog";

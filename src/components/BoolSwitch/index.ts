@@ -1,1 +1,2 @@
-export { BoolSwitch } from "../../styles/legacy-classic/components";
+export { BoolSwitch } from "./BoolSwitch";
+export type { BoolSwitchProps } from "./BoolSwitch";

@@ -1,2 +1,2 @@
-export { Select } from "../../styles/legacy-classic/components";
-export type { OptionItem } from "../../styles/legacy-classic/components";
+export { Select, optionDisplayLabel } from "./Select";
+export type { OptionItem, SelectProps } from "./Select";

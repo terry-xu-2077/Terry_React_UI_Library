@@ -1,1 +1,2 @@
-export { Slider } from "../../styles/legacy-classic/components";
+export { Slider } from "./Slider";
+export type { SliderProps } from "./Slider";

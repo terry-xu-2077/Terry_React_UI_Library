@@ -2,7 +2,7 @@
 
 Reusable React/TypeScript UI components with the Legacy Classic visual system.
 
-The repository now has two explicit products:
+The repository has two explicit products:
 
 - **Library package** — built with Vite library mode into `dist/`, including ESM JavaScript, TypeScript declarations and bundled CSS.
 - **Showcase site** — built separately into `site-dist/` and deployed to GitHub Pages.
@@ -31,9 +31,13 @@ The generated `dist/index.js` imports `dist/style.css`, so existing consumers ke
 ```text
 src/
   index.ts                 public source entry
-  components/              stable component-facing module tree
+  components/              canonical component implementations
     BoolSwitch/
+      BoolSwitch.tsx
+      index.ts
     Select/
+      Select.tsx
+      index.ts
     TextField/
     Slider/
     Dialog/
@@ -41,9 +45,10 @@ src/
     EntityHeader/
     MultiSelect/
     ...
-  styles/legacy-classic/   Legacy Classic implementation + theme assets
+  styles/legacy-classic/   theme, motion and component visual CSS
+    register.ts            single style-pack registration entry
 scripts/
-  finalize-library.mjs     final dist CSS wiring / compatibility assets
+  finalize-library.mjs     verifies/finalizes dist CSS and compatibility assets
 vite.config.lib.ts         library build
 vite.config.ts             showcase build
 tsconfig.lib.json          declaration build
@@ -52,7 +57,7 @@ dist/                      generated package artifact (not committed)
 site-dist/                 generated showcase artifact (not committed)
 ```
 
-The `components/` folders are the stable public module boundary. During this compatibility-preserving migration they re-export the proven Legacy Classic implementations; implementation files can now be split further without changing consumer imports.
+`src/components/` is now both the public module boundary and the canonical implementation location. `src/styles/legacy-classic/components.tsx` and `visual-multi-select.tsx` remain only as source compatibility shims; new implementation code must not be added there.
 
 ## Build
 
@@ -63,7 +68,7 @@ npm run build:showcase
 npm run build
 ```
 
-`npm run build:lib` produces:
+`npm run build:lib` produces and verifies:
 
 ```text
 dist/
@@ -83,10 +88,11 @@ A Git dependency runs `prepare`, so consumers receive the generated `dist` packa
 - `lucide-react` remains a normal runtime dependency because components use its icons internally.
 - The package export map points consumers at `dist`, not `src`.
 - CSS is marked as a side effect so bundlers must not tree-shake component styling away.
+- CI installs the current Git SHA into a clean temporary Vite consumer and builds it; this protects the same install path used by Rulesmd Editor.
 
-## Theme contract
+## Theme / style ownership
 
-Legacy Classic exposes its visual color system through CSS variables. Consumers should customize the documented public variables rather than targeting component internals.
+Legacy Classic exposes its visual color system through CSS variables. Component React code owns behavior and semantic DOM; the style pack owns the visual CSS. Consumers should customize public variables rather than targeting component internals.
 
 Primary public channels include:
 
@@ -96,7 +102,7 @@ Primary public channels include:
 - `--tc-text-main`
 - `--tc-text-bright`
 
-Derived surface, line, typography, status and header variables are maintained by the style pack.
+The single style registration entry is `src/styles/legacy-classic/register.ts`. New Legacy Classic CSS must be registered there instead of being imported ad hoc by arbitrary component files.
 
 ## Component boundary rules
 
@@ -104,12 +110,13 @@ Derived surface, line, typography, status and header variables are maintained by
 - Components own their internal margin, padding, line-height, track/knob geometry and motion.
 - Consumers may size and place documented outer hosts / public props only.
 - A component bug must be fixed here and verified in the showcase before a product adds a workaround.
-- Broad consumer selectors such as `.panel span`, `.row button` or `.dialog input` are considered unsafe around shared components.
+- Broad consumer selectors such as `.panel span`, `.row button` or `.dialog input` are unsafe around shared components.
+- New component behavior belongs under `src/components/<Component>/`; new visual rules belong in the active style pack.
 
 The BoolSwitch / Select cascade incident in Rulesmd Editor is the reference red-line case for these rules.
 
 ## Compatibility
 
-The source-level `src/styles/legacy-classic/index.ts` remains as a compatibility entry for repository development, but package consumers are routed through the standard `dist` export map.
+Package consumers use the standard `dist` export map. Source compatibility entries under `src/styles/legacy-classic/` are kept only so repository-local tooling and older source imports do not break during the migration.
 
-Existing component names and public props are intentionally preserved during this migration.
+Existing component names and public props are intentionally preserved.

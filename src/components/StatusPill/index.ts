@@ -1,1 +1,2 @@
-export { StatusPill } from "../../styles/legacy-classic/components";
+export { StatusPill } from "./StatusPill";
+export type { StatusPillProps, StatusPillTone } from "./StatusPill";

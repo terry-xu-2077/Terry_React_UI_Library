@@ -11,8 +11,7 @@
   },
   "include": [
     "src/index.ts",
-    "src/components/**/*.ts",
-    "src/styles/legacy-classic/components.tsx",
-    "src/styles/legacy-classic/visual-multi-select.tsx"
+    "src/components/**/*",
+    "src/styles/legacy-classic/register.ts"
   ]
 }

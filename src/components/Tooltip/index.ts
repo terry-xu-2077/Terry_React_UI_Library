@@ -1,1 +1,2 @@
-export { Tooltip } from "../../styles/legacy-classic/components";
+export { Tooltip } from "./Tooltip";
+export type { TooltipProps } from "./Tooltip";

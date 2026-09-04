@@ -1,9 +1,9 @@
-export { VisualMultiSelect, VisualMultiSelect as MultiSelect } from "../../styles/legacy-classic/visual-multi-select";
+export { MultiSelect, VisualMultiSelect } from "./MultiSelect";
 export type {
-  VisualOptionItem,
+  MultiSelectProps,
+  MultiSelectMode,
   VisualMultiSelectProps,
-  VisualMultiSelectProps as MultiSelectProps,
   VisualMultiSelectMode,
-  VisualMultiSelectMode as MultiSelectMode,
+  VisualOptionItem,
   VisualOptionIconDescriptor,
-} from "../../styles/legacy-classic/visual-multi-select";
+} from "./MultiSelect";

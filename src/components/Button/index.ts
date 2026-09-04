@@ -1,1 +1,2 @@
-export { Button } from "../../styles/legacy-classic/components";
+export { Button } from "./Button";
+export type { ButtonProps } from "./Button";

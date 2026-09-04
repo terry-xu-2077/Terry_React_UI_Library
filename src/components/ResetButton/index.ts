@@ -1,1 +1,2 @@
-export { ResetButton } from "../../styles/legacy-classic/components";
+export { ResetButton } from "./ResetButton";
+export type { ResetButtonProps } from "./ResetButton";
