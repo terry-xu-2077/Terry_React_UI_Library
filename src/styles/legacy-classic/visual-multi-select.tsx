@@ -1,10 +1,11 @@
-import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import React, { CSSProperties, ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ResetButton } from "./components";
 import "./visual-multi-select.css";
 
 export type VisualOptionItem = { value: string; label?: string; group?: string; icon?: ReactNode };
 export type VisualMultiSelectMode = "menu" | "confirm";
+export type VisualOptionIconDescriptor = { className?: string; style?: CSSProperties };
 export type VisualMultiSelectProps = {
   values: string[];
   rawValues?: string[];
@@ -17,11 +18,22 @@ export type VisualMultiSelectProps = {
   closeLabel?: string;
 };
 
+declare global {
+  var __tcOptionIconResolver: undefined | ((value: string) => VisualOptionIconDescriptor | undefined);
+}
+
 function displayLabel(option: VisualOptionItem) {
   const label = option.label?.trim();
   if (!label) return option.value;
   const suffix = ` · ${option.value}`;
   return label.endsWith(suffix) ? label.slice(0, -suffix.length).trim() || option.value : label;
+}
+
+function resolvedIcon(option: VisualOptionItem) {
+  if (option.icon) return option.icon;
+  const descriptor = globalThis.__tcOptionIconResolver?.(option.value);
+  if (!descriptor) return null;
+  return <span className={`tc-resolved-option-icon ${descriptor.className || ""}`.trim()} style={descriptor.style}/>;
 }
 
 export function VisualMultiSelect({
@@ -78,10 +90,11 @@ export function VisualMultiSelect({
         <div className="tc-picker-body tc-visual-picker-body">
           {options.map(option => {
             const checked = shownValues.includes(option.value);
-            return <label className={`tc-check-row tc-visual-check-row ${option.icon ? "has-icon" : ""}`} key={option.value}>
-              <input type="checkbox" checked={checked} onChange={() => toggle(option.value)}/>
+            const icon = resolvedIcon(option);
+            return <label className={`tc-check-row tc-visual-check-row ${icon ? "has-icon" : ""}`} key={option.value}>
+              <input type="checkbox" value={option.value} checked={checked} onChange={() => toggle(option.value)}/>
               <span className="tc-check-box">{checked && <Check size={13}/>}</span>
-              {option.icon && <span className="tc-option-icon">{option.icon}</span>}
+              {icon && <span className="tc-option-icon">{icon}</span>}
               <span className="tc-option-label">{displayLabel(option)}</span>
               {option.group && <em>{option.group}</em>}
             </label>;
