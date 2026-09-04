@@ -1,0 +1,20 @@
+.tc-dialog-title{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:var(--tc-text);
+}
+.tc-dialog-title-icon{
+  width:18px;
+  height:18px;
+  flex:0 0 18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--tc-accent);
+}
+.tc-dialog-title-icon>svg{width:18px;height:18px;display:block}
+.tc-dialog-title>strong{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tc-dialog>header>button{width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;padding:0;border-radius:6px}
+.tc-dialog>header>button:hover{background:color-mix(in srgb,var(--tc-accent) 14%,transparent);color:var(--tc-accent)}
