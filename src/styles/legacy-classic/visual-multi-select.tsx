@@ -1,5 +1,6 @@
 import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown, X } from "lucide-react";
+import { ResetButton } from "./components";
 import "./visual-multi-select.css";
 
 export type VisualOptionItem = { value: string; label?: string; group?: string; icon?: ReactNode };
@@ -39,6 +40,7 @@ export function VisualMultiSelect({
   const ref = useRef<HTMLDivElement>(null);
   const isConfirm = mode === "confirm";
   const shownValues = isConfirm && open ? draft : values;
+  const changed = rawValues !== undefined && rawValues.join(",") !== values.join(",");
   const labels = useMemo(() => shownValues.map(value => {
     const option = options.find(item => item.value === value);
     return option ? displayLabel(option) : value;
@@ -91,6 +93,6 @@ export function VisualMultiSelect({
         </div>}
       </div>}
     </div>
-    {rawValues && <button type="button" className={`tc-reset ${rawValues.join(",") !== values.join(",") ? "is-visible" : ""}`} onClick={() => onChange(rawValues)}>↶</button>}
+    {rawValues && <ResetButton visible={changed} onClick={() => onChange(rawValues)}/>} 
   </div>;
 }
