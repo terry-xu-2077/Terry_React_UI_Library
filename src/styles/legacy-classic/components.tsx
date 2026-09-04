@@ -1,11 +1,13 @@
 import React, { CSSProperties, ReactNode, useEffect, useMemo, useRef, useState } from "react";
-import { Check, ChevronDown, RotateCcw, X } from "lucide-react";
+import { Check, ChevronDown, RotateCcw, Search, X } from "lucide-react";
 import "./theme.css";
 import "./theme-system.css";
 import "./motion.css";
 import "./slider.css";
 import "./bool-switch.css";
 import "./multi-select-overflow.css";
+import "./select-search.css";
+import "./reset-button.css";
 
 export type OptionItem = { value: string; label?: string; group?: string; icon?: ReactNode };
 export type AccentTone = "accent" | "blue" | "red" | "purple" | "neutral";
@@ -25,7 +27,7 @@ export function Tooltip({ text, children }: { text?: string; children: ReactNode
 }
 
 export function ResetButton({ visible, onClick, label = "还原" }: { visible: boolean; onClick: () => void; label?: string }) {
-  return <button type="button" className={`tc-reset ${visible ? "is-visible" : ""}`} onClick={onClick} aria-label={label}><RotateCcw size={16}/><span>{label}</span></button>;
+  return <button type="button" className={`tc-reset ${visible ? "is-visible" : ""}`} onClick={onClick} aria-label={label} title={label}><RotateCcw size={14}/></button>;
 }
 
 export function TextField({ value, rawValue, onChange, placeholder, tooltip, disabled }: { value: string; rawValue?: string; onChange: (v: string) => void; placeholder?: string; tooltip?: string; disabled?: boolean }) {
@@ -40,7 +42,7 @@ export function BoolSwitch({ value, rawValue, onChange, trueValue = "yes", false
   const effectiveFalse = usesLiteralBoolean ? "false" : falseValue;
   const on = value.trim().toLowerCase() === effectiveTrue.toLowerCase();
   const changed = rawValue !== undefined && value !== rawValue;
-  return <div className="tc-control-wrap tc-bool-wrap"><button type="button" disabled={disabled} className={`tc-control tc-bool ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? effectiveFalse : effectiveTrue)}><span className="tc-bool-knob">{on ? "ON 开" : "OFF 关"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
+  return <div className="tc-control-wrap tc-bool-wrap"><button type="button" disabled={disabled} className={`tc-control tc-bool ${on ? "is-on" : ""}`} onClick={()=>onChange(on ? effectiveFalse : effectiveTrue)}><span className="tc-bool-knob">{on ? "ON" : "OFF"}</span></button>{rawValue !== undefined && <ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
 }
 
 function useOutsideClose(open:boolean, close:()=>void, enabled=true) {
@@ -49,9 +51,15 @@ function useOutsideClose(open:boolean, close:()=>void, enabled=true) {
   return ref;
 }
 
-export function Select({ value, rawValue, options, onChange, tooltip, disabled }: { value:string; rawValue?:string; options:OptionItem[]; onChange:(v:string)=>void; tooltip?:string; disabled?:boolean }) {
-  const [open,setOpen]=useState(false); const ref=useOutsideClose(open,()=>setOpen(false)); const selected=options.find(o=>o.value===value); const changed=rawValue!==undefined&&value!==rawValue;
-  return <div className="tc-control-wrap" ref={ref}><Tooltip text={tooltip}><div className={`tc-control tc-select ${open?"is-open":""}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={()=>setOpen(v=>!v)}><span>{selected?optionDisplayLabel(selected):value}</span><ChevronDown size={20}/></button>{open&&<div className="tc-pop tc-select-list tc-pop-in">{options.map(o=><button type="button" key={o.value} className="tc-select-item" onClick={()=>{onChange(o.value);setOpen(false)}}>{o.icon&&<span className="tc-option-icon">{o.icon}</span>}<span>{optionDisplayLabel(o)}</span></button>)}</div>}</div></Tooltip>{rawValue!==undefined&&<ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
+export function Select({ value, rawValue, options, onChange, tooltip, disabled, searchable=false, searchPlaceholder="搜索" }: { value:string; rawValue?:string; options:OptionItem[]; onChange:(v:string)=>void; tooltip?:string; disabled?:boolean; searchable?:boolean; searchPlaceholder?:string }) {
+  const [open,setOpen]=useState(false);
+  const [query,setQuery]=useState("");
+  const ref=useOutsideClose(open,()=>{setOpen(false);setQuery("")});
+  const selected=options.find(o=>o.value===value);
+  const changed=rawValue!==undefined&&value!==rawValue;
+  const filtered=useMemo(()=>{const q=query.trim().toLowerCase();if(!q)return options;return options.filter(o=>`${optionDisplayLabel(o)} ${o.value} ${o.group||""}`.toLowerCase().includes(q))},[options,query]);
+  const toggleOpen=()=>{if(disabled)return;setOpen(v=>!v);setQuery("")};
+  return <div className="tc-control-wrap" ref={ref}><Tooltip text={tooltip}><div className={`tc-control tc-select ${open?"is-open":""}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={toggleOpen}><span className="tc-select-current">{selected?.icon&&<span className="tc-option-icon">{selected.icon}</span>}<span>{selected?optionDisplayLabel(selected):value}</span></span><ChevronDown size={20}/></button>{open&&<div className="tc-pop tc-select-list tc-pop-in">{searchable&&<label className="tc-select-search"><Search size={14}/><input autoFocus value={query} onChange={e=>setQuery(e.target.value)} placeholder={searchPlaceholder}/></label>}<div className="tc-select-scroll">{filtered.map(o=><button type="button" key={o.value} className={`tc-select-item ${o.value===value?"is-selected":""}`} onClick={()=>{onChange(o.value);setOpen(false);setQuery("")}}>{o.icon&&<span className="tc-option-icon">{o.icon}</span>}<span>{optionDisplayLabel(o)}</span>{o.group&&<em>{o.group}</em>}</button>)}{filtered.length===0&&<div className="tc-select-empty">没有匹配项</div>}</div></div>}</div></Tooltip>{rawValue!==undefined&&<ResetButton visible={changed} onClick={()=>onChange(rawValue)}/>}</div>;
 }
 
 export function Slider({ value, rawValue, min=0, max=100, step=1, onChange, disabled }: { value:number; rawValue?:number; min?:number; max?:number; step?:number; onChange:(v:number)=>void; disabled?:boolean }) {
