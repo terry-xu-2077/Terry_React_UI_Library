@@ -35,6 +35,39 @@ jobs:
       - name: Build library and showcase
         run: npm run build
 
+      - name: Verify package files
+        run: |
+          test -f dist/index.js
+          test -f dist/index.d.ts
+          test -f dist/style.css
+          test -f dist/legacy-classic/theme.css
+          test -f dist/legacy-classic/theme-system.css
+          grep -F 'import "./style.css";' dist/index.js
+          npm pack --dry-run
+
+      - name: Smoke test Git dependency consumer
+        env:
+          UI_SHA: ${{ github.sha }}
+        run: |
+          SMOKE="$RUNNER_TEMP/terry-ui-consumer"
+          mkdir -p "$SMOKE"
+          cd "$SMOKE"
+          npm init -y
+          npm install --ignore-scripts react@19.1.1 react-dom@19.1.1 vite@7.1.3
+          npm install "git+https://github.com/terry-xu-2077/Terry_React_UI_Library.git#$UI_SHA"
+          test -f node_modules/terry-react-ui-library/dist/index.js
+          test -f node_modules/terry-react-ui-library/dist/index.d.ts
+          test -f node_modules/terry-react-ui-library/dist/style.css
+          cat > index.html <<'EOF'
+          <div id="app"></div><script type="module" src="/main.js"></script>
+          EOF
+          cat > main.js <<'EOF'
+          import { BoolSwitch, Select } from 'terry-react-ui-library';
+          console.log(BoolSwitch, Select);
+          EOF
+          npx vite build
+          find dist -name '*.css' -print -quit | grep .
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
