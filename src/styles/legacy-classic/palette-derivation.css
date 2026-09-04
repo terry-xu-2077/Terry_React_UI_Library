@@ -1,0 +1,41 @@
+/* Derived palette roles from the five public channels. Keep interaction accents distinct from neutral editing surfaces. */
+.tc-theme[data-mode="dark"],:root[data-tc-mode="dark"]{
+  --tc-bg:color-mix(in srgb,var(--tc-base) 82%,black 18%);
+  --tc-surface:color-mix(in srgb,var(--tc-base) 78%,#132642 22%);
+  --tc-surface-2:color-mix(in srgb,var(--tc-base) 67%,#263958 33%);
+  --tc-panel:color-mix(in srgb,var(--tc-base) 61%,#344463 39%);
+  --tc-panel-2:color-mix(in srgb,var(--tc-base) 80%,#18243b 20%);
+  --tc-control-fill:color-mix(in srgb,var(--tc-base) 50%,#3a4667 50%);
+  --tc-panel-focus:color-mix(in srgb,var(--tc-control-fill) 78%,var(--tc-effect) 22%);
+  --tc-border-color:color-mix(in srgb,#7080a4 52%,var(--tc-effect) 12%,var(--tc-base) 36%);
+  --tc-line:color-mix(in srgb,#536783 54%,var(--tc-base) 46%);
+  --tc-row-hover:color-mix(in srgb,var(--tc-base) 69%,var(--tc-accent) 16%,#31405d 15%);
+  --tc-shadow:color-mix(in srgb,var(--tc-base) 24%,black 76%);
+  --tc-tooltip-bg:color-mix(in srgb,#b8cdf7 88%,var(--tc-effect) 12%);
+  --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 86%,black 14%);
+  --tc-value-text:var(--tc-text-main);
+  --tc-text-accent:var(--tc-text-main);
+}
+
+.tc-theme[data-mode="light"],:root[data-tc-mode="light"]{
+  --tc-bg:color-mix(in srgb,var(--tc-base) 6%,white 94%);
+  --tc-surface:color-mix(in srgb,var(--tc-base) 18%,white 82%);
+  --tc-surface-2:color-mix(in srgb,var(--tc-base) 27%,white 73%);
+  --tc-panel:color-mix(in srgb,var(--tc-base) 34%,white 66%);
+  --tc-panel-2:color-mix(in srgb,var(--tc-base) 23%,white 77%);
+  --tc-control-fill:color-mix(in srgb,var(--tc-base) 31%,#eef4fb 69%);
+  --tc-panel-focus:color-mix(in srgb,var(--tc-control-fill) 78%,var(--tc-accent) 22%);
+  --tc-border-color:color-mix(in srgb,var(--tc-base) 54%,var(--tc-effect) 8%,white 38%);
+  --tc-line:color-mix(in srgb,var(--tc-base) 42%,white 58%);
+  --tc-row-hover:color-mix(in srgb,var(--tc-base) 20%,var(--tc-accent) 10%,white 70%);
+  --tc-shadow:color-mix(in srgb,var(--tc-base) 26%,black 18%,transparent 56%);
+  --tc-tooltip-bg:color-mix(in srgb,var(--tc-effect) 16%,white 84%);
+  --tc-tooltip-text:var(--tc-text-main);
+  --tc-value-text:var(--tc-text-main);
+}
+
+.tc-text input,.tc-number,.tc-select-button{background:var(--tc-control-fill,var(--tc-panel));color:var(--tc-value-text,var(--tc-text))}
+.tc-text input:focus,.tc-number:focus{color:var(--tc-text-main);background:var(--tc-panel-focus)}
+.tc-select:hover .tc-select-button,.tc-multi:hover .tc-select-button{background:color-mix(in srgb,var(--tc-control-fill,var(--tc-panel)) 76%,var(--tc-accent) 24%);color:var(--tc-text-main)}
+.tc-select.is-open .tc-select-button,.tc-multi.is-open .tc-select-button{background:color-mix(in srgb,var(--tc-control-fill,var(--tc-panel)) 64%,var(--tc-accent) 36%);color:var(--tc-text-main)}
+.tc-select-item:hover,.tc-check-row:hover{background:var(--tc-row-hover);color:var(--tc-text-main)}
