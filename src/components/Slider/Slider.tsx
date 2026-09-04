@@ -48,6 +48,11 @@ export function Slider({
   }, [onChange]);
 
   useEffect(() => {
+    // A parent may echo the last throttled value while the pointer has already moved
+    // farther locally. Do not roll the thumb backwards in that window. Once there is no
+    // newer local draft, normal controlled-prop synchronization resumes.
+    const hasNewerLocalDraft = !Object.is(latestValue.current, lastEmittedValue.current);
+    if (hasNewerLocalDraft && Object.is(value, lastEmittedValue.current)) return;
     setDraftValue(value);
     latestValue.current = value;
     lastEmittedValue.current = value;
