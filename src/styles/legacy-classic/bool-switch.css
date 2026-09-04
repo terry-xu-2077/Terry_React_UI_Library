@@ -1,4 +1,4 @@
-/* BoolSwitch owns its geometry. Parent layouts can position it but never stretch it. */
+/* BoolSwitch owns its geometry. Parent layouts can position it but never stretch the default form. */
 .tc-control-wrap.tc-bool-wrap{
   width:78px!important;
   min-width:78px!important;
@@ -56,4 +56,25 @@
   border-color:color-mix(in srgb,var(--tc-accent) 70%,white 30%)!important;
   background:var(--tc-accent-on)!important;
 }
+
+/* Fluid variant is opt-in for editor slots: track fills the slot and thumb stays near half width. */
+.tc-control-wrap.tc-bool-wrap.is-fluid{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  flex:1 1 auto!important;
+}
+.tc-bool-wrap.is-fluid>.tc-bool{
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  flex:1 1 auto!important;
+}
+.tc-bool-wrap.is-fluid .tc-bool-knob{
+  width:calc(50% - 3px)!important;
+}
+.tc-bool-wrap.is-fluid .tc-bool.is-on .tc-bool-knob{
+  transform:translateX(calc(100% + 2px))!important;
+}
+
 @media(prefers-reduced-motion:reduce){.tc-bool-wrap .tc-bool-knob{transition:none!important}}
