@@ -1,92 +1,89 @@
-/* BoolSwitch is rebuilt as a standalone two-cell control.
-   Parent layouts may override only --tc-bool-width. No .tc-control geometry is reused here. */
+/* Standalone BoolSwitch. Parent layouts configure size through component props only. */
 .tc-control-wrap.tc-bool-wrap{
-  --tc-bool-width:78px;
-  --tc-bool-height:26px;
-  width:var(--tc-bool-width)!important;
-  min-width:var(--tc-bool-width)!important;
-  max-width:var(--tc-bool-width)!important;
-  flex:0 0 var(--tc-bool-width)!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:flex-start!important;
-  gap:0!important;
-  margin:0!important;
-  padding:0!important;
+  width:78px;
+  min-width:78px;
+  max-width:78px;
+  flex:0 0 78px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:0;
+  margin:0;
+  padding:0;
 }
 
 .tc-legacy-switch{
   all:unset;
-  width:var(--tc-bool-width)!important;
-  height:var(--tc-bool-height)!important;
-  box-sizing:border-box!important;
-  display:grid!important;
-  grid-template-columns:1fr 1fr!important;
-  align-items:center!important;
-  padding:2px!important;
-  border:2px solid color-mix(in srgb,var(--tc-border-color) 78%,transparent)!important;
-  border-radius:5px!important;
-  overflow:hidden!important;
-  cursor:pointer!important;
+  width:100%;
+  height:26px;
+  box-sizing:border-box;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  padding:2px;
+  border:2px solid color-mix(in srgb,var(--tc-border-color) 78%,transparent);
+  border-radius:5px;
+  overflow:hidden;
+  cursor:pointer;
   background:linear-gradient(
     0deg,
     color-mix(in srgb,var(--tc-panel) 72%,#526583 28%) 0 29%,
     color-mix(in srgb,var(--tc-base) 78%,#31405f 22%) 29% 71%,
     color-mix(in srgb,var(--tc-panel) 72%,#526583 28%) 71% 100%
-  )!important;
-  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 9%,transparent),inset 0 -1px 0 color-mix(in srgb,#000 18%,transparent)!important;
+  );
+  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 9%,transparent),inset 0 -1px 0 color-mix(in srgb,#000 18%,transparent);
 }
 .tc-legacy-switch:hover{
-  border-color:color-mix(in srgb,var(--tc-accent) 54%,var(--tc-border-color))!important;
+  border-color:color-mix(in srgb,var(--tc-accent) 54%,var(--tc-border-color));
 }
-.tc-legacy-switch:disabled{cursor:default!important;opacity:.55!important}
+.tc-legacy-switch:disabled{cursor:default;opacity:.55}
 
 .tc-legacy-switch-knob{
   all:unset;
-  grid-column:1!important;
-  width:100%!important;
-  height:18px!important;
-  box-sizing:border-box!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  border:1px solid color-mix(in srgb,#fff 34%,transparent)!important;
-  border-radius:4px!important;
-  font:700 10px/1 system-ui,-apple-system,"Segoe UI",sans-serif!important;
-  white-space:nowrap!important;
-  overflow:hidden!important;
-  color:#d8e0ec!important;
-  background:linear-gradient(90deg,#4b5568 10%,#a5a5a5 20%,#4b5568 60%)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 1px 1px rgba(0,0,0,.18)!important;
-  transition:background .18s ease,color .18s ease,border-color .18s ease!important;
+  grid-column:1;
+  width:100%;
+  height:18px;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid color-mix(in srgb,#fff 34%,transparent);
+  border-radius:4px;
+  font:700 10px/1 system-ui,-apple-system,"Segoe UI",sans-serif;
+  white-space:nowrap;
+  overflow:hidden;
+  color:#d8e0ec;
+  background:linear-gradient(90deg,#4b5568 10%,#a5a5a5 20%,#4b5568 60%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 1px 1px rgba(0,0,0,.18);
+  transition:background .18s ease,color .18s ease,border-color .18s ease;
 }
 .tc-legacy-switch.is-on .tc-legacy-switch-knob{
-  grid-column:2!important;
-  color:rgba(255,255,255,.82)!important;
-  border-color:rgba(255,255,255,.32)!important;
+  grid-column:2;
+  color:rgba(255,255,255,.82);
+  border-color:rgba(255,255,255,.32);
   background:linear-gradient(
     90deg,
     color-mix(in srgb,var(--tc-accent) 78%,black 22%) 60%,
     color-mix(in srgb,var(--tc-accent) 62%,white 38%) 80%,
     color-mix(in srgb,var(--tc-accent) 78%,black 22%) 90%
-  )!important;
+  );
 }
 
 /* Light mode preserves the exact same geometry and relief direction. */
 .tc-theme[data-mode="light"] .tc-legacy-switch{
-  border-color:#7f9caf!important;
-  background:linear-gradient(0deg,#d7e2ea 0 29%,#aebfcb 29% 71%,#d7e2ea 71% 100%)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.78),inset 0 -1px 0 rgba(61,84,101,.17)!important;
+  border-color:#7f9caf;
+  background:linear-gradient(0deg,#d7e2ea 0 29%,#aebfcb 29% 71%,#d7e2ea 71% 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78),inset 0 -1px 0 rgba(61,84,101,.17);
 }
 .tc-theme[data-mode="light"] .tc-legacy-switch-knob{
-  color:#40566a!important;
-  border-color:rgba(255,255,255,.72)!important;
-  background:linear-gradient(90deg,#7f8b98 10%,#f1f4f7 20%,#8a97a5 60%)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.78),0 1px 1px rgba(44,67,84,.16)!important;
+  color:#40566a;
+  border-color:rgba(255,255,255,.72);
+  background:linear-gradient(90deg,#7f8b98 10%,#f1f4f7 20%,#8a97a5 60%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.78),0 1px 1px rgba(44,67,84,.16);
 }
 .tc-theme[data-mode="light"] .tc-legacy-switch.is-on .tc-legacy-switch-knob{
-  color:#fff!important;
-  background:linear-gradient(90deg,#137d70 60%,#43d2bd 80%,#168a7b 90%)!important;
+  color:#fff;
+  background:linear-gradient(90deg,#137d70 60%,#43d2bd 80%,#168a7b 90%);
 }
 
-@media(prefers-reduced-motion:reduce){.tc-legacy-switch-knob{transition:none!important}}
+@media(prefers-reduced-motion:reduce){.tc-legacy-switch-knob{transition:none}}
