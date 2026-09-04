@@ -13,19 +13,18 @@
 }
 
 /*
- * Keep the switch geometry self-contained. The previous grid implementation let the
- * knob participate in an implicit grid row; in WebView2 that could place the 18px knob
- * against the lower edge of the 26px rail. Absolute centering makes the geometry
- * deterministic regardless of surrounding grid/flex layout, font metrics or button
- * intrinsic sizing.
+ * Keep the knob in normal flex flow instead of positioning it against the button.
+ * With a 26px border-box, 2px border and 2px padding, the content height is exactly
+ * 18px — the same as the knob. That makes vertical alignment deterministic in WebView2
+ * and ordinary browsers, while the width prop can still own the overall geometry.
  */
 .tc-legacy-switch{
   all:unset;
-  position:relative;
   width:100%;
   height:26px;
   box-sizing:border-box;
-  display:block;
+  display:flex;
+  align-items:center;
   padding:2px;
   border:2px solid color-mix(in srgb,var(--tc-border-color) 78%,transparent);
   border-radius:5px;
@@ -46,11 +45,8 @@
 
 .tc-legacy-switch-knob{
   all:unset;
-  position:absolute;
-  left:2px;
-  top:50%;
-  transform:translateY(-50%);
-  width:calc(50% - 3px);
+  flex:0 0 calc(50% - 1px);
+  min-width:0;
   height:18px;
   box-sizing:border-box;
   display:flex;
@@ -64,10 +60,11 @@
   color:#d8e0ec;
   background:linear-gradient(90deg,#4b5568 10%,#a5a5a5 20%,#4b5568 60%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 1px 1px rgba(0,0,0,.18);
-  transition:left .18s ease,background .18s ease,color .18s ease,border-color .18s ease;
+  transform:translateX(0);
+  transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease;
 }
 .tc-legacy-switch.is-on .tc-legacy-switch-knob{
-  left:calc(50% + 1px);
+  transform:translateX(calc(100% + 2px));
   color:rgba(255,255,255,.82);
   border-color:rgba(255,255,255,.32);
   background:linear-gradient(
