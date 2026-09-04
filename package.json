@@ -1,28 +1,53 @@
 {
   "name": "terry-react-ui-library",
-  "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
+  "description": "Reusable React/TypeScript UI components and Legacy Classic theme.",
   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/styles/legacy-classic/index.ts",
-    "./legacy-classic": "./src/styles/legacy-classic/index.ts",
-    "./legacy-classic/theme.css": "./src/styles/legacy-classic/theme.css",
-    "./legacy-classic/theme-system.css": "./src/styles/legacy-classic/theme-system.css"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./style.css": "./dist/style.css",
+    "./legacy-classic": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./legacy-classic/theme.css": "./dist/legacy-classic/theme.css",
+    "./legacy-classic/theme-system.css": "./dist/legacy-classic/theme-system.css"
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "build:lib": "vite build --config vite.config.lib.ts && tsc -p tsconfig.lib.json && node scripts/finalize-library.mjs",
+    "build:showcase": "vite build",
+    "build": "npm run build:lib && npm run build:showcase",
+    "prepare": "npm run build:lib",
     "preview": "vite preview"
   },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
+  },
   "dependencies": {
-    "lucide-react": "^0.468.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "lucide-react": "^0.468.0"
   },
   "devDependencies": {
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
     "typescript": "^5.9.2",
     "vite": "^7.1.3"
   }

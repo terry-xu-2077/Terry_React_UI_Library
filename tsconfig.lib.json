@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "stripInternal": true
+  },
+  "include": [
+    "src/index.ts",
+    "src/components/**/*.ts",
+    "src/styles/legacy-classic/components.tsx",
+    "src/styles/legacy-classic/visual-multi-select.tsx"
+  ]
+}
