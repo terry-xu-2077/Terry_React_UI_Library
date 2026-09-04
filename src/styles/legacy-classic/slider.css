@@ -1,3 +1,14 @@
 .tc-slider{min-width:0!important}
 .tc-slider .tc-range{flex:1 1 auto!important;width:auto!important;min-width:0!important}
 .tc-slider .tc-number{flex:0 0 64px!important;width:64px!important}
+
+/* Subtle hardware detail: a soft vertical gradient plus tiny grip dots on the thumb. */
+.tc-slider .tc-range::-webkit-slider-thumb{
+  background:
+    radial-gradient(circle at 6px 7px,color-mix(in srgb,#fff 74%,transparent) 0 1px,transparent 1.35px),
+    radial-gradient(circle at 10px 7px,color-mix(in srgb,#fff 56%,transparent) 0 1px,transparent 1.35px),
+    radial-gradient(circle at 6px 12px,color-mix(in srgb,#fff 56%,transparent) 0 1px,transparent 1.35px),
+    radial-gradient(circle at 10px 12px,color-mix(in srgb,#fff 42%,transparent) 0 1px,transparent 1.35px),
+    linear-gradient(180deg,color-mix(in srgb,var(--tc-accent) 78%,white 22%),var(--tc-accent-dark))!important;
+  box-shadow:0 1px 2px color-mix(in srgb,var(--tc-shadow) 48%,transparent),inset 0 1px 0 color-mix(in srgb,#fff 34%,transparent)!important;
+}
