@@ -34,6 +34,8 @@
   border-radius:4px!important;
   white-space:nowrap!important;
   overflow:hidden!important;
+  font-size:10.5px!important;
+  line-height:1!important;
   transition:transform .17s cubic-bezier(.2,.8,.2,1),background .17s,box-shadow .17s,color .17s!important;
 }
 .tc-bool-wrap .tc-bool.is-on .tc-bool-knob{
