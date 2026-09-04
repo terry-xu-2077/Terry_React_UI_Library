@@ -2,15 +2,16 @@
 .tc-slider .tc-range{flex:1 1 auto!important;width:auto!important;min-width:0!important}
 .tc-slider .tc-number{flex:0 0 64px!important;width:64px!important}
 
-/* Subtle hardware detail: centered 2x3 grip dots plus a soft vertical gradient. */
+/* Hardware detail: a true centered 2x3 dot matrix tied to the thumb box, not fixed pixels. */
 .tc-slider .tc-range::-webkit-slider-thumb{
   background:
-    radial-gradient(circle at 6px 7px,color-mix(in srgb,#fff 76%,transparent) 0 1px,transparent 1.35px),
-    radial-gradient(circle at 10px 7px,color-mix(in srgb,#fff 58%,transparent) 0 1px,transparent 1.35px),
-    radial-gradient(circle at 6px 11px,color-mix(in srgb,#fff 64%,transparent) 0 1px,transparent 1.35px),
-    radial-gradient(circle at 10px 11px,color-mix(in srgb,#fff 48%,transparent) 0 1px,transparent 1.35px),
-    radial-gradient(circle at 6px 15px,color-mix(in srgb,#fff 52%,transparent) 0 1px,transparent 1.35px),
-    radial-gradient(circle at 10px 15px,color-mix(in srgb,#fff 38%,transparent) 0 1px,transparent 1.35px),
+    radial-gradient(circle at 38% 36%,color-mix(in srgb,#fff 76%,transparent) 0 1px,transparent 1.35px),
+    radial-gradient(circle at 62% 36%,color-mix(in srgb,#fff 58%,transparent) 0 1px,transparent 1.35px),
+    radial-gradient(circle at 38% 50%,color-mix(in srgb,#fff 64%,transparent) 0 1px,transparent 1.35px),
+    radial-gradient(circle at 62% 50%,color-mix(in srgb,#fff 48%,transparent) 0 1px,transparent 1.35px),
+    radial-gradient(circle at 38% 64%,color-mix(in srgb,#fff 52%,transparent) 0 1px,transparent 1.35px),
+    radial-gradient(circle at 62% 64%,color-mix(in srgb,#fff 38%,transparent) 0 1px,transparent 1.35px),
     linear-gradient(180deg,color-mix(in srgb,var(--tc-accent) 78%,white 22%),var(--tc-accent-dark))!important;
+  background-repeat:no-repeat!important;
   box-shadow:0 1px 2px color-mix(in srgb,var(--tc-shadow) 48%,transparent),inset 0 1px 0 color-mix(in srgb,#fff 34%,transparent)!important;
 }
