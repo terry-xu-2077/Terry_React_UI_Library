@@ -9,3 +9,4 @@ export * from "./Dialog";
 export * from "./Button";
 export * from "./StatusPill";
 export * from "./MultiSelect";
+export * from "./Checkbox";
