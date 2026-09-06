@@ -50,9 +50,8 @@
  * consumer selector is more specific and is loaded later. Keep all knob geometry owned
  * by the component so surrounding typography/layout rules cannot move it vertically.
  *
- * The silver block remains state-independent. It is intentionally a little darker than
- * the first revision so it keeps enough weight over both the inactive and highlighted
- * tracks. A subtle accent tint prevents it from looking detached from the active theme.
+ * The block remains metallic silver, but now carries a clearly visible Accent tint so
+ * custom palettes do not leave it looking detached from the rest of the control theme.
  */
 .tc-control-wrap.tc-bool-wrap .tc-legacy-switch-knob{
   all:unset;
@@ -65,7 +64,7 @@
   display:flex;
   align-items:center;
   justify-content:center;
-  border:1.5px solid color-mix(in srgb,var(--tc-accent) 12%,#e8edf1 88%);
+  border:1.5px solid color-mix(in srgb,var(--tc-accent) 34%,#e8edf1 66%);
   border-radius:3px;
   font:700 10px/1 system-ui,-apple-system,"Segoe UI",sans-serif;
   white-space:nowrap;
@@ -73,11 +72,11 @@
   color:rgba(63,82,100,.6);
   background:linear-gradient(
     90deg,
-    color-mix(in srgb,var(--tc-accent) 10%,#687582 90%) 10%,
-    color-mix(in srgb,var(--tc-accent) 8%,#d2d8de 92%) 20%,
-    color-mix(in srgb,var(--tc-accent) 10%,#75828f 90%) 60%
+    color-mix(in srgb,var(--tc-accent) 28%,#687582 72%) 10%,
+    color-mix(in srgb,var(--tc-accent) 22%,#d2d8de 78%) 20%,
+    color-mix(in srgb,var(--tc-accent) 28%,#75828f 72%) 60%
   );
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.52),0 1px 1px rgba(44,67,84,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.46),0 1px 1px color-mix(in srgb,var(--tc-accent) 14%,rgba(44,67,84,.18) 86%);
   transform:translateX(0);
   transition:transform .18s ease,color .18s ease;
 }
