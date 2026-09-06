@@ -41,9 +41,12 @@
   --tc-shadow:color-mix(in srgb,var(--tc-base) 24%,black 76%);
   --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect) 18%,var(--tc-text-main) 82%);
   --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 86%,black 14%);
-  --tc-groove-outer:var(--tc-panel);
-  --tc-groove-inner:var(--tc-panel-2);
-  --tc-groove-border:var(--tc-border-color);
+
+  /* Dark Slider uses the exact same groove colors as the OFF BoolSwitch. Keep these
+   * tokens tied to the switch material so the two controls cannot drift apart again. */
+  --tc-groove-outer:color-mix(in srgb,var(--tc-panel) 72%,#526583 28%);
+  --tc-groove-inner:color-mix(in srgb,var(--tc-base) 78%,#31405f 22%);
+  --tc-groove-border:color-mix(in srgb,var(--tc-border-color) 78%,transparent);
 }
 
 .tc-theme[data-mode="light"],:root[data-tc-mode="light"]{
