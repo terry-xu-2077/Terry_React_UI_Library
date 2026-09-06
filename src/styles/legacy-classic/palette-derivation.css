@@ -2,8 +2,9 @@
  * Derived palette roles from the five public channels.
  *
  * Components do not own colors. They receive --tc-base / --tc-accent / --tc-effect /
- * --tc-text-main / --tc-text-bright and derive local lightness, saturation and opacity.
- * Optional semantic tone inputs also default to those same public channels.
+ * --tc-text-main / --tc-text-bright and derive local lightness, hue, saturation and
+ * opacity. Every color-mix uses two colors only so the declaration remains valid in
+ * Chromium/WebView2 and cannot fall back to stale root defaults.
  */
 :root,
 .tc-theme{
@@ -13,54 +14,55 @@
   --tc-tone-neutral:var(--tc-base);
 
   --tc-accent-contrast:var(--tc-text-main);
-  --tc-good:color-mix(in srgb,var(--tc-accent) 72%,var(--tc-text-bright) 28%);
-  --tc-warn:color-mix(in srgb,var(--tc-effect) 62%,var(--tc-text-bright) 38%);
-  --tc-danger:color-mix(in srgb,var(--tc-accent) 58%,var(--tc-effect) 42%);
+  --tc-good:color-mix(in oklab,var(--tc-accent) 72%,var(--tc-text-bright) 28%);
+  --tc-warn:color-mix(in oklab,var(--tc-effect) 62%,var(--tc-text-bright) 38%);
+  --tc-danger:color-mix(in oklab,var(--tc-accent) 58%,var(--tc-effect) 42%);
 
-  --tc-header-accent:linear-gradient(30deg,color-mix(in srgb,var(--tc-accent) 72%,black 28%),color-mix(in srgb,var(--tc-accent) 82%,white 18%));
-  --tc-header-blue:linear-gradient(30deg,color-mix(in srgb,var(--tc-tone-blue) 72%,black 28%),color-mix(in srgb,var(--tc-tone-blue) 78%,white 22%));
-  --tc-header-red:linear-gradient(30deg,color-mix(in srgb,var(--tc-tone-red) 72%,black 28%),color-mix(in srgb,var(--tc-tone-red) 78%,white 22%));
-  --tc-header-purple:linear-gradient(30deg,color-mix(in srgb,var(--tc-tone-purple) 72%,black 28%),color-mix(in srgb,var(--tc-tone-purple) 78%,white 22%));
-  --tc-header-neutral:linear-gradient(30deg,color-mix(in srgb,var(--tc-tone-neutral) 78%,white 22%),color-mix(in srgb,var(--tc-tone-neutral) 52%,white 48%));
+  --tc-header-accent:linear-gradient(30deg,color-mix(in oklab,var(--tc-accent) 82%,var(--tc-base) 18%),color-mix(in oklab,var(--tc-accent) 78%,var(--tc-effect) 22%));
+  --tc-header-blue:linear-gradient(30deg,color-mix(in oklab,var(--tc-tone-blue) 82%,var(--tc-base) 18%),color-mix(in oklab,var(--tc-tone-blue) 82%,var(--tc-text-bright) 18%));
+  --tc-header-red:linear-gradient(30deg,color-mix(in oklab,var(--tc-tone-red) 82%,var(--tc-base) 18%),color-mix(in oklab,var(--tc-tone-red) 80%,var(--tc-text-bright) 20%));
+  --tc-header-purple:linear-gradient(30deg,color-mix(in oklab,var(--tc-tone-purple) 82%,var(--tc-base) 18%),color-mix(in oklab,var(--tc-tone-purple) 80%,var(--tc-effect) 20%));
+  --tc-header-neutral:linear-gradient(30deg,color-mix(in oklab,var(--tc-tone-neutral) 84%,var(--tc-effect) 16%),color-mix(in oklab,var(--tc-tone-neutral) 72%,var(--tc-text-main) 28%));
 }
 
 .tc-theme[data-mode="dark"],:root[data-tc-mode="dark"]{
-  --tc-bg:color-mix(in srgb,var(--tc-base) 82%,black 18%);
-  --tc-surface:color-mix(in srgb,var(--tc-base) 88%,var(--tc-text-main) 12%);
-  --tc-surface-2:color-mix(in srgb,var(--tc-base) 78%,var(--tc-text-main) 22%);
-  --tc-panel:color-mix(in srgb,var(--tc-base) 84%,var(--tc-text-main) 16%);
-  --tc-panel-2:color-mix(in srgb,var(--tc-base) 92%,black 8%);
-  --tc-control-fill:color-mix(in srgb,var(--tc-base) 76%,var(--tc-text-main) 24%);
-  --tc-panel-focus:color-mix(in srgb,var(--tc-control-fill) 78%,var(--tc-effect) 22%);
-  --tc-border-color:color-mix(in srgb,var(--tc-base) 68%,var(--tc-text-main) 24%,var(--tc-effect) 8%);
-  --tc-line:color-mix(in srgb,var(--tc-base) 76%,var(--tc-text-main) 24%);
-  --tc-row-hover:color-mix(in srgb,var(--tc-base) 78%,var(--tc-accent) 22%);
+  --tc-base-cool:color-mix(in oklab,var(--tc-base) 88%,var(--tc-effect) 12%);
+  --tc-base-accent:color-mix(in oklab,var(--tc-base) 88%,var(--tc-accent) 12%);
+  --tc-bg:color-mix(in oklab,var(--tc-base-cool) 84%,black 16%);
+  --tc-surface:color-mix(in oklab,var(--tc-base-cool) 88%,var(--tc-text-main) 12%);
+  --tc-surface-2:color-mix(in oklab,var(--tc-base-accent) 78%,var(--tc-text-main) 22%);
+  --tc-panel:color-mix(in oklab,var(--tc-base-accent) 84%,var(--tc-text-main) 16%);
+  --tc-panel-2:color-mix(in oklab,var(--tc-base-cool) 92%,black 8%);
+  --tc-control-fill:color-mix(in oklab,var(--tc-base-accent) 76%,var(--tc-text-main) 24%);
+  --tc-panel-focus:color-mix(in oklab,var(--tc-control-fill) 76%,var(--tc-effect) 24%);
+  --tc-border-color:color-mix(in oklab,var(--tc-base-accent) 70%,var(--tc-text-main) 30%);
+  --tc-line:color-mix(in oklab,var(--tc-base-cool) 76%,var(--tc-text-main) 24%);
+  --tc-row-hover:color-mix(in oklab,var(--tc-base-accent) 78%,var(--tc-accent) 22%);
   --tc-shadow:color-mix(in srgb,var(--tc-base) 24%,black 76%);
-  --tc-tooltip-bg:color-mix(in srgb,var(--tc-effect) 18%,var(--tc-text-main) 82%);
+  --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect) 18%,var(--tc-text-main) 82%);
   --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 86%,black 14%);
-  --tc-value-text:var(--tc-text-main);
-  --tc-text-accent:var(--tc-text-main);
 }
 
 .tc-theme[data-mode="light"],:root[data-tc-mode="light"]{
-  --tc-bg:color-mix(in srgb,var(--tc-base) 6%,white 94%);
-  --tc-surface:color-mix(in srgb,var(--tc-base) 18%,white 82%);
-  --tc-surface-2:color-mix(in srgb,var(--tc-base) 27%,white 73%);
-  --tc-panel:color-mix(in srgb,var(--tc-base) 34%,white 66%);
-  --tc-panel-2:color-mix(in srgb,var(--tc-base) 23%,white 77%);
-  --tc-control-fill:color-mix(in srgb,var(--tc-base) 31%,white 69%);
-  --tc-panel-focus:color-mix(in srgb,var(--tc-control-fill) 78%,var(--tc-accent) 22%);
-  --tc-border-color:color-mix(in srgb,var(--tc-base) 54%,var(--tc-effect) 8%,white 38%);
-  --tc-line:color-mix(in srgb,var(--tc-base) 42%,white 58%);
-  --tc-row-hover:color-mix(in srgb,var(--tc-base) 20%,var(--tc-accent) 10%,white 70%);
-  --tc-shadow:color-mix(in srgb,var(--tc-base) 26%,black 18%,transparent 56%);
-  --tc-tooltip-bg:color-mix(in srgb,var(--tc-effect) 16%,white 84%);
+  --tc-base-cool:color-mix(in oklab,var(--tc-base) 84%,var(--tc-effect) 16%);
+  --tc-base-accent:color-mix(in oklab,var(--tc-base) 84%,var(--tc-accent) 16%);
+  --tc-bg:color-mix(in oklab,var(--tc-base-cool) 8%,white 92%);
+  --tc-surface:color-mix(in oklab,var(--tc-base-cool) 22%,white 78%);
+  --tc-surface-2:color-mix(in oklab,var(--tc-base-accent) 31%,white 69%);
+  --tc-panel:color-mix(in oklab,var(--tc-base-accent) 39%,white 61%);
+  --tc-panel-2:color-mix(in oklab,var(--tc-base-cool) 27%,white 73%);
+  --tc-control-fill:color-mix(in oklab,var(--tc-base-accent) 34%,white 66%);
+  --tc-panel-focus:color-mix(in oklab,var(--tc-control-fill) 76%,var(--tc-accent) 24%);
+  --tc-border-color:color-mix(in oklab,var(--tc-base-accent) 58%,white 42%);
+  --tc-line:color-mix(in oklab,var(--tc-base-cool) 48%,white 52%);
+  --tc-row-hover:color-mix(in oklab,var(--tc-base-accent) 24%,white 76%);
+  --tc-shadow:color-mix(in srgb,color-mix(in oklab,var(--tc-base) 74%,black 26%) 44%,transparent 56%);
+  --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect) 16%,white 84%);
   --tc-tooltip-text:var(--tc-text-main);
-  --tc-value-text:var(--tc-text-main);
 }
 
 .tc-text input,.tc-number,.tc-select-button{background:var(--tc-control-fill,var(--tc-panel));color:var(--tc-value-text,var(--tc-text))}
 .tc-text input:focus,.tc-number:focus{color:var(--tc-text-main);background:var(--tc-panel-focus)}
-.tc-select:hover .tc-select-button,.tc-multi:hover .tc-select-button{background:color-mix(in srgb,var(--tc-control-fill,var(--tc-panel)) 76%,var(--tc-accent) 24%);color:var(--tc-text-main)}
-.tc-select.is-open .tc-select-button,.tc-multi.is-open .tc-select-button{background:color-mix(in srgb,var(--tc-control-fill,var(--tc-panel)) 64%,var(--tc-accent) 36%);color:var(--tc-text-main)}
+.tc-select:hover .tc-select-button,.tc-multi:hover .tc-select-button{background:color-mix(in oklab,var(--tc-control-fill,var(--tc-panel)) 76%,var(--tc-accent) 24%);color:var(--tc-text-main)}
+.tc-select.is-open .tc-select-button,.tc-multi.is-open .tc-select-button{background:color-mix(in oklab,var(--tc-control-fill,var(--tc-panel)) 64%,var(--tc-accent) 36%);color:var(--tc-text-main)}
 .tc-select-item:hover,.tc-check-row:hover{background:var(--tc-row-hover);color:var(--tc-text-main)}
