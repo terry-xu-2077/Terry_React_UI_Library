@@ -1,17 +1,42 @@
-/* Derived palette roles from the five public channels. Keep interaction accents distinct from neutral editing surfaces. */
+/*
+ * Derived palette roles from the five public channels.
+ *
+ * Components do not own colors. They receive --tc-base / --tc-accent / --tc-effect /
+ * --tc-text-main / --tc-text-bright and derive local lightness, saturation and opacity.
+ * Optional semantic tone inputs also default to those same public channels.
+ */
+:root,
+.tc-theme{
+  --tc-tone-blue:var(--tc-effect);
+  --tc-tone-red:var(--tc-accent);
+  --tc-tone-purple:var(--tc-text-bright);
+  --tc-tone-neutral:var(--tc-base);
+
+  --tc-accent-contrast:var(--tc-text-main);
+  --tc-good:color-mix(in srgb,var(--tc-accent) 72%,var(--tc-text-bright) 28%);
+  --tc-warn:color-mix(in srgb,var(--tc-effect) 62%,var(--tc-text-bright) 38%);
+  --tc-danger:color-mix(in srgb,var(--tc-accent) 58%,var(--tc-effect) 42%);
+
+  --tc-header-accent:linear-gradient(30deg,color-mix(in srgb,var(--tc-accent) 72%,black 28%),color-mix(in srgb,var(--tc-accent) 82%,white 18%));
+  --tc-header-blue:linear-gradient(30deg,color-mix(in srgb,var(--tc-tone-blue) 72%,black 28%),color-mix(in srgb,var(--tc-tone-blue) 78%,white 22%));
+  --tc-header-red:linear-gradient(30deg,color-mix(in srgb,var(--tc-tone-red) 72%,black 28%),color-mix(in srgb,var(--tc-tone-red) 78%,white 22%));
+  --tc-header-purple:linear-gradient(30deg,color-mix(in srgb,var(--tc-tone-purple) 72%,black 28%),color-mix(in srgb,var(--tc-tone-purple) 78%,white 22%));
+  --tc-header-neutral:linear-gradient(30deg,color-mix(in srgb,var(--tc-tone-neutral) 78%,white 22%),color-mix(in srgb,var(--tc-tone-neutral) 52%,white 48%));
+}
+
 .tc-theme[data-mode="dark"],:root[data-tc-mode="dark"]{
   --tc-bg:color-mix(in srgb,var(--tc-base) 82%,black 18%);
-  --tc-surface:color-mix(in srgb,var(--tc-base) 78%,#132642 22%);
-  --tc-surface-2:color-mix(in srgb,var(--tc-base) 67%,#263958 33%);
-  --tc-panel:color-mix(in srgb,var(--tc-base) 61%,#344463 39%);
-  --tc-panel-2:color-mix(in srgb,var(--tc-base) 80%,#18243b 20%);
-  --tc-control-fill:color-mix(in srgb,var(--tc-base) 50%,#3a4667 50%);
+  --tc-surface:color-mix(in srgb,var(--tc-base) 88%,var(--tc-text-main) 12%);
+  --tc-surface-2:color-mix(in srgb,var(--tc-base) 78%,var(--tc-text-main) 22%);
+  --tc-panel:color-mix(in srgb,var(--tc-base) 84%,var(--tc-text-main) 16%);
+  --tc-panel-2:color-mix(in srgb,var(--tc-base) 92%,black 8%);
+  --tc-control-fill:color-mix(in srgb,var(--tc-base) 76%,var(--tc-text-main) 24%);
   --tc-panel-focus:color-mix(in srgb,var(--tc-control-fill) 78%,var(--tc-effect) 22%);
-  --tc-border-color:color-mix(in srgb,#7080a4 52%,var(--tc-effect) 12%,var(--tc-base) 36%);
-  --tc-line:color-mix(in srgb,#536783 54%,var(--tc-base) 46%);
-  --tc-row-hover:color-mix(in srgb,var(--tc-base) 69%,var(--tc-accent) 16%,#31405d 15%);
+  --tc-border-color:color-mix(in srgb,var(--tc-base) 68%,var(--tc-text-main) 24%,var(--tc-effect) 8%);
+  --tc-line:color-mix(in srgb,var(--tc-base) 76%,var(--tc-text-main) 24%);
+  --tc-row-hover:color-mix(in srgb,var(--tc-base) 78%,var(--tc-accent) 22%);
   --tc-shadow:color-mix(in srgb,var(--tc-base) 24%,black 76%);
-  --tc-tooltip-bg:color-mix(in srgb,#b8cdf7 88%,var(--tc-effect) 12%);
+  --tc-tooltip-bg:color-mix(in srgb,var(--tc-effect) 18%,var(--tc-text-main) 82%);
   --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 86%,black 14%);
   --tc-value-text:var(--tc-text-main);
   --tc-text-accent:var(--tc-text-main);
@@ -23,7 +48,7 @@
   --tc-surface-2:color-mix(in srgb,var(--tc-base) 27%,white 73%);
   --tc-panel:color-mix(in srgb,var(--tc-base) 34%,white 66%);
   --tc-panel-2:color-mix(in srgb,var(--tc-base) 23%,white 77%);
-  --tc-control-fill:color-mix(in srgb,var(--tc-base) 31%,#eef4fb 69%);
+  --tc-control-fill:color-mix(in srgb,var(--tc-base) 31%,white 69%);
   --tc-panel-focus:color-mix(in srgb,var(--tc-control-fill) 78%,var(--tc-accent) 22%);
   --tc-border-color:color-mix(in srgb,var(--tc-base) 54%,var(--tc-effect) 8%,white 38%);
   --tc-line:color-mix(in srgb,var(--tc-base) 42%,white 58%);

@@ -1,5 +1,6 @@
 @import "./styles/legacy-classic/theme.css";
 @import "./styles/legacy-classic/theme-system.css";
+@import "./styles/legacy-classic/palette-derivation.css";
 @import "./styles/legacy-classic/theme-context.css";
 @import "./styles/legacy-classic/motion.css";
 @import "./styles/legacy-classic/slider.css";
