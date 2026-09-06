@@ -1,0 +1,12 @@
+.tc-gradient-surface{
+  --tc-gradient-start:color-mix(in srgb,var(--tc-accent) 42%,var(--tc-panel) 58%);
+  --tc-gradient-end:color-mix(in srgb,var(--tc-base) 76%,var(--tc-panel) 24%);
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(105deg,var(--tc-gradient-start),var(--tc-gradient-end));
+}
+.tc-gradient-surface.tone-blue{--tc-gradient-start:#285fae;--tc-gradient-end:#3184d9}
+.tc-gradient-surface.tone-red{--tc-gradient-start:#8a3038;--tc-gradient-end:#b0434c}
+.tc-gradient-surface.tone-purple{--tc-gradient-start:#5d3994;--tc-gradient-end:#7950ba}
+.tc-gradient-surface.tone-neutral{--tc-gradient-start:color-mix(in srgb,var(--tc-panel-2) 90%,#8090a0 10%);--tc-gradient-end:var(--tc-panel)}
+.tc-gradient-surface.tone-accent{--tc-gradient-start:color-mix(in srgb,var(--tc-accent) 52%,var(--tc-panel) 48%);--tc-gradient-end:color-mix(in srgb,var(--tc-base) 72%,var(--tc-panel) 28%)}
