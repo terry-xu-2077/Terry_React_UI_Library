@@ -9,6 +9,12 @@
   padding-top:0!important;
   padding-bottom:0!important;
   line-height:1!important;
+  /* Never expose the browser/OS native focus color: it is outside the theme palette. */
+  outline:none!important;
+}
+.tc-select-button:focus-visible{
+  border-color:var(--tc-accent)!important;
+  box-shadow:0 0 0 2px color-mix(in srgb,var(--tc-accent) 28%,transparent)!important;
 }
 
 /*
