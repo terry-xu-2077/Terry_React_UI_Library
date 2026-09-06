@@ -49,3 +49,16 @@
   --tc-header-purple:linear-gradient(30deg,color-mix(in oklab,var(--tc-tone-purple) 82%,var(--tc-base) 18%),color-mix(in oklab,var(--tc-tone-purple) 80%,var(--tc-effect) 20%));
   --tc-header-neutral:linear-gradient(30deg,color-mix(in oklab,var(--tc-tone-neutral) 84%,var(--tc-effect) 16%),color-mix(in oklab,var(--tc-tone-neutral) 72%,var(--tc-text-main) 28%));
 }
+
+/*
+ * Idle light controls must visibly use the light control fill too. A generic rule in
+ * theme.css historically paints TextField/Select/number surfaces with --tc-panel. The
+ * hover rule has higher contextual specificity, which is why the previous change only
+ * appeared while hovering. Keep this mode-specific component rule after the base theme
+ * so the idle state uses --tc-control-fill as designed, without !important overrides.
+ */
+.tc-theme[data-mode="light"] .tc-text input,
+.tc-theme[data-mode="light"] .tc-number,
+.tc-theme[data-mode="light"] .tc-select-button{
+  background:var(--tc-control-fill,var(--tc-panel));
+}
