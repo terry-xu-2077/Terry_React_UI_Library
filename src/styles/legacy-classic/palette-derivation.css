@@ -57,8 +57,12 @@
   --tc-surface-2:color-mix(in oklab,var(--tc-base-accent) 31%,white 69%);
   --tc-panel:color-mix(in oklab,var(--tc-base-accent) 39%,white 61%);
   --tc-panel-2:color-mix(in oklab,var(--tc-base-cool) 27%,white 73%);
-  --tc-control-fill:color-mix(in oklab,var(--tc-base-accent) 34%,white 66%);
-  --tc-panel-focus:color-mix(in oklab,var(--tc-control-fill) 76%,var(--tc-accent) 24%);
+
+  /* Editing fields must read clearly brighter than the low-contrast workspace surface.
+   * Keep a faint palette tint, but let white dominate so TextField / Select / numeric
+   * editors visibly separate from parameter rows in light mode. */
+  --tc-control-fill:color-mix(in oklab,var(--tc-base-accent) 16%,white 84%);
+  --tc-panel-focus:color-mix(in oklab,var(--tc-control-fill) 80%,var(--tc-accent) 20%);
   --tc-border-color:color-mix(in oklab,var(--tc-base-accent) 58%,white 42%);
   --tc-line:color-mix(in oklab,var(--tc-base-cool) 48%,white 52%);
   --tc-row-hover:color-mix(in oklab,var(--tc-base-accent) 24%,white 76%);
