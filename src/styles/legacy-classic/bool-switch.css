@@ -87,24 +87,18 @@
 }
 
 /*
- * ON darkens the groove while keeping a literal --tc-accent centerline untouched.
- * The exposed centerline therefore becomes the brightest part of the active slot.
+ * ON darkens the outer groove bands while preserving the original 29%-71% center-band
+ * geometry. That existing middle band stays literal --tc-accent; no extra thin line is
+ * layered on top, so the visual thickness is exactly the same as the original switch.
  */
 .tc-legacy-switch.is-on{
   border-color:color-mix(in srgb,var(--tc-accent) 70%,var(--tc-border-color));
-  background:
-    linear-gradient(
-      0deg,
-      transparent calc(50% - 1px),
-      var(--tc-accent) calc(50% - 1px) calc(50% + 1px),
-      transparent calc(50% + 1px)
-    ),
-    linear-gradient(
-      0deg,
-      color-mix(in srgb,var(--tc-accent) 38%,var(--tc-panel) 62%) 0 29%,
-      color-mix(in srgb,var(--tc-accent) 48%,var(--tc-base) 52%) 29% 71%,
-      color-mix(in srgb,var(--tc-accent) 38%,var(--tc-panel) 62%) 71% 100%
-    );
+  background:linear-gradient(
+    0deg,
+    color-mix(in srgb,var(--tc-accent) 38%,var(--tc-panel) 62%) 0 29%,
+    var(--tc-accent) 29% 71%,
+    color-mix(in srgb,var(--tc-accent) 38%,var(--tc-panel) 62%) 71% 100%
+  );
   box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 11%,transparent),inset 0 -1px 0 color-mix(in srgb,#000 20%,transparent),0 0 7px color-mix(in srgb,var(--tc-accent) 18%,transparent);
 }
 
@@ -116,19 +110,12 @@
 }
 .tc-theme[data-mode="light"] .tc-legacy-switch.is-on{
   border-color:color-mix(in srgb,var(--tc-accent) 66%,#8ea8b7 34%);
-  background:
-    linear-gradient(
-      0deg,
-      transparent calc(50% - 1px),
-      var(--tc-accent) calc(50% - 1px) calc(50% + 1px),
-      transparent calc(50% + 1px)
-    ),
-    linear-gradient(
-      0deg,
-      color-mix(in srgb,var(--tc-accent) 32%,#b8c8d1 68%) 0 29%,
-      color-mix(in srgb,var(--tc-accent) 44%,#8fa5b1 56%) 29% 71%,
-      color-mix(in srgb,var(--tc-accent) 32%,#b8c8d1 68%) 71% 100%
-    );
+  background:linear-gradient(
+    0deg,
+    color-mix(in srgb,var(--tc-accent) 32%,#b8c8d1 68%) 0 29%,
+    var(--tc-accent) 29% 71%,
+    color-mix(in srgb,var(--tc-accent) 32%,#b8c8d1 68%) 71% 100%
+  );
   box-shadow:inset 0 1px 0 rgba(255,255,255,.30),inset 0 -1px 0 rgba(61,84,101,.16),0 0 7px color-mix(in srgb,var(--tc-accent) 16%,transparent);
 }
 
