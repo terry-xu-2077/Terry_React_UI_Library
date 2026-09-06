@@ -41,6 +41,9 @@
   --tc-shadow:color-mix(in srgb,var(--tc-base) 24%,black 76%);
   --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect) 18%,var(--tc-text-main) 82%);
   --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 86%,black 14%);
+  --tc-groove-outer:var(--tc-panel);
+  --tc-groove-inner:var(--tc-panel-2);
+  --tc-groove-border:var(--tc-border-color);
 }
 
 .tc-theme[data-mode="light"],:root[data-tc-mode="light"]{
@@ -59,6 +62,13 @@
   --tc-shadow:color-mix(in srgb,color-mix(in oklab,var(--tc-base) 74%,black 26%) 44%,transparent 56%);
   --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect) 16%,white 84%);
   --tc-tooltip-text:var(--tc-text-main);
+
+  /* Light controls need a visibly recessed groove even when the surrounding surface
+   * ladder is intentionally low-contrast. Slider and OFF BoolSwitch share these exact
+   * three tokens so their empty tracks always read as the same material. */
+  --tc-groove-outer:color-mix(in oklab,var(--tc-base) 66%,white 34%);
+  --tc-groove-inner:color-mix(in oklab,var(--tc-base) 82%,var(--tc-effect) 18%);
+  --tc-groove-border:color-mix(in oklab,var(--tc-base) 62%,var(--tc-effect) 38%);
 }
 
 .tc-text input,.tc-number,.tc-select-button{background:var(--tc-control-fill,var(--tc-panel));color:var(--tc-value-text,var(--tc-text))}
