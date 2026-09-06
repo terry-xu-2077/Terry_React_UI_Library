@@ -13,10 +13,9 @@
 }
 
 /*
- * The outer 2px border is the only inset around the moving block. The knob itself fills
- * the whole inner track (22px high), so there is no second padded ring between block and
- * slot. Width remains component-owned and works identically for the default and custom
- * width props.
+ * The outer 2px border is the only inset around the moving block. The moving block stays
+ * silver in both states; state is communicated by the slot instead. Width remains
+ * component-owned and works identically for the default and custom width props.
  */
 .tc-legacy-switch{
   all:unset;
@@ -37,6 +36,7 @@
     color-mix(in srgb,var(--tc-panel) 72%,#526583 28%) 71% 100%
   );
   box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 9%,transparent),inset 0 -1px 0 color-mix(in srgb,#000 18%,transparent);
+  transition:border-color .18s ease,background .18s ease,box-shadow .18s ease;
 }
 .tc-legacy-switch:hover{
   border-color:color-mix(in srgb,var(--tc-accent) 54%,var(--tc-border-color));
@@ -49,6 +49,9 @@
  * lose that cascade even when the component itself uses `all: unset`, because the
  * consumer selector is more specific and is loaded later. Keep all knob geometry owned
  * by the component so surrounding typography/layout rules cannot move it vertically.
+ *
+ * The silver recipe is based on the previous light-mode OFF block, with only a subtle
+ * accent tint. It is deliberately identical for OFF and ON.
  */
 .tc-control-wrap.tc-bool-wrap .tc-legacy-switch-knob{
   all:unset;
@@ -61,44 +64,53 @@
   display:flex;
   align-items:center;
   justify-content:center;
-  border:1px solid color-mix(in srgb,#fff 28%,transparent);
+  border:1px solid color-mix(in srgb,var(--tc-accent) 10%,#fff 90%);
   border-radius:3px;
   font:700 10px/1 system-ui,-apple-system,"Segoe UI",sans-serif;
   white-space:nowrap;
   overflow:hidden;
-  color:#d8e0ec;
-  background:linear-gradient(90deg,#4b5568 10%,#a5a5a5 20%,#4b5568 60%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 1px 1px rgba(0,0,0,.14);
+  color:#40566a;
+  background:linear-gradient(
+    90deg,
+    color-mix(in srgb,var(--tc-accent) 10%,#7f8b98 90%) 10%,
+    color-mix(in srgb,var(--tc-accent) 8%,#f1f4f7 92%) 20%,
+    color-mix(in srgb,var(--tc-accent) 10%,#8a97a5 90%) 60%
+  );
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.62),0 1px 1px rgba(44,67,84,.14);
   transform:translateX(0);
-  transition:transform .18s ease,background .18s ease,color .18s ease,border-color .18s ease;
+  transition:transform .18s ease;
 }
 .tc-legacy-switch.is-on .tc-legacy-switch-knob{
   transform:translateX(100%);
-  color:rgba(255,255,255,.9);
-  border-color:rgba(255,255,255,.24);
-  background:linear-gradient(
-    90deg,
-    color-mix(in srgb,var(--tc-accent) 78%,black 22%) 60%,
-    color-mix(in srgb,var(--tc-accent) 62%,white 38%) 80%,
-    color-mix(in srgb,var(--tc-accent) 78%,black 22%) 90%
-  );
 }
 
-/* Light mode preserves the exact same geometry and relief direction. */
+/* ON highlights the groove/slot rather than recoloring the moving silver block. */
+.tc-legacy-switch.is-on{
+  border-color:color-mix(in srgb,var(--tc-accent) 76%,var(--tc-border-color));
+  background:linear-gradient(
+    0deg,
+    color-mix(in srgb,var(--tc-accent) 64%,var(--tc-panel) 36%) 0 29%,
+    color-mix(in srgb,var(--tc-accent) 88%,var(--tc-base) 12%) 29% 71%,
+    color-mix(in srgb,var(--tc-accent) 64%,var(--tc-panel) 36%) 71% 100%
+  );
+  box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 16%,transparent),inset 0 -1px 0 color-mix(in srgb,#000 15%,transparent),0 0 8px color-mix(in srgb,var(--tc-accent) 24%,transparent);
+}
+
+/* Light mode keeps its existing OFF slot while sharing the same silver moving block. */
 .tc-theme[data-mode="light"] .tc-legacy-switch{
   border-color:#7f9caf;
   background:linear-gradient(0deg,#d7e2ea 0 29%,#aebfcb 29% 71%,#d7e2ea 71% 100%);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.72),inset 0 -1px 0 rgba(61,84,101,.14);
 }
-.tc-theme[data-mode="light"] .tc-legacy-switch-knob{
-  color:#40566a;
-  border-color:rgba(255,255,255,.56);
-  background:linear-gradient(90deg,#7f8b98 10%,#f1f4f7 20%,#8a97a5 60%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.62),0 1px 1px rgba(44,67,84,.12);
-}
-.tc-theme[data-mode="light"] .tc-legacy-switch.is-on .tc-legacy-switch-knob{
-  color:#fff;
-  background:linear-gradient(90deg,#137d70 60%,#43d2bd 80%,#168a7b 90%);
+.tc-theme[data-mode="light"] .tc-legacy-switch.is-on{
+  border-color:color-mix(in srgb,var(--tc-accent) 74%,#7f9caf 26%);
+  background:linear-gradient(
+    0deg,
+    color-mix(in srgb,var(--tc-accent) 62%,#d7e2ea 38%) 0 29%,
+    color-mix(in srgb,var(--tc-accent) 86%,#aebfcb 14%) 29% 71%,
+    color-mix(in srgb,var(--tc-accent) 62%,#d7e2ea 38%) 71% 100%
+  );
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.38),inset 0 -1px 0 rgba(61,84,101,.12),0 0 8px color-mix(in srgb,var(--tc-accent) 20%,transparent);
 }
 
-@media(prefers-reduced-motion:reduce){.tc-legacy-switch-knob{transition:none}}
+@media(prefers-reduced-motion:reduce){.tc-legacy-switch,.tc-legacy-switch-knob{transition:none}}
