@@ -2,6 +2,19 @@
 .tc-slider .tc-range{flex:1 1 auto!important;width:auto!important;min-width:0!important}
 .tc-slider .tc-number{flex:0 0 50px!important;width:50px!important}
 
+/* Slider and OFF BoolSwitch share one groove material. The light theme deliberately
+ * keeps page surfaces subtle, so the groove gets its own stronger recessed contrast. */
+.tc-slider{
+  border-color:var(--tc-groove-border,var(--tc-border-color))!important;
+  background:linear-gradient(
+    0deg,
+    var(--tc-groove-outer,var(--tc-panel)) 30%,
+    var(--tc-groove-inner,var(--tc-panel-2)) 26%,
+    var(--tc-groove-inner,var(--tc-panel-2)) 74%,
+    var(--tc-groove-outer,var(--tc-panel)) 70%
+  )!important;
+}
+
 /* Hardware detail: a true centered 2x3 dot matrix tied to the thumb box, not fixed pixels. */
 .tc-slider .tc-range::-webkit-slider-thumb{
   border:1px solid color-mix(in srgb,var(--tc-base) 34%,var(--tc-border-color) 38%,transparent 28%)!important;
