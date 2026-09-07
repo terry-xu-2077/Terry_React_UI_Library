@@ -70,12 +70,12 @@
   --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect) 16%,white 84%);
   --tc-tooltip-text:var(--tc-text-main);
 
-  /* Light controls need a visibly recessed groove even when the surrounding surface
-   * ladder is intentionally low-contrast. Slider and OFF BoolSwitch share these exact
-   * three tokens so their empty tracks always read as the same material. */
-  --tc-groove-outer:color-mix(in oklab,var(--tc-base) 66%,white 34%);
-  --tc-groove-inner:color-mix(in oklab,var(--tc-base) 82%,var(--tc-effect) 18%);
-  --tc-groove-border:color-mix(in oklab,var(--tc-base) 62%,var(--tc-effect) 38%);
+  /* Slider and OFF BoolSwitch share one light groove material. White dominates both
+   * bands so the groove stays subtle on pale editor surfaces, while Base supplies just
+   * enough blue-gray structure to keep the recessed hardware read. */
+  --tc-groove-outer:color-mix(in oklab,var(--tc-base) 18%,white 82%);
+  --tc-groove-inner:color-mix(in oklab,var(--tc-base) 34%,white 66%);
+  --tc-groove-border:color-mix(in oklab,var(--tc-base) 38%,white 62%);
 }
 
 .tc-text input,.tc-number,.tc-select-button{background:var(--tc-control-fill,var(--tc-panel));color:var(--tc-value-text,var(--tc-text))}
