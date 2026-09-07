@@ -104,18 +104,16 @@
   box-shadow:inset 0 1px 0 color-mix(in srgb,#fff 11%,transparent),inset 0 -1px 0 color-mix(in srgb,#000 20%,transparent),0 0 7px color-mix(in srgb,var(--tc-accent) 18%,transparent);
 }
 
-/* Light-mode OFF is intentionally shallower than Slider. A switch is a compact binary
- * control, so a heavily recessed empty half reads too dark next to light TextField and
- * Select surfaces. Keep only a soft blue-gray channel: white owns both bands while Base
- * supplies enough structure for the groove to remain visible. */
+/* OFF uses exactly the same groove material as Slider in every mode. The shared
+ * --tc-groove-* tokens own the material; component CSS owns only geometry/shadow. */
 .tc-theme[data-mode="light"] .tc-legacy-switch:not(.is-on){
-  border-color:color-mix(in oklab,var(--tc-base) 38%,white 62%);
+  border-color:var(--tc-groove-border,var(--tc-border-color));
   background:linear-gradient(
     0deg,
-    color-mix(in oklab,var(--tc-base) 18%,white 82%) 30%,
-    color-mix(in oklab,var(--tc-base) 34%,white 66%) 26%,
-    color-mix(in oklab,var(--tc-base) 34%,white 66%) 74%,
-    color-mix(in oklab,var(--tc-base) 18%,white 82%) 70%
+    var(--tc-groove-outer,var(--tc-panel)) 30%,
+    var(--tc-groove-inner,var(--tc-panel-2)) 26%,
+    var(--tc-groove-inner,var(--tc-panel-2)) 74%,
+    var(--tc-groove-outer,var(--tc-panel)) 70%
   );
   box-shadow:inset 0 1px 0 rgba(255,255,255,.72),inset 0 -1px 0 rgba(61,84,101,.05);
 }
