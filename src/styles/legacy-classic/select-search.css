@@ -1,8 +1,8 @@
 .tc-select-list{min-width:240px;max-width:min(360px,70vw)}
-.tc-select.opens-up .tc-select-list{top:auto;bottom:calc(100% + 6px)}
-.tc-control-wrap:has(.tc-select.is-open){z-index:2200}
-.tc-select.is-open{z-index:2201}
-.tc-select.is-open .tc-pop{z-index:2202}
+.tc-select.opens-up .tc-select-list,.tc-multi.opens-up .tc-pop{top:auto;bottom:calc(100% + 6px)}
+.tc-control-wrap:has(.tc-select.is-open),.tc-control-wrap:has(.tc-multi.is-open){z-index:2200}
+.tc-select.is-open,.tc-multi.is-open{z-index:2201}
+.tc-select.is-open .tc-pop,.tc-multi.is-open .tc-pop{z-index:2202}
 .tc-select-button{
   display:flex!important;
   align-items:center!important;
