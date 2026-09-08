@@ -9,6 +9,7 @@ export type SliderProps = {
   step?: number;
   onChange: (value: number) => void;
   disabled?: boolean;
+  orientation?: "horizontal" | "vertical";
   /**
    * The slider track is an editing aid, not necessarily a hard validation range.
    * When enabled, the numeric input may contain values below `min` or above `max`.
@@ -35,6 +36,7 @@ export function Slider({
   step = 1,
   onChange,
   disabled,
+  orientation = "horizontal",
   allowOutOfRangeInput = false,
 }: SliderProps) {
   const [draftValue, setDraftValue] = useState(value);
@@ -93,9 +95,10 @@ export function Slider({
 
   const changed = rawValue !== undefined && draftValue !== rawValue;
   const trackValue = Number.isFinite(draftValue) ? clampToTrack(draftValue, min, max) : min;
+  const vertical = orientation === "vertical";
 
-  return <div className="tc-control-wrap" onPointerUp={emitLatest} onKeyUp={emitLatest} onBlur={emitLatest}>
-    <div className="tc-control tc-slider">
+  return <div className={`tc-control-wrap ${vertical ? "tc-control-wrap-vertical" : ""}`} onPointerUp={emitLatest} onKeyUp={emitLatest} onBlur={emitLatest}>
+    <div className={`tc-control tc-slider ${vertical ? "tc-slider-vertical" : ""}`}>
       <input className="tc-range" disabled={disabled} type="range" min={min} max={max} step={step} value={trackValue} onChange={event => updateDraft(Number(event.target.value))}/>
       <input className="tc-number" disabled={disabled} type="number" min={allowOutOfRangeInput ? undefined : min} max={allowOutOfRangeInput ? undefined : max} step={step} value={draftValue} onChange={event => updateDraft(Number(event.target.value))}/>
     </div>
