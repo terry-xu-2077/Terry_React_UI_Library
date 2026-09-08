@@ -15,6 +15,44 @@
   )!important;
 }
 
+.tc-control-wrap-vertical{width:max-content!important;min-width:0!important}
+.tc-slider.tc-slider-vertical{
+  width:54px!important;
+  min-width:54px!important;
+  height:auto!important;
+  min-height:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:6px!important;
+  padding:7px 5px 5px!important;
+  background:linear-gradient(
+    90deg,
+    var(--tc-groove-outer,var(--tc-panel)) 30%,
+    var(--tc-groove-inner,var(--tc-panel-2)) 26%,
+    var(--tc-groove-inner,var(--tc-panel-2)) 74%,
+    var(--tc-groove-outer,var(--tc-panel)) 70%
+  )!important;
+}
+.tc-slider.tc-slider-vertical .tc-range{
+  flex:0 0 132px!important;
+  width:18px!important;
+  min-width:18px!important;
+  height:132px!important;
+  min-height:132px!important;
+  writing-mode:vertical-lr;
+  direction:rtl;
+}
+.tc-slider.tc-slider-vertical .tc-number{
+  flex:0 0 auto!important;
+  width:50px!important;
+  min-width:50px!important;
+  height:26px!important;
+  text-align:center!important;
+  padding-inline:4px!important;
+}
+
 /* Hardware detail: a true centered 2x3 dot matrix tied to the thumb box, not fixed pixels. */
 .tc-slider .tc-range::-webkit-slider-thumb{
   border:1px solid color-mix(in srgb,var(--tc-base) 34%,var(--tc-border-color) 38%,transparent 28%)!important;
