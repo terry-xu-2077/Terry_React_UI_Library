@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown, X } from "lucide-react";
 import { ResetButton } from "../ResetButton";
 
@@ -41,6 +41,7 @@ function resolvedIcon(option: VisualOptionItem) {
 export function MultiSelect({ values, rawValues, options, onChange, title = "选择项目", disabled, mode = "menu", confirmLabel = "确定", closeLabel = "关闭" }: MultiSelectProps) {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<string[]>(values);
+  const [placement, setPlacement] = useState<"down" | "up">("down");
   const ref = useRef<HTMLDivElement>(null);
   const isConfirm = mode === "confirm";
   const shownValues = isConfirm && open ? draft : values;
@@ -59,6 +60,19 @@ export function MultiSelect({ values, rawValues, options, onChange, title = "选
     return () => document.removeEventListener("mousedown", closePicker);
   }, [open, isConfirm]);
 
+  useLayoutEffect(() => {
+    if (!open || !ref.current) return;
+    const host = ref.current.querySelector<HTMLElement>(".tc-multi");
+    const popup = ref.current.querySelector<HTMLElement>(".tc-pop");
+    if (!host || !popup) return;
+    const rect = host.getBoundingClientRect();
+    const popupHeight = Math.min(popup.scrollHeight, popup.getBoundingClientRect().height || 320);
+    const gap = 8;
+    const below = window.innerHeight - rect.bottom - gap;
+    const above = rect.top - gap;
+    setPlacement(below < popupHeight && above > below ? "up" : "down");
+  }, [open, options.length, mode]);
+
   const openPicker = () => {
     if (disabled) return;
     if (!open && isConfirm) setDraft(values);
@@ -72,7 +86,7 @@ export function MultiSelect({ values, rawValues, options, onChange, title = "选
   const confirm = () => { onChange(draft); setOpen(false); };
   const close = () => { setDraft(values); setOpen(false); };
 
-  return <div className="tc-control-wrap tc-visual-multi-wrap" ref={ref}><div className={`tc-control tc-multi tc-visual-multi ${open ? "is-open" : ""} mode-${mode}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={openPicker}><span>{labels || "未选择"}</span><ChevronDown size={20}/></button>{open && <div className="tc-pop tc-picker tc-pop-in tc-visual-picker"><div className="tc-picker-title">{title}</div><div className="tc-picker-body tc-visual-picker-body">{options.map(option => {
+  return <div className="tc-control-wrap tc-visual-multi-wrap" ref={ref}><div className={`tc-control tc-multi tc-visual-multi ${open ? "is-open" : ""} ${open && placement === "up" ? "opens-up" : ""} mode-${mode}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={openPicker}><span>{labels || "未选择"}</span><ChevronDown size={20}/></button>{open && <div className="tc-pop tc-picker tc-pop-in tc-visual-picker"><div className="tc-picker-title">{title}</div><div className="tc-picker-body tc-visual-picker-body">{options.map(option => {
     const checked = shownValues.includes(option.value);
     const icon = resolvedIcon(option);
     return <label className={`tc-check-row tc-visual-check-row ${icon ? "has-icon" : ""}`} key={option.value}><input type="checkbox" value={option.value} checked={checked} onChange={() => toggle(option.value)}/><span className="tc-check-box">{checked && <Check size={13}/>}</span>{icon && <span className="tc-option-icon">{icon}</span>}<span className="tc-option-label">{displayLabel(option)}</span>{option.group && <em>{option.group}</em>}</label>;
