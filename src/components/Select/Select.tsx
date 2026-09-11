@@ -1,8 +1,9 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { ChevronDown, Search } from "lucide-react";
 import { ResetButton } from "../ResetButton";
 import { Tooltip } from "../Tooltip";
+import { measurePopupPlacement } from "../internal/popupPlacement";
 import { useOutsideClose } from "../internal/useOutsideClose";
 
 export type OptionItem = { value: string; label?: string; group?: string; icon?: ReactNode };
@@ -29,6 +30,7 @@ export function Select({ value, rawValue, options, onChange, tooltip, disabled, 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [placement, setPlacement] = useState<"down" | "up">("down");
+  const [menuMaxHeight, setMenuMaxHeight] = useState(280);
   const close = () => { setOpen(false); setQuery(""); };
   const ref = useOutsideClose(open, close);
   const selected = options.find(option => option.value === value);
@@ -43,13 +45,19 @@ export function Select({ value, rawValue, options, onChange, tooltip, disabled, 
     if (!open || !ref.current) return;
     const host = ref.current.querySelector<HTMLElement>(".tc-select");
     const popup = ref.current.querySelector<HTMLElement>(".tc-select-list");
-    if (!host || !popup) return;
-    const rect = host.getBoundingClientRect();
-    const popupHeight = Math.min(popup.scrollHeight, popup.getBoundingClientRect().height || 320);
-    const gap = 8;
-    const below = window.innerHeight - rect.bottom - gap;
-    const above = rect.top - gap;
-    setPlacement(below < popupHeight && above > below ? "up" : "down");
+    const scroll = ref.current.querySelector<HTMLElement>(".tc-select-scroll");
+    if (!host || !popup || !scroll) return;
+
+    const popupRect = popup.getBoundingClientRect();
+    const scrollRect = scroll.getBoundingClientRect();
+    const chromeHeight = Math.max(0, popupRect.height - scrollRect.height);
+    const desiredBodyHeight = Math.min(scroll.scrollHeight, 280);
+    const desiredPopupHeight = chromeHeight + desiredBodyHeight;
+    const measured = measurePopupPlacement(host, desiredPopupHeight, 8);
+    const availableBodyHeight = Math.max(0, measured.available - chromeHeight);
+
+    setPlacement(measured.placement);
+    setMenuMaxHeight(Math.floor(Math.min(desiredBodyHeight, availableBodyHeight)));
   }, [open, filtered.length, searchable]);
 
   const toggleOpen = () => {
@@ -58,5 +66,7 @@ export function Select({ value, rawValue, options, onChange, tooltip, disabled, 
     setQuery("");
   };
 
-  return <div className="tc-control-wrap" ref={ref}><Tooltip text={tooltip}><div className={`tc-control tc-select ${open ? "is-open" : ""} ${open && placement === "up" ? "opens-up" : ""}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={toggleOpen}><span className="tc-select-current">{selected?.icon && <span className="tc-option-icon">{selected.icon}</span>}<span>{selected ? optionDisplayLabel(selected) : value}</span></span><ChevronDown size={20}/></button>{open && <div className="tc-pop tc-select-list tc-pop-in">{searchable && <label className="tc-select-search"><Search size={14}/><input autoFocus value={query} onChange={event => setQuery(event.target.value)} placeholder={searchPlaceholder}/></label>}<div className="tc-select-scroll">{filtered.map(option => <button type="button" key={option.value} className={`tc-select-item ${option.value === value ? "is-selected" : ""}`} onClick={() => { onChange(option.value); close(); }}>{option.icon && <span className="tc-option-icon">{option.icon}</span>}<span>{optionDisplayLabel(option)}</span>{option.group && <em>{option.group}</em>}</button>)}{filtered.length === 0 && <div className="tc-select-empty">没有匹配项</div>}</div></div>}</div></Tooltip>{rawValue !== undefined && <ResetButton visible={changed} onClick={() => onChange(rawValue)}/>}</div>;
+  const popupStyle = { "--tc-pop-body-max-height": `${menuMaxHeight}px` } as CSSProperties;
+
+  return <div className="tc-control-wrap" ref={ref}><Tooltip text={tooltip}><div className={`tc-control tc-select ${open ? "is-open" : ""} ${open && placement === "up" ? "opens-up" : ""}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={toggleOpen}><span className="tc-select-current">{selected?.icon && <span className="tc-option-icon">{selected.icon}</span>}<span>{selected ? optionDisplayLabel(selected) : value}</span></span><ChevronDown size={20}/></button>{open && <div className="tc-pop tc-select-list tc-pop-in" style={popupStyle}>{searchable && <label className="tc-select-search"><Search size={14}/><input autoFocus value={query} onChange={event => setQuery(event.target.value)} placeholder={searchPlaceholder}/></label>}<div className="tc-select-scroll">{filtered.map(option => <button type="button" key={option.value} className={`tc-select-item ${option.value === value ? "is-selected" : ""}`} onClick={() => { onChange(option.value); close(); }}>{option.icon && <span className="tc-option-icon">{option.icon}</span>}<span>{optionDisplayLabel(option)}</span>{option.group && <em>{option.group}</em>}</button>)}{filtered.length === 0 && <div className="tc-select-empty">没有匹配项</div>}</div></div>}</div></Tooltip>{rawValue !== undefined && <ResetButton visible={changed} onClick={() => onChange(rawValue)}/>}</div>;
 }
