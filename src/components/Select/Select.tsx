@@ -1,18 +1,13 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useLayoutEffect, useMemo, useState } from "react";
 import { ChevronDown, Search } from "lucide-react";
+import { resolveOptionIconDescriptor } from "../../visual-icons";
 import { ResetButton } from "../ResetButton";
 import { Tooltip } from "../Tooltip";
 import { measurePopupPlacement } from "../internal/popupPlacement";
 import { useOutsideClose } from "../internal/useOutsideClose";
 
 export type OptionItem = { value: string; label?: string; group?: string; icon?: ReactNode };
-
-type SharedOptionIconDescriptor = { className?: string; style?: CSSProperties; node?: ReactNode };
-
-declare global {
-  var __tcOptionIconResolver: undefined | ((value: string) => SharedOptionIconDescriptor | undefined);
-}
 
 export type SelectProps = {
   value: string;
@@ -34,7 +29,7 @@ export function optionDisplayLabel(option: OptionItem) {
 
 function resolvedIcon(option: OptionItem) {
   if (option.icon) return option.icon;
-  const descriptor = globalThis.__tcOptionIconResolver?.(option.value);
+  const descriptor = resolveOptionIconDescriptor(option.value);
   if (!descriptor) return null;
   if (descriptor.node) return descriptor.node;
   return <span className={`tc-resolved-option-icon ${descriptor.className || ""}`.trim()} style={descriptor.style}/>;
