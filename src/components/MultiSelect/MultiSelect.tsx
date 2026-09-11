@@ -1,13 +1,13 @@
 import type { CSSProperties, ReactNode } from "react";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown, X } from "lucide-react";
+import { resolveOptionIconDescriptor } from "../../visual-icons";
 import { ResetButton } from "../ResetButton";
 import { measurePopupPlacement } from "../internal/popupPlacement";
 
 export type VisualOptionItem = { value: string; label?: string; group?: string; icon?: ReactNode };
 export type MultiSelectMode = "menu" | "confirm";
 export type VisualMultiSelectMode = MultiSelectMode;
-export type VisualOptionIconDescriptor = { className?: string; style?: CSSProperties; node?: ReactNode };
 export type MultiSelectProps = {
   values: string[];
   rawValues?: string[];
@@ -21,10 +21,6 @@ export type MultiSelectProps = {
 };
 export type VisualMultiSelectProps = MultiSelectProps;
 
-declare global {
-  var __tcOptionIconResolver: undefined | ((value: string) => VisualOptionIconDescriptor | undefined);
-}
-
 function displayLabel(option: VisualOptionItem) {
   const label = option.label?.trim();
   if (!label) return option.value;
@@ -34,7 +30,7 @@ function displayLabel(option: VisualOptionItem) {
 
 function resolvedIcon(option: VisualOptionItem) {
   if (option.icon) return option.icon;
-  const descriptor = globalThis.__tcOptionIconResolver?.(option.value);
+  const descriptor = resolveOptionIconDescriptor(option.value);
   if (!descriptor) return null;
   if (descriptor.node) return descriptor.node;
   return <span className={`tc-resolved-option-icon ${descriptor.className || ""}`.trim()} style={descriptor.style}/>;
