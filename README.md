@@ -45,6 +45,12 @@ src/
     EntityHeader/
     MultiSelect/
     ...
+  visual-icons/            reusable icon-generation system
+    index.ts               resolver registry + public exports
+    tileIcons.ts           coordinate/sprite-sheet crop generator
+    semanticIcons.tsx      Lucide/open-source semantic icons
+    simpleIcons.tsx        element + text / text-card icons
+    visual-icons.css       shared icon presentation
   styles/legacy-classic/   theme, motion and component visual CSS
     register.ts            single style-pack registration entry
 scripts/
@@ -58,6 +64,18 @@ site-dist/                 generated showcase artifact (not committed)
 ```
 
 `src/components/` is now both the public module boundary and the canonical implementation location. `src/styles/legacy-classic/components.tsx` and `visual-multi-select.tsx` remain only as source compatibility shims; new implementation code must not be added there.
+
+## Visual icon module
+
+The UI library owns the reusable icon engine. Product repositories should only provide product-specific asset coordinates or semantic mappings; they should not duplicate the rendering implementation.
+
+The module intentionally supports three generation paths:
+
+1. **Tile / sprite icons** — `createTileIconStyle()` crops a coordinate cell from a shared image sheet and scales it to the requested display size.
+2. **Open-source semantic icons** — `SemanticIcon` / `createOpenIcon()` render the library's Lucide-backed semantic icon set.
+3. **Simple element + text icons** — `SimpleIcon` / `createSimpleIcon()` provide compact rounded text cards, optionally with a semantic element icon.
+
+`installOptionIconResolver()` lets a host application register its own value-to-icon mapping once. `Select` and `MultiSelect` consume that resolver automatically when an option does not provide an explicit `icon` node.
 
 ## Build
 
@@ -85,7 +103,7 @@ A Git dependency runs `prepare`, so consumers receive the generated `dist` packa
 ## Dependency contract
 
 - `react` and `react-dom` are **peerDependencies**. The consuming application owns the React runtime.
-- `lucide-react` remains a normal runtime dependency because components use its icons internally.
+- `lucide-react` remains a normal runtime dependency because components and the visual-icon module use its icons internally.
 - The package export map points consumers at `dist`, not `src`.
 - CSS is marked as a side effect so bundlers must not tree-shake component styling away.
 - CI installs the current Git SHA into a clean temporary Vite consumer and builds it; this protects the same install path used by Rulesmd Editor.
@@ -112,7 +130,7 @@ The single style registration entry is `src/styles/legacy-classic/register.ts`. 
 - A component bug must be fixed here and verified in the showcase before a product adds a workaround.
 - Broad consumer selectors such as `.panel span`, `.row button` or `.dialog input` are unsafe around shared components.
 - Stateful icon rules must target the icon role itself. Selectors such as `.is-open svg`, `.is-active svg`, or `.control:hover svg` are forbidden because they also mutate nested action/check/status icons. Scope transforms to the trigger icon or an explicit icon class.
-- New component behavior belongs under `src/components/<Component>/`; new visual rules belong in the active style pack.
+- New component behavior belongs under `src/components/<Component>/`; reusable icon generation belongs under `src/visual-icons/`; new visual rules belong in the active style pack or the visual-icon module stylesheet.
 
 The BoolSwitch / Select cascade incident in Rulesmd Editor is the reference red-line case for these rules. The inverted MultiSelect checkmark caused by an open-state descendant `svg` transform is the corresponding icon-scope red-line case.
 
