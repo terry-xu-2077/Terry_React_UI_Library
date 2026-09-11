@@ -1,6 +1,6 @@
 .tc-visual-multi-wrap{position:relative}
 .tc-visual-picker{width:max(320px,100%)!important;min-width:100%!important}
-.tc-visual-picker-body{max-height:320px!important;padding:5px!important}
+.tc-visual-picker-body{max-height:min(320px,var(--tc-pop-body-max-height,320px))!important;padding:5px!important}
 .tc-visual-check-row{min-height:34px!important;grid-template-columns:22px minmax(0,1fr) auto!important;gap:7px!important;padding:3px 6px!important}
 .tc-visual-check-row.has-icon{grid-template-columns:22px 34px minmax(0,1fr) auto!important}
 .tc-visual-check-row .tc-check-box{border-color:color-mix(in srgb,var(--tc-text-muted) 56%,var(--tc-border-color) 44%);background:color-mix(in srgb,var(--tc-panel) 92%,white 8%);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tc-text-muted) 10%,transparent)}
