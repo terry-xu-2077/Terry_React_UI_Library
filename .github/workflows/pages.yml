@@ -40,8 +40,8 @@ jobs:
           test -f dist/index.js
           test -f dist/index.d.ts
           test -f dist/style.css
-          test -f dist/legacy-classic/theme.css
-          test -f dist/legacy-classic/theme-system.css
+          test -f dist/base/theme.css
+          test -f dist/base/theme-system.css
           grep -F 'import "./style.css";' dist/index.js
           npm pack --dry-run
 
@@ -58,6 +58,8 @@ jobs:
           test -f node_modules/terry-react-ui-library/dist/index.js
           test -f node_modules/terry-react-ui-library/dist/index.d.ts
           test -f node_modules/terry-react-ui-library/dist/style.css
+          test -f node_modules/terry-react-ui-library/dist/base/theme.css
+          test -f node_modules/terry-react-ui-library/dist/base/theme-system.css
           cat > index.html <<'EOF'
           <div id="app"></div><script type="module" src="/main.js"></script>
           EOF
