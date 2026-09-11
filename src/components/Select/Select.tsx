@@ -8,6 +8,12 @@ import { useOutsideClose } from "../internal/useOutsideClose";
 
 export type OptionItem = { value: string; label?: string; group?: string; icon?: ReactNode };
 
+type SharedOptionIconDescriptor = { className?: string; style?: CSSProperties; node?: ReactNode };
+
+declare global {
+  var __tcOptionIconResolver: undefined | ((value: string) => SharedOptionIconDescriptor | undefined);
+}
+
 export type SelectProps = {
   value: string;
   rawValue?: string;
@@ -26,6 +32,14 @@ export function optionDisplayLabel(option: OptionItem) {
   return label.endsWith(suffix) ? label.slice(0, -suffix.length).trim() || option.value : label;
 }
 
+function resolvedIcon(option: OptionItem) {
+  if (option.icon) return option.icon;
+  const descriptor = globalThis.__tcOptionIconResolver?.(option.value);
+  if (!descriptor) return null;
+  if (descriptor.node) return descriptor.node;
+  return <span className={`tc-resolved-option-icon ${descriptor.className || ""}`.trim()} style={descriptor.style}/>;
+}
+
 export function Select({ value, rawValue, options, onChange, tooltip, disabled, searchable = false, searchPlaceholder = "搜索" }: SelectProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -34,6 +48,7 @@ export function Select({ value, rawValue, options, onChange, tooltip, disabled, 
   const close = () => { setOpen(false); setQuery(""); };
   const ref = useOutsideClose(open, close);
   const selected = options.find(option => option.value === value);
+  const selectedIcon = selected ? resolvedIcon(selected) : null;
   const changed = rawValue !== undefined && value !== rawValue;
   const filtered = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -68,5 +83,5 @@ export function Select({ value, rawValue, options, onChange, tooltip, disabled, 
 
   const popupStyle = { "--tc-pop-body-max-height": `${menuMaxHeight}px` } as CSSProperties;
 
-  return <div className="tc-control-wrap" ref={ref}><Tooltip text={tooltip}><div className={`tc-control tc-select ${open ? "is-open" : ""} ${open && placement === "up" ? "opens-up" : ""}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={toggleOpen}><span className="tc-select-current">{selected?.icon && <span className="tc-option-icon">{selected.icon}</span>}<span>{selected ? optionDisplayLabel(selected) : value}</span></span><ChevronDown size={20}/></button>{open && <div className="tc-pop tc-select-list tc-pop-in" style={popupStyle}>{searchable && <label className="tc-select-search"><Search size={14}/><input autoFocus value={query} onChange={event => setQuery(event.target.value)} placeholder={searchPlaceholder}/></label>}<div className="tc-select-scroll">{filtered.map(option => <button type="button" key={option.value} className={`tc-select-item ${option.value === value ? "is-selected" : ""}`} onClick={() => { onChange(option.value); close(); }}>{option.icon && <span className="tc-option-icon">{option.icon}</span>}<span>{optionDisplayLabel(option)}</span>{option.group && <em>{option.group}</em>}</button>)}{filtered.length === 0 && <div className="tc-select-empty">没有匹配项</div>}</div></div>}</div></Tooltip>{rawValue !== undefined && <ResetButton visible={changed} onClick={() => onChange(rawValue)}/>}</div>;
+  return <div className="tc-control-wrap" ref={ref}><Tooltip text={tooltip}><div className={`tc-control tc-select ${open ? "is-open" : ""} ${open && placement === "up" ? "opens-up" : ""}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={toggleOpen}><span className="tc-select-current">{selectedIcon && <span className="tc-option-icon">{selectedIcon}</span>}<span>{selected ? optionDisplayLabel(selected) : value}</span></span><ChevronDown size={20}/></button>{open && <div className="tc-pop tc-select-list tc-pop-in" style={popupStyle}>{searchable && <label className="tc-select-search"><Search size={14}/><input autoFocus value={query} onChange={event => setQuery(event.target.value)} placeholder={searchPlaceholder}/></label>}<div className="tc-select-scroll">{filtered.map(option => { const icon = resolvedIcon(option); return <button type="button" key={option.value} className={`tc-select-item ${option.value === value ? "is-selected" : ""}`} onClick={() => { onChange(option.value); close(); }}>{icon && <span className="tc-option-icon">{icon}</span>}<span>{optionDisplayLabel(option)}</span>{option.group && <em>{option.group}</em>}</button>; })}{filtered.length === 0 && <div className="tc-select-empty">没有匹配项</div>}</div></div>}</div></Tooltip>{rawValue !== undefined && <ResetButton visible={changed} onClick={() => onChange(rawValue)}/>}</div>;
 }
