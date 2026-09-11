@@ -7,7 +7,7 @@ import { measurePopupPlacement } from "../internal/popupPlacement";
 export type VisualOptionItem = { value: string; label?: string; group?: string; icon?: ReactNode };
 export type MultiSelectMode = "menu" | "confirm";
 export type VisualMultiSelectMode = MultiSelectMode;
-export type VisualOptionIconDescriptor = { className?: string; style?: CSSProperties };
+export type VisualOptionIconDescriptor = { className?: string; style?: CSSProperties; node?: ReactNode };
 export type MultiSelectProps = {
   values: string[];
   rawValues?: string[];
@@ -36,6 +36,7 @@ function resolvedIcon(option: VisualOptionItem) {
   if (option.icon) return option.icon;
   const descriptor = globalThis.__tcOptionIconResolver?.(option.value);
   if (!descriptor) return null;
+  if (descriptor.node) return descriptor.node;
   return <span className={`tc-resolved-option-icon ${descriptor.className || ""}`.trim()} style={descriptor.style}/>;
 }
 
