@@ -7,5 +7,5 @@ export type {
   VisualMultiSelectProps,
   VisualMultiSelectMode,
   VisualOptionItem,
-  VisualOptionIconDescriptor,
 } from "../../components/MultiSelect";
+export type { VisualOptionIconDescriptor } from "../../visual-icons";
