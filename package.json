@@ -1,7 +1,7 @@
 {
   "name": "terry-react-ui-library",
   "version": "0.2.0",
-  "description": "Reusable React/TypeScript UI components and Legacy Classic theme.",
+  "description": "Reusable React/TypeScript UI components and base theme.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -12,12 +12,12 @@
       "import": "./dist/index.js"
     },
     "./style.css": "./dist/style.css",
-    "./legacy-classic": {
+    "./base": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./legacy-classic/theme.css": "./dist/legacy-classic/theme.css",
-    "./legacy-classic/theme-system.css": "./dist/legacy-classic/theme-system.css"
+    "./base/theme.css": "./dist/base/theme.css",
+    "./base/theme-system.css": "./dist/base/theme-system.css"
   },
   "files": [
     "dist",
