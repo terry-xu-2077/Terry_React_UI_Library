@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import {
   Bomb,
   Box,
@@ -42,6 +42,8 @@ export type SemanticIconProps = {
   className?: string;
   surface?: boolean;
   title?: string;
+  frameWidth?: number | string;
+  frameHeight?: number | string;
 };
 
 const ICONS: Record<SemanticIconKind, LucideIcon> = {
@@ -65,16 +67,19 @@ const ICONS: Record<SemanticIconKind, LucideIcon> = {
   debris: Sparkles,
 };
 
-export function SemanticIcon({ kind, size = 15, className = "", surface = true, title }: SemanticIconProps) {
+export function SemanticIcon({ kind, size = 15, className = "", surface = true, title, frameWidth, frameHeight }: SemanticIconProps) {
   const Icon = ICONS[kind] ?? ICONS.generic;
-  return <span className={`tc-visual-semantic-icon ${surface ? "surface" : "bare"} ${className}`.trim()} title={title}>
+  const frameStyle: CSSProperties | undefined = surface && (frameWidth != null || frameHeight != null)
+    ? { width: frameWidth, height: frameHeight }
+    : undefined;
+  return <span className={`tc-visual-semantic-icon ${surface ? "surface" : "bare"} ${className}`.trim()} title={title} style={frameStyle}>
     <Icon size={size} aria-hidden="true"/>
   </span>;
 }
 
 /** Factory form for consumers building option descriptors rather than JSX. */
-export function createOpenIcon(kind: SemanticIconKind, size = 15, className = "", options: { surface?: boolean; title?: string } = {}): ReactNode {
-  return <SemanticIcon kind={kind} size={size} className={className} surface={options.surface ?? true} title={options.title}/>;
+export function createOpenIcon(kind: SemanticIconKind, size = 15, className = "", options: { surface?: boolean; title?: string; frameWidth?: number | string; frameHeight?: number | string } = {}): ReactNode {
+  return <SemanticIcon kind={kind} size={size} className={className} surface={options.surface ?? true} title={options.title} frameWidth={options.frameWidth} frameHeight={options.frameHeight}/>;
 }
 
 export type OpenIconKind = SemanticIconKind;
