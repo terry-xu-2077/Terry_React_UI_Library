@@ -107,7 +107,7 @@
 .tc-theme[data-mode="light"] .tc-check-row:hover,
 :root[data-tc-mode="light"] .tc-select-item:hover,
 :root[data-tc-mode="light"] .tc-check-row:hover{
-  background:color-mix(in srgb,var(--tc-accent) 16%,white 84%);
+  background:var(--tc-row-hover);
   color:var(--tc-text-main);
 }
 
