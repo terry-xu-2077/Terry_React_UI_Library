@@ -1,6 +1,6 @@
 # Terry React UI Library
 
-Reusable React/TypeScript UI components with the Legacy Classic visual system.
+Reusable React/TypeScript UI components with a shared base visual system.
 
 The repository has two explicit products:
 
@@ -24,7 +24,7 @@ import {
 } from "terry-react-ui-library";
 ```
 
-The generated `dist/index.js` imports `dist/style.css`, so existing consumers keep the one-import experience. `terry-react-ui-library/style.css` is also exported for hosts that prefer an explicit stylesheet import.
+The generated `dist/index.js` imports `dist/style.css`, so consumers keep the one-import experience. `terry-react-ui-library/style.css` is also exported for hosts that prefer an explicit stylesheet import.
 
 ## Package layout
 
@@ -51,10 +51,10 @@ src/
     semanticIcons.tsx      Lucide/open-source semantic icons
     simpleIcons.tsx        element + text / text-card icons
     visual-icons.css       shared icon presentation
-  styles/legacy-classic/   theme, motion and component visual CSS
-    register.ts            single style-pack registration entry
+  styles/base/             base theme, motion and component visual CSS
+    register.ts            single base-style registration entry
 scripts/
-  finalize-library.mjs     verifies/finalizes dist CSS and compatibility assets
+  finalize-library.mjs     verifies/finalizes dist CSS and base-style assets
 vite.config.lib.ts         library build
 vite.config.ts             showcase build
 tsconfig.lib.json          declaration build
@@ -63,7 +63,7 @@ dist/                      generated package artifact (not committed)
 site-dist/                 generated showcase artifact (not committed)
 ```
 
-`src/components/` is now both the public module boundary and the canonical implementation location. `src/styles/legacy-classic/components.tsx` and `visual-multi-select.tsx` remain only as source compatibility shims; new implementation code must not be added there.
+`src/components/` is the public module boundary and the canonical implementation location. The files under `src/styles/base/` own the shared visual styling rather than product-specific behavior.
 
 ## Visual icon module
 
@@ -93,7 +93,7 @@ dist/
   index.js
   index.d.ts
   style.css
-  legacy-classic/
+  base/
     theme.css
     theme-system.css
 ```
@@ -110,7 +110,7 @@ A Git dependency runs `prepare`, so consumers receive the generated `dist` packa
 
 ## Theme / style ownership
 
-Legacy Classic exposes its visual color system through CSS variables. Component React code owns behavior and semantic DOM; the style pack owns the visual CSS. Consumers should customize public variables rather than targeting component internals.
+The base style exposes its visual color system through CSS variables. Component React code owns behavior and semantic DOM; the base style owns the visual CSS. Consumers should customize public variables rather than targeting component internals.
 
 Primary public channels include:
 
@@ -120,7 +120,7 @@ Primary public channels include:
 - `--tc-text-main`
 - `--tc-text-bright`
 
-The single style registration entry is `src/styles/legacy-classic/register.ts`. New Legacy Classic CSS must be registered there instead of being imported ad hoc by arbitrary component files.
+The single style registration entry is `src/styles/base/register.ts`. New shared component CSS must be registered through the base style instead of being imported ad hoc by arbitrary component files.
 
 ## Component boundary rules
 
@@ -130,12 +130,10 @@ The single style registration entry is `src/styles/legacy-classic/register.ts`. 
 - A component bug must be fixed here and verified in the showcase before a product adds a workaround.
 - Broad consumer selectors such as `.panel span`, `.row button` or `.dialog input` are unsafe around shared components.
 - Stateful icon rules must target the icon role itself. Selectors such as `.is-open svg`, `.is-active svg`, or `.control:hover svg` are forbidden because they also mutate nested action/check/status icons. Scope transforms to the trigger icon or an explicit icon class.
-- New component behavior belongs under `src/components/<Component>/`; reusable icon generation belongs under `src/visual-icons/`; new visual rules belong in the active style pack or the visual-icon module stylesheet.
+- New component behavior belongs under `src/components/<Component>/`; reusable icon generation belongs under `src/visual-icons/`; new visual rules belong in the base style or the visual-icon module stylesheet.
 
 The BoolSwitch / Select cascade incident in Rulesmd Editor is the reference red-line case for these rules. The inverted MultiSelect checkmark caused by an open-state descendant `svg` transform is the corresponding icon-scope red-line case.
 
 ## Compatibility
 
-Package consumers use the standard `dist` export map. Source compatibility entries under `src/styles/legacy-classic/` are kept only so repository-local tooling and older source imports do not break during the migration.
-
-Existing component names and public props are intentionally preserved.
+Package consumers use the standard `dist` export map. Existing component names and public props are intentionally preserved.
