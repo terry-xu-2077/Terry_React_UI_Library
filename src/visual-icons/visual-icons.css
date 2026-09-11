@@ -12,6 +12,12 @@
   background:linear-gradient(145deg,var(--tc-panel),var(--tc-surface-2));
   box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tc-accent) 18%,var(--tc-border-color));
 }
+.tc-theme[data-mode="light"] .tc-visual-semantic-icon.surface,
+:root[data-tc-mode="light"] .tc-visual-semantic-icon.surface{
+  color:color-mix(in srgb,var(--tc-accent) 42%,var(--tc-base) 58%);
+  background:linear-gradient(145deg,color-mix(in srgb,var(--tc-panel) 88%,var(--tc-base) 12%),var(--tc-surface-2));
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tc-accent) 26%,var(--tc-base) 34%,var(--tc-border-color) 40%);
+}
 .tc-visual-semantic-icon.bare{
   width:auto;
   height:auto;
