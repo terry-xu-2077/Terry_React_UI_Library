@@ -5,5 +5,4 @@ export type {
   VisualMultiSelectProps,
   VisualMultiSelectMode,
   VisualOptionItem,
-  VisualOptionIconDescriptor,
 } from "./MultiSelect";
