@@ -17,12 +17,12 @@ if (!js.startsWith(styleImport)) {
   await fs.writeFile(entry, js, "utf8");
 }
 
-const legacyOut = path.join(dist, "legacy-classic");
-await fs.mkdir(legacyOut, { recursive: true });
+const baseOut = path.join(dist, "base");
+await fs.mkdir(baseOut, { recursive: true });
 for (const file of ["theme.css", "theme-system.css"]) {
   await fs.copyFile(
-    path.join(root, "src", "styles", "legacy-classic", file),
-    path.join(legacyOut, file),
+    path.join(root, "src", "styles", "base", file),
+    path.join(baseOut, file),
   );
 }
 
@@ -30,8 +30,8 @@ const required = [
   entry,
   style,
   declaration,
-  path.join(legacyOut, "theme.css"),
-  path.join(legacyOut, "theme-system.css"),
+  path.join(baseOut, "theme.css"),
+  path.join(baseOut, "theme-system.css"),
 ];
 await Promise.all(required.map(file => fs.access(file)));
 
