@@ -1,0 +1,50 @@
+.tc-visual-semantic-icon{
+  flex:none;
+  display:inline-grid;
+  place-items:center;
+  box-sizing:border-box;
+}
+.tc-visual-semantic-icon.surface{
+  width:28px;
+  height:24px;
+  border-radius:5px;
+  color:var(--tc-accent);
+  background:linear-gradient(145deg,var(--tc-panel),var(--tc-surface-2));
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--tc-accent) 18%,var(--tc-border-color));
+}
+.tc-visual-semantic-icon.bare{
+  width:auto;
+  height:auto;
+  border-radius:0;
+  color:currentColor;
+  background:transparent;
+  box-shadow:none;
+}
+.tc-visual-semantic-icon>svg{display:block;transform:none!important}
+
+.tc-visual-simple-icon{
+  min-width:30px;
+  max-width:64px;
+  height:24px;
+  padding:0 6px;
+  box-sizing:border-box;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  overflow:hidden;
+  border:1px solid color-mix(in srgb,var(--tc-text) 15%,var(--tc-border-color));
+  border-radius:6px;
+  background:linear-gradient(145deg,var(--tc-panel),var(--tc-surface-2));
+  color:var(--tc-text);
+  font:650 9px/1 "Cascadia Code",Consolas,sans-serif;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.tc-visual-simple-icon>span:last-child{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.tc-visual-simple-icon-element{flex:none}
