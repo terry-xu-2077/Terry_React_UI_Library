@@ -65,7 +65,9 @@
   --tc-panel-focus:color-mix(in oklab,var(--tc-control-fill) 80%,var(--tc-accent) 20%);
   --tc-border-color:color-mix(in oklab,var(--tc-base-accent) 58%,white 42%);
   --tc-line:color-mix(in oklab,var(--tc-base-cool) 48%,white 52%);
-  --tc-row-hover:color-mix(in oklab,var(--tc-base-accent) 24%,white 76%);
+  /* Menu rows need a deliberate contrast step from the pale popup surface. A nearly
+   * white hover is visually indistinguishable from selection/focus in desktop editors. */
+  --tc-row-hover:color-mix(in oklab,var(--tc-base-accent) 54%,white 46%);
   --tc-shadow:color-mix(in srgb,color-mix(in oklab,var(--tc-base) 74%,black 26%) 44%,transparent 56%);
   --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect) 16%,white 84%);
   --tc-tooltip-text:var(--tc-text-main);
