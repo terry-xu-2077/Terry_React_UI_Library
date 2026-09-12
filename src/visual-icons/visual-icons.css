@@ -14,11 +14,11 @@
 }
 .tc-theme[data-mode="light"] .tc-visual-semantic-icon.surface,
 :root[data-tc-mode="light"] .tc-visual-semantic-icon.surface{
-  color:color-mix(in srgb,var(--tc-accent) 42%,var(--tc-base) 58%);
-  /* Keep semantic glyph tiles visibly darker than the light popup row so the icon
-     remains a stable visual anchor instead of dissolving into the menu background. */
-  background:linear-gradient(145deg,color-mix(in oklab,var(--tc-base) 62%,white 38%),color-mix(in oklab,var(--tc-base) 48%,white 52%));
-  box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--tc-base) 72%,var(--tc-accent) 28%);
+  color:color-mix(in oklab,var(--tc-text-main) 82%,var(--tc-base) 18%);
+  /* Light menus are intentionally pale; semantic glyph tiles need a clearly darker
+     material so audio/weapon/type icons remain visible before hover or selection. */
+  background:linear-gradient(145deg,color-mix(in oklab,var(--tc-base) 88%,var(--tc-accent) 12%),color-mix(in oklab,var(--tc-base) 76%,var(--tc-effect) 24%));
+  box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--tc-base) 86%,var(--tc-text-main) 14%);
 }
 .tc-visual-semantic-icon.bare{
   width:auto;
