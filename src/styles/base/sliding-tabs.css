@@ -7,6 +7,7 @@
   align-items:stretch;
   min-width:0;
   height:30px;
+  font-size:12px;
 }
 
 .tc-sliding-tabs.is-fluid{
@@ -45,6 +46,7 @@
 
 .tc-sliding-tabs.is-compact{
   height:26px;
+  font-size:11px;
 }
 
 .tc-sliding-tabs.is-compact .tc-sliding-tab{
