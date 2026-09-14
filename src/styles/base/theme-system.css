@@ -1,6 +1,6 @@
 :root{
-  /* Five public theme channels. */
-  --tc-base:#011437;
+  /* Five public theme channels. Defaults now track Rulesmd Editor's current palette. */
+  --tc-base:#0f1529;
   --tc-accent:#2ad5b8;
   --tc-effect:#70eeff;
   --tc-text-main:#ffffff;
@@ -22,22 +22,29 @@
   --tc-value-text:var(--tc-text-bright);
 }
 
-/* Light mode uses a deliberately strong page -> card -> control hierarchy. */
+/*
+ * Light mode mirrors the current Rulesmd Editor contract: Base is a tint source rather
+ * than a literal page fill. Large surfaces remain pale and neutral, while controls stay
+ * clearly separated from the workspace and popup hover remains intentionally stronger.
+ */
 .tc-theme[data-mode="light"],
 :root[data-tc-mode="light"]{
-  --tc-bg:color-mix(in srgb,var(--tc-base) 4%,white 96%);
-  --tc-surface:color-mix(in srgb,var(--tc-base) 22%,white 78%);
-  --tc-surface-2:color-mix(in srgb,var(--tc-base) 31%,white 69%);
-  --tc-panel:color-mix(in srgb,var(--tc-base) 39%,white 61%);
-  --tc-panel-2:color-mix(in srgb,var(--tc-base) 27%,white 73%);
-  --tc-panel-focus:color-mix(in srgb,var(--tc-base) 30%,var(--tc-accent) 20%,white 50%);
-  --tc-border-color:color-mix(in srgb,var(--tc-base) 58%,var(--tc-accent) 8%,white 34%);
-  --tc-line:color-mix(in srgb,var(--tc-base) 48%,var(--tc-accent) 6%,white 46%);
-  --tc-row-hover:color-mix(in srgb,var(--tc-base) 30%,var(--tc-effect) 10%,white 60%);
-  --tc-shadow:color-mix(in srgb,var(--tc-base) 38%,black 20%,transparent 42%);
-  --tc-tooltip-bg:color-mix(in srgb,var(--tc-effect) 22%,white 78%);
+  --tc-base-cool:color-mix(in oklab,var(--tc-base) 84%,var(--tc-effect) 16%);
+  --tc-base-accent:color-mix(in oklab,var(--tc-base) 84%,var(--tc-accent) 16%);
+  --tc-bg:color-mix(in oklab,var(--tc-base-cool) 8%,white 92%);
+  --tc-surface:color-mix(in oklab,var(--tc-base-cool) 22%,white 78%);
+  --tc-surface-2:color-mix(in oklab,var(--tc-base-accent) 31%,white 69%);
+  --tc-panel:color-mix(in oklab,var(--tc-base-accent) 39%,white 61%);
+  --tc-panel-2:color-mix(in oklab,var(--tc-base-accent) 16%,white 84%);
+  --tc-control-fill:color-mix(in oklab,var(--tc-base-accent) 16%,white 84%);
+  --tc-panel-focus:color-mix(in oklab,var(--tc-control-fill) 80%,var(--tc-accent) 20%);
+  --tc-border-color:color-mix(in oklab,var(--tc-base-accent) 58%,white 42%);
+  --tc-line:color-mix(in oklab,var(--tc-base-cool) 48%,white 52%);
+  --tc-row-hover:color-mix(in oklab,var(--tc-base-accent) 74%,var(--tc-accent) 26%);
+  --tc-shadow:color-mix(in srgb,color-mix(in oklab,var(--tc-base) 74%,black 26%) 44%,transparent 56%);
+  --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect) 16%,white 84%);
   --tc-tooltip-text:var(--tc-text-main);
-  --tc-header-neutral:linear-gradient(30deg,color-mix(in srgb,var(--tc-base) 32%,white 68%),color-mix(in srgb,var(--tc-base) 48%,white 52%));
+  --tc-header-neutral:linear-gradient(30deg,color-mix(in oklab,var(--tc-base) 32%,white 68%),color-mix(in oklab,var(--tc-base) 48%,white 52%));
   color-scheme:light;
 }
 
@@ -73,24 +80,24 @@
 .tc-theme[data-mode="light"] .tc-number,
 :root[data-tc-mode="light"] .tc-text input,
 :root[data-tc-mode="light"] .tc-number{
-  background:var(--tc-panel);
+  background:var(--tc-control-fill,var(--tc-panel));
 }
 .tc-theme[data-mode="light"] .tc-select-button,
-:root[data-tc-mode="light"] .tc-select-button{background:var(--tc-panel)}
+:root[data-tc-mode="light"] .tc-select-button{background:var(--tc-control-fill,var(--tc-panel))}
 
 /* Light mode uses a restrained Accent tint for hover and a slightly stronger tint for open state. */
 .tc-theme[data-mode="light"] .tc-select:hover .tc-select-button,
 .tc-theme[data-mode="light"] .tc-multi:hover .tc-select-button,
 :root[data-tc-mode="light"] .tc-select:hover .tc-select-button,
 :root[data-tc-mode="light"] .tc-multi:hover .tc-select-button{
-  background:color-mix(in srgb,var(--tc-accent) 22%,white 78%);
+  background:color-mix(in oklab,var(--tc-control-fill,var(--tc-panel)) 76%,var(--tc-accent) 24%);
   color:var(--tc-text-main);
 }
 .tc-theme[data-mode="light"] .tc-select.is-open .tc-select-button,
 .tc-theme[data-mode="light"] .tc-multi.is-open .tc-select-button,
 :root[data-tc-mode="light"] .tc-select.is-open .tc-select-button,
 :root[data-tc-mode="light"] .tc-multi.is-open .tc-select-button{
-  background:color-mix(in srgb,var(--tc-accent) 30%,white 70%);
+  background:color-mix(in oklab,var(--tc-control-fill,var(--tc-panel)) 64%,var(--tc-accent) 36%);
   color:var(--tc-text-main);
 }
 .tc-theme[data-mode="light"] .tc-select:hover .tc-chevron,
