@@ -4,6 +4,7 @@
   align-items:stretch;
   min-width:0;
   height:30px;
+  font-size:12px;
 }
 
 .tc-segmented.is-fluid{
@@ -57,6 +58,7 @@
 
 .tc-segmented.is-compact{
   height:26px;
+  font-size:11px;
 }
 
 .tc-segmented.is-compact .tc-segmented-item{
