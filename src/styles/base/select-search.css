@@ -3,6 +3,9 @@
 .tc-control-wrap:has(.tc-select.is-open),.tc-control-wrap:has(.tc-multi.is-open){z-index:2200}
 .tc-select.is-open,.tc-multi.is-open{z-index:2201}
 .tc-select.is-open .tc-pop,.tc-multi.is-open .tc-pop{z-index:2202}
+/* Select may shrink with its product-owned host but keeps its normal library width when space is available. */
+.tc-control-wrap:has(>.tc-select){max-width:100%}
+.tc-control.tc-select{max-width:100%}
 .tc-select-button{
   display:flex!important;
   align-items:center!important;
