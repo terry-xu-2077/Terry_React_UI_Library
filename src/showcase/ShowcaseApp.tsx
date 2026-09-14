@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import {
   BoolSwitch,
   Button,
@@ -87,16 +87,14 @@ export function ShowcaseApp() {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
-    document.documentElement.dataset.tcMode = appearance;
-  }, [appearance]);
-
-  const themeStyle = useMemo(() => ({
-    "--tc-base": palette.base,
-    "--tc-accent": palette.accent,
-    "--tc-effect": palette.effect,
-    "--tc-text-main": palette.textMain,
-    "--tc-text-bright": palette.textBright,
-  } as CSSProperties), [palette]);
+    const root = document.documentElement;
+    root.dataset.tcMode = appearance;
+    root.style.setProperty("--tc-base", palette.base);
+    root.style.setProperty("--tc-accent", palette.accent);
+    root.style.setProperty("--tc-effect", palette.effect);
+    root.style.setProperty("--tc-text-main", palette.textMain);
+    root.style.setProperty("--tc-text-bright", palette.textBright);
+  }, [appearance, palette]);
 
   const updateColor = (key: keyof Palette, value: string) => {
     setPalettes(current => ({
@@ -110,7 +108,7 @@ export function ShowcaseApp() {
   };
 
   return (
-    <div className="showcase-shell tc-theme" data-mode={appearance} style={themeStyle}>
+    <div className="showcase-shell tc-theme" data-mode={appearance}>
       <header className="showcase-topbar">
         <div className="showcase-brand">Terry React UI Library</div>
         <nav className="showcase-tabs" aria-label="Showcase sections">
