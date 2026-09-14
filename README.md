@@ -19,6 +19,7 @@ import {
   EntityHeader,
   MultiSelect,
   SegmentedControl,
+  SlidingTabs,
   Select,
   Slider,
   TextField,
@@ -41,6 +42,9 @@ src/
       index.ts
     SegmentedControl/
       SegmentedControl.tsx
+      index.ts
+    SlidingTabs/
+      SlidingTabs.tsx
       index.ts
     TextField/
     Slider/
@@ -69,21 +73,41 @@ site-dist/                 generated showcase artifact (not committed)
 
 `src/components/` is the public module boundary and the canonical implementation location. The files under `src/styles/base/` own the shared visual styling rather than product-specific behavior.
 
-## Segmented control
+## Shared tab controls
 
-`SegmentedControl` is the shared compact tag/tab control for mutually-exclusive options such as quality levels, modes and view switches.
+The library deliberately exposes two different controls instead of forcing one visual language into every context.
 
-Its visual contract is deliberately restrained rather than pill-heavy:
+### SegmentedControl
 
-- A segmented group is intended for **two or more labels**.
-- Items touch with no visual gap.
-- Only the outer left and outer right ends are rounded.
-- Adjacent internal edges stay square so the labels read as one grouped control.
-- The active item uses the shared Terry accent treatment.
-- Use `fluid` when all labels should share the available width and `compact` for dense desktop tooling.
-- Use `presentation="tabs"` when the choices switch visible panels/views; the component then exposes tab semantics instead of pressed-button semantics.
+`SegmentedControl` is the equal-width pill group for **high-level mode or view switching**.
 
-Products should reuse this component rather than recreate local segmented/tag controls.
+- A group is intended for two or more labels.
+- Every item in the same group has equal width.
+- Items touch with no gap.
+- The outer left and right ends are fully rounded like a capsule; internal shared edges stay square.
+- The selected item does **not** use an underline. Its surface becomes slightly brighter and its text/icon changes to `--tc-accent`.
+- Use it where the current mode deserves a stronger visual container, such as User / AI or Visual / Text.
+
+### SlidingTabs
+
+`SlidingTabs` is the borderless compact control for **dense parameter groups**.
+
+- No rounded outer shell and no item borders.
+- A muted track remains visible below the whole group.
+- The accent indicator slides under the active item.
+- Active text/icon uses `--tc-accent`.
+- Items share equal width.
+- Prefer it for dense settings such as resolution, quality, generation mode and context mode.
+
+Products should reuse these controls according to semantic density rather than recreate local tag/tab styles.
+
+## Showcase requirement
+
+The Showcase is part of the library contract, not optional documentation.
+
+- Every new exported public UI component must be added to `index.html` in the **same change** that introduces the component.
+- New component states that materially affect appearance or interaction should also be visible in the Showcase.
+- A component is not considered finished until it can be inspected on the Showcase with the current Base Style theme.
 
 ## Visual icon module
 
@@ -151,6 +175,7 @@ The single style registration entry is `src/styles/base/register.ts`. New shared
 - Broad consumer selectors such as `.panel span`, `.row button` or `.dialog input` are unsafe around shared components.
 - Stateful icon rules must target the icon role itself. Selectors such as `.is-open svg`, `.is-active svg`, or `.control:hover svg` are forbidden because they also mutate nested action/check/status icons. Scope transforms to the trigger icon or an explicit icon class.
 - New component behavior belongs under `src/components/<Component>/`; reusable icon generation belongs under `src/visual-icons/`; new visual rules belong in the base style or the visual-icon module stylesheet.
+- New exported public components must be shown on the Showcase in the same change.
 
 The BoolSwitch / Select cascade incident in Rulesmd Editor is the reference red-line case for these rules. The inverted MultiSelect checkmark caused by an open-state descendant `svg` transform is the corresponding icon-scope red-line case.
 
