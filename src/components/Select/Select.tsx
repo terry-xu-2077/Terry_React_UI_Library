@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { useLayoutEffect, useMemo, useState } from "react";
+import { useId, useLayoutEffect, useMemo, useState } from "react";
 import { ChevronDown, Search } from "lucide-react";
 import { resolveOptionIconDescriptor } from "../../visual-icons";
 import { ResetButton } from "../ResetButton";
@@ -14,6 +14,7 @@ export type SelectProps = {
   rawValue?: string;
   options: OptionItem[];
   onChange: (value: string) => void;
+  ariaLabel?: string;
   tooltip?: string;
   disabled?: boolean;
   searchable?: boolean;
@@ -35,11 +36,22 @@ function resolvedIcon(option: OptionItem) {
   return <span className={`tc-resolved-option-icon ${descriptor.className || ""}`.trim()} style={descriptor.style}/>;
 }
 
-export function Select({ value, rawValue, options, onChange, tooltip, disabled, searchable = false, searchPlaceholder = "搜索" }: SelectProps) {
+export function Select({
+  value,
+  rawValue,
+  options,
+  onChange,
+  ariaLabel,
+  tooltip,
+  disabled,
+  searchable = false,
+  searchPlaceholder = "搜索",
+}: SelectProps) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [placement, setPlacement] = useState<"down" | "up">("down");
   const [menuMaxHeight, setMenuMaxHeight] = useState(280);
+  const listboxId = useId();
   const close = () => { setOpen(false); setQuery(""); };
   const ref = useOutsideClose(open, close);
   const selected = options.find(option => option.value === value);
@@ -78,5 +90,62 @@ export function Select({ value, rawValue, options, onChange, tooltip, disabled, 
 
   const popupStyle = { "--tc-pop-body-max-height": `${menuMaxHeight}px` } as CSSProperties;
 
-  return <div className="tc-control-wrap" ref={ref}><Tooltip text={tooltip}><div className={`tc-control tc-select ${open ? "is-open" : ""} ${open && placement === "up" ? "opens-up" : ""}`}><button disabled={disabled} type="button" className="tc-select-button" onClick={toggleOpen}><span className="tc-select-current">{selectedIcon && <span className="tc-option-icon">{selectedIcon}</span>}<span>{selected ? optionDisplayLabel(selected) : value}</span></span><ChevronDown size={20}/></button>{open && <div className="tc-pop tc-select-list tc-pop-in" style={popupStyle}>{searchable && <label className="tc-select-search"><Search size={14}/><input autoFocus value={query} onChange={event => setQuery(event.target.value)} placeholder={searchPlaceholder}/></label>}<div className="tc-select-scroll">{filtered.map(option => { const icon = resolvedIcon(option); return <button type="button" key={option.value} className={`tc-select-item ${option.value === value ? "is-selected" : ""}`} onClick={() => { onChange(option.value); close(); }}>{icon && <span className="tc-option-icon">{icon}</span>}<span>{optionDisplayLabel(option)}</span>{option.group && <em>{option.group}</em>}</button>; })}{filtered.length === 0 && <div className="tc-select-empty">没有匹配项</div>}</div></div>}</div></Tooltip>{rawValue !== undefined && <ResetButton visible={changed} onClick={() => onChange(rawValue)}/>}</div>;
+  return (
+    <div className="tc-control-wrap" ref={ref}>
+      <Tooltip text={tooltip}>
+        <div className={`tc-control tc-select ${open ? "is-open" : ""} ${open && placement === "up" ? "opens-up" : ""}`}>
+          <button
+            disabled={disabled}
+            type="button"
+            className="tc-select-button"
+            role="combobox"
+            aria-label={ariaLabel}
+            aria-haspopup="listbox"
+            aria-expanded={open}
+            aria-controls={open ? listboxId : undefined}
+            data-value={value}
+            onClick={toggleOpen}
+          >
+            <span className="tc-select-current">
+              {selectedIcon && <span className="tc-option-icon">{selectedIcon}</span>}
+              <span>{selected ? optionDisplayLabel(selected) : value}</span>
+            </span>
+            <ChevronDown size={20}/>
+          </button>
+          {open && (
+            <div className="tc-pop tc-select-list tc-pop-in" style={popupStyle}>
+              {searchable && (
+                <label className="tc-select-search">
+                  <Search size={14}/>
+                  <input autoFocus value={query} onChange={event => setQuery(event.target.value)} placeholder={searchPlaceholder}/>
+                </label>
+              )}
+              <div id={listboxId} className="tc-select-scroll" role="listbox" aria-label={ariaLabel}>
+                {filtered.map(option => {
+                  const icon = resolvedIcon(option);
+                  const selectedOption = option.value === value;
+                  return (
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={selectedOption}
+                      key={option.value}
+                      className={`tc-select-item ${selectedOption ? "is-selected" : ""}`}
+                      onClick={() => { onChange(option.value); close(); }}
+                    >
+                      {icon && <span className="tc-option-icon">{icon}</span>}
+                      <span>{optionDisplayLabel(option)}</span>
+                      {option.group && <em>{option.group}</em>}
+                    </button>
+                  );
+                })}
+                {filtered.length === 0 && <div className="tc-select-empty">没有匹配项</div>}
+              </div>
+            </div>
+          )}
+        </div>
+      </Tooltip>
+      {rawValue !== undefined && <ResetButton visible={changed} onClick={() => onChange(rawValue)}/>} 
+    </div>
+  );
 }
