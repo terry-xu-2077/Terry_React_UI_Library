@@ -1,0 +1,67 @@
+/* Shared narrow-screen behavior. Keep component geometry here so product apps and the
+ * Showcase use the same responsive contract instead of adding consumer overrides. */
+@media(max-width:620px){
+  .tc-control-wrap{max-width:100%;min-width:0}
+  .tc-control{max-width:100%}
+  .tc-text,.tc-select,.tc-slider,.tc-multi{width:min(var(--tc-control-w),100%)}
+  .tc-text input,.tc-select-button{min-width:0}
+
+  .tc-picker,
+  .tc-visual-picker{
+    width:min(320px,calc(100vw - 24px));
+    max-width:calc(100vw - 24px);
+  }
+
+  .tc-tooltip{
+    width:min(308px,calc(100vw - 24px));
+    max-width:calc(100vw - 24px);
+  }
+
+  .tc-dialog-layer{
+    padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+  }
+  .tc-dialog,
+  .tc-dialog.size-wide{
+    width:100%;
+    min-width:0;
+    max-width:100%;
+    max-height:calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+  .tc-dialog-body{
+    max-height:calc(100dvh - 62px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  .tc-property-row{
+    grid-template-columns:1fr;
+    padding:9px 10px 10px;
+    gap:7px;
+  }
+  .tc-property-label,
+  .tc-property-value{
+    min-width:0;
+    padding:0;
+    justify-content:flex-start;
+    border-left:0;
+  }
+  .tc-property-label>div{align-items:flex-start}
+  .tc-property-value>.tc-control-wrap{max-width:100%}
+  .tc-changed{
+    position:static;
+    align-self:center;
+    justify-self:end;
+    margin-top:-28px;
+  }
+
+  .tc-entity-watermark{font-size:48px;line-height:52px;right:6px;top:2px}
+  .tc-entity-title{min-width:0;padding-right:34px}
+  .tc-entity-title strong,.tc-entity-title span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  .tc-segmented.is-fluid,
+  .tc-sliding-tabs.is-fluid{width:100%}
+}
+
+@media(max-width:380px){
+  .tc-control{width:min(var(--tc-control-w),100%)}
+  .tc-entity-icon{width:58px;flex-basis:58px}
+  .tc-entity-watermark{font-size:40px;line-height:44px}
+}
