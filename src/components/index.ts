@@ -5,6 +5,7 @@ export * from "./BoolSwitch";
 export * from "./Select";
 export * from "./Slider";
 export * from "./SegmentedControl";
+export * from "./SlidingTabs";
 export * from "./EntityHeader";
 export * from "./Dialog";
 export * from "./Button";
