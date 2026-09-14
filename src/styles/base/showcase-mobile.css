@@ -44,6 +44,17 @@
     gap:10px;
   }
 
+  #shell .intro>div{
+    flex:1 1 auto;
+    min-width:0;
+  }
+
+  #shell .intro>.tc-status-pill{
+    flex:0 0 auto;
+    white-space:nowrap;
+    align-self:flex-start;
+  }
+
   #shell .intro h1{font-size:24px}
 
   #shell .section-title{
