@@ -5,6 +5,7 @@
 @import "./styles/base/motion.css";
 @import "./styles/base/slider.css";
 @import "./styles/base/bool-switch.css";
+@import "./styles/base/bool-switch-legacy-showcase.css";
 @import "./styles/base/multi-select-overflow.css";
 @import "./styles/base/select-search.css";
 @import "./styles/base/reset-button.css";
