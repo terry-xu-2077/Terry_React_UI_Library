@@ -18,6 +18,7 @@ import {
   Dialog,
   EntityHeader,
   MultiSelect,
+  SegmentedControl,
   Select,
   Slider,
   TextField,
@@ -37,6 +38,9 @@ src/
       index.ts
     Select/
       Select.tsx
+      index.ts
+    SegmentedControl/
+      SegmentedControl.tsx
       index.ts
     TextField/
     Slider/
@@ -64,6 +68,22 @@ site-dist/                 generated showcase artifact (not committed)
 ```
 
 `src/components/` is the public module boundary and the canonical implementation location. The files under `src/styles/base/` own the shared visual styling rather than product-specific behavior.
+
+## Segmented control
+
+`SegmentedControl` is the shared compact tag/tab control for mutually-exclusive options such as quality levels, modes and view switches.
+
+Its visual contract is deliberately restrained rather than pill-heavy:
+
+- A segmented group is intended for **two or more labels**.
+- Items touch with no visual gap.
+- Only the outer left and outer right ends are rounded.
+- Adjacent internal edges stay square so the labels read as one grouped control.
+- The active item uses the shared Terry accent treatment.
+- Use `fluid` when all labels should share the available width and `compact` for dense desktop tooling.
+- Use `presentation="tabs"` when the choices switch visible panels/views; the component then exposes tab semantics instead of pressed-button semantics.
+
+Products should reuse this component rather than recreate local segmented/tag controls.
 
 ## Visual icon module
 
