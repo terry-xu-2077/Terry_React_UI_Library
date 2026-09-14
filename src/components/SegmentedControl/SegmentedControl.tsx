@@ -15,6 +15,7 @@ export type SegmentedControlProps<T extends string = string> = {
   disabled?: boolean;
   fluid?: boolean;
   compact?: boolean;
+  presentation?: "choice" | "tabs";
   className?: string;
 };
 
@@ -35,12 +36,14 @@ export function SegmentedControl<T extends string = string>({
   disabled = false,
   fluid = false,
   compact = false,
+  presentation = "choice",
   className = "",
 }: SegmentedControlProps<T>) {
+  const isTabs = presentation === "tabs";
   return (
     <div
       className={`tc-segmented ${fluid ? "is-fluid" : ""} ${compact ? "is-compact" : ""} ${className}`.trim()}
-      role="group"
+      role={isTabs ? "tablist" : "group"}
       aria-label={ariaLabel}
     >
       {options.map((option) => {
@@ -50,8 +53,10 @@ export function SegmentedControl<T extends string = string>({
           <button
             key={option.value}
             type="button"
+            role={isTabs ? "tab" : undefined}
             className={`tc-segmented-item ${selected ? "is-active" : ""}`}
-            aria-pressed={selected}
+            aria-selected={isTabs ? selected : undefined}
+            aria-pressed={isTabs ? undefined : selected}
             disabled={itemDisabled}
             onClick={() => onChange(option.value)}
           >
