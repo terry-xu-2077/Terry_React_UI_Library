@@ -5,7 +5,7 @@ Reusable React/TypeScript UI components with a shared base visual system.
 The repository has two explicit products:
 
 - **Library package** — built with Vite library mode into `dist/`, including ESM JavaScript, TypeScript declarations and bundled CSS.
-- **Showcase site** — built separately into `site-dist/` and deployed to GitHub Pages.
+- **Showcase site** — a React consumer of the library itself, built separately into `site-dist/` and deployed to GitHub Pages.
 
 ## Install / consume
 
@@ -33,6 +33,10 @@ The generated `dist/index.js` imports `dist/style.css`, so consumers keep the on
 ```text
 src/
   index.ts                 public source entry
+  main.tsx                 showcase application entry
+  showcase/                showcase-only layout and demo composition
+    ShowcaseApp.tsx        consumes exported library components directly
+    showcase.css           page layout only; never reimplements component skins
   components/              canonical component implementations
     BoolSwitch/
       BoolSwitch.tsx
@@ -59,7 +63,7 @@ src/
     semanticIcons.tsx      Lucide/open-source semantic icons
     simpleIcons.tsx        element + text / text-card icons
     visual-icons.css       shared icon presentation
-  styles/base/             base theme, motion and component visual CSS
+  styles/base/             base theme, motion, responsive and component visual CSS
     register.ts            single base-style registration entry
 scripts/
   finalize-library.mjs     verifies/finalizes dist CSS and base-style assets
@@ -105,9 +109,13 @@ Products should reuse these controls according to semantic density rather than r
 
 The Showcase is part of the library contract, not optional documentation.
 
-- Every new exported public UI component must be added to `index.html` in the **same change** that introduces the component.
+- The Showcase must consume the public React components from `src/index.ts`; it must not duplicate component DOM or component visual CSS.
+- Every new exported public UI component must be added to `src/showcase/ShowcaseApp.tsx` in the **same change** that introduces the component.
 - New component states that materially affect appearance or interaction should also be visible in the Showcase.
-- A component is not considered finished until it can be inspected on the Showcase with the current Base Style theme.
+- Showcase CSS may own page composition, spacing and responsive demo layout only. Component colors, gradients, internal geometry and interaction motion belong to the shared component/base styles.
+- A component is not considered finished until it can be inspected on the Showcase with the current Base Style theme on both desktop and narrow mobile widths.
+
+This keeps the Showcase a real consumer: when the library component changes, the Showcase changes automatically instead of maintaining a stale static copy.
 
 ## Visual icon module
 
@@ -169,13 +177,13 @@ The single style registration entry is `src/styles/base/register.ts`. New shared
 ## Component boundary rules
 
 - Product CSS must not reach into component implementation DOM to correct geometry.
-- Components own their internal margin, padding, line-height, track/knob geometry and motion.
+- Components own their internal margin, padding, line-height, track/knob geometry, motion and narrow-screen behavior.
 - Consumers may size and place documented outer hosts / public props only.
-- A component bug must be fixed here and verified in the showcase before a product adds a workaround.
+- A component bug must be fixed here and verified in the Showcase before a product adds a workaround.
 - Broad consumer selectors such as `.panel span`, `.row button` or `.dialog input` are unsafe around shared components.
 - Stateful icon rules must target the icon role itself. Selectors such as `.is-open svg`, `.is-active svg`, or `.control:hover svg` are forbidden because they also mutate nested action/check/status icons. Scope transforms to the trigger icon or an explicit icon class.
 - New component behavior belongs under `src/components/<Component>/`; reusable icon generation belongs under `src/visual-icons/`; new visual rules belong in the base style or the visual-icon module stylesheet.
-- New exported public components must be shown on the Showcase in the same change.
+- New exported public components must be shown through their real React implementation on the Showcase in the same change.
 
 The BoolSwitch / Select cascade incident in Rulesmd Editor is the reference red-line case for these rules. The inverted MultiSelect checkmark caused by an open-state descendant `svg` transform is the corresponding icon-scope red-line case.
 
