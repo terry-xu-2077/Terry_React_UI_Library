@@ -1,0 +1,139 @@
+/* Showcase-only narrow-screen layout fixes.
+ * Scoped to #shell so package consumers keep their own product layout behavior. */
+@media(max-width:620px){
+  #shell .topbar{
+    height:auto;
+    min-height:58px;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px 10px;
+    padding:8px 10px;
+  }
+
+  #shell .brand{
+    flex:1 1 auto;
+    min-width:0;
+  }
+
+  #shell .appearance{
+    flex:0 0 auto;
+  }
+
+  #shell .tabs{
+    order:3;
+    flex:1 0 100%;
+    height:36px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+
+  #shell .tabs::-webkit-scrollbar{display:none}
+
+  #shell .tab{
+    flex:0 0 auto;
+    padding:0 12px;
+  }
+
+  #shell .main{
+    width:calc(100% - 20px);
+    margin-top:18px;
+  }
+
+  #shell .intro{
+    align-items:flex-start;
+    gap:10px;
+  }
+
+  #shell .intro h1{font-size:24px}
+
+  #shell .section-title{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:4px;
+  }
+
+  #shell .section-title small{text-align:left}
+
+  #shell .body{padding:16px 12px}
+
+  #shell .theme-controls{
+    display:grid;
+    grid-template-columns:1fr;
+    align-items:stretch;
+    gap:10px;
+  }
+
+  #shell .theme-controls label{
+    width:100%;
+    justify-content:space-between;
+    min-width:0;
+  }
+
+  #shell .theme-controls .tc-button{width:100%}
+
+  #shell .grid{
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+
+  #shell .item{
+    min-height:0;
+    grid-template-columns:minmax(0,1fr);
+    align-items:start;
+    gap:7px;
+  }
+
+  #shell .label{
+    display:block;
+    min-width:0;
+  }
+
+  #shell .item>.tc-control-wrap,
+  #shell .item>.tc-control,
+  #shell .item>.submode,
+  #shell .item>div{
+    min-width:0;
+    max-width:100%;
+  }
+
+  #shell .tc-text,
+  #shell .tc-select,
+  #shell .tc-slider,
+  #shell .tc-multi{
+    max-width:100%;
+  }
+
+  #shell .tc-text input,
+  #shell .tc-select-button{
+    min-width:0;
+    max-width:100%;
+  }
+
+  #shell .tc-slider{
+    width:min(100%,420px);
+  }
+
+  #shell .tc-range{
+    min-width:0;
+    flex:1 1 auto;
+  }
+
+  #shell .submode{
+    flex-wrap:wrap;
+  }
+
+  #shell .tc-multi>.tc-picker,
+  #shell .tc-select-list{
+    max-width:calc(100vw - 40px);
+  }
+
+  #shell .actions{
+    align-items:stretch;
+  }
+}
+
+@media(max-width:380px){
+  #shell .main{width:calc(100% - 14px)}
+  #shell .topbar{padding-left:8px;padding-right:8px}
+  #shell .appearance button{min-width:52px}
+}
