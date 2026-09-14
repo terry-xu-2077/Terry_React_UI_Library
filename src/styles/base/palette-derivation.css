@@ -3,8 +3,8 @@
  *
  * Components do not own colors. They receive --tc-base / --tc-accent / --tc-effect /
  * --tc-text-main / --tc-text-bright and derive local lightness, hue, saturation and
- * opacity. Every color-mix uses two colors only so the declaration remains valid in
- * Chromium/WebView2 and cannot fall back to stale root defaults.
+ * opacity. The surface hierarchy mirrors the current Rulesmd Editor theme contract so
+ * applications and this library showcase no longer drift visually.
  */
 :root,
 .tc-theme{
@@ -25,30 +25,44 @@
   --tc-header-neutral:linear-gradient(30deg,color-mix(in oklab,var(--tc-tone-neutral) 84%,var(--tc-effect) 16%),color-mix(in oklab,var(--tc-tone-neutral) 72%,var(--tc-text-main) 28%));
 }
 
+/*
+ * Dark mode keeps Base dominant. The library previously brightened every panel too much,
+ * which made the showcase look more card-heavy than Rulesmd Editor. These weights are
+ * intentionally conservative and match the editor's current desktop-tool hierarchy.
+ */
 .tc-theme[data-mode="dark"],:root[data-tc-mode="dark"]{
-  --tc-base-cool:color-mix(in oklab,var(--tc-base) 88%,var(--tc-effect) 12%);
-  --tc-base-accent:color-mix(in oklab,var(--tc-base) 88%,var(--tc-accent) 12%);
-  --tc-bg:color-mix(in oklab,var(--tc-base-cool) 84%,black 16%);
-  --tc-surface:color-mix(in oklab,var(--tc-base-cool) 88%,var(--tc-text-main) 12%);
-  --tc-surface-2:color-mix(in oklab,var(--tc-base-accent) 78%,var(--tc-text-main) 22%);
-  --tc-panel:color-mix(in oklab,var(--tc-base-accent) 84%,var(--tc-text-main) 16%);
-  --tc-panel-2:color-mix(in oklab,var(--tc-base-cool) 92%,black 8%);
-  --tc-control-fill:color-mix(in oklab,var(--tc-base-accent) 76%,var(--tc-text-main) 24%);
-  --tc-panel-focus:color-mix(in oklab,var(--tc-control-fill) 76%,var(--tc-effect) 24%);
-  --tc-border-color:color-mix(in oklab,var(--tc-base-accent) 70%,var(--tc-text-main) 30%);
-  --tc-line:color-mix(in oklab,var(--tc-base-cool) 76%,var(--tc-text-main) 24%);
-  --tc-row-hover:color-mix(in oklab,var(--tc-base-accent) 78%,var(--tc-accent) 22%);
-  --tc-shadow:color-mix(in srgb,var(--tc-base) 24%,black 76%);
-  --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect) 18%,var(--tc-text-main) 82%);
+  --tc-base-cool:color-mix(in oklab,var(--tc-base) 94%,var(--tc-effect) 6%);
+  --tc-base-accent:color-mix(in oklab,var(--tc-base) 94%,var(--tc-accent) 6%);
+  --tc-accent-shift:color-mix(in oklab,var(--tc-accent) 88%,var(--tc-effect) 12%);
+  --tc-effect-shift:color-mix(in oklab,var(--tc-effect) 90%,var(--tc-text-bright) 10%);
+  --tc-text-shift:color-mix(in oklab,var(--tc-text-main) 92%,var(--tc-base-cool) 8%);
+  --tc-text-bright-shift:color-mix(in oklab,var(--tc-text-bright) 92%,var(--tc-accent) 8%);
+
+  --tc-bg:var(--tc-base);
+  --tc-surface:color-mix(in oklab,var(--tc-base-cool) 97%,var(--tc-text-main) 3%);
+  --tc-surface-2:color-mix(in oklab,var(--tc-base-accent) 94%,var(--tc-text-main) 6%);
+  --tc-panel:color-mix(in oklab,var(--tc-base-accent) 91%,var(--tc-text-main) 9%);
+  --tc-panel-2:color-mix(in oklab,var(--tc-base-cool) 98.5%,var(--tc-text-main) 1.5%);
+  --tc-control-fill:var(--tc-surface-2);
+  --tc-panel-focus:color-mix(in oklab,var(--tc-base-accent) 90%,var(--tc-accent-shift) 10%);
+  --tc-border-color:color-mix(in oklab,var(--tc-base-accent) 84%,var(--tc-text-shift) 16%);
+  --tc-line:color-mix(in oklab,var(--tc-base-cool) 90%,var(--tc-text-shift) 10%);
+  --tc-row-hover:color-mix(in oklab,var(--tc-base-accent) 90%,var(--tc-accent-shift) 10%);
+  --tc-shadow:color-mix(in srgb,var(--tc-base) 76%,transparent 24%);
+  --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect-shift) 18%,var(--tc-text-main) 82%);
   --tc-tooltip-text:color-mix(in srgb,var(--tc-base) 86%,black 14%);
 
-  /* Dark Slider uses the exact same groove colors as the OFF BoolSwitch. Keep these
-   * tokens tied to the switch material so the two controls cannot drift apart again. */
+  /* Dark Slider uses the exact same groove colors as the OFF BoolSwitch. */
   --tc-groove-outer:color-mix(in srgb,var(--tc-panel) 72%,#526583 28%);
   --tc-groove-inner:color-mix(in srgb,var(--tc-base) 78%,#31405f 22%);
   --tc-groove-border:color-mix(in srgb,var(--tc-border-color) 78%,transparent);
 }
 
+/*
+ * Light mode treats Base as a tint source, not the literal canvas color. This is the
+ * Rulesmd Editor light hierarchy: pale workspace, slightly deeper cards, bright editing
+ * controls, and a clearly readable popup hover state.
+ */
 .tc-theme[data-mode="light"],:root[data-tc-mode="light"]{
   --tc-base-cool:color-mix(in oklab,var(--tc-base) 84%,var(--tc-effect) 16%);
   --tc-base-accent:color-mix(in oklab,var(--tc-base) 84%,var(--tc-accent) 16%);
@@ -56,25 +70,18 @@
   --tc-surface:color-mix(in oklab,var(--tc-base-cool) 22%,white 78%);
   --tc-surface-2:color-mix(in oklab,var(--tc-base-accent) 31%,white 69%);
   --tc-panel:color-mix(in oklab,var(--tc-base-accent) 39%,white 61%);
-  --tc-panel-2:color-mix(in oklab,var(--tc-base-cool) 27%,white 73%);
+  --tc-panel-2:color-mix(in oklab,var(--tc-base-accent) 16%,white 84%);
 
-  /* Editing fields must read clearly brighter than the low-contrast workspace surface.
-   * Keep a faint palette tint, but let white dominate so TextField / Select / numeric
-   * editors visibly separate from parameter rows in light mode. */
   --tc-control-fill:color-mix(in oklab,var(--tc-base-accent) 16%,white 84%);
   --tc-panel-focus:color-mix(in oklab,var(--tc-control-fill) 80%,var(--tc-accent) 20%);
   --tc-border-color:color-mix(in oklab,var(--tc-base-accent) 58%,white 42%);
   --tc-line:color-mix(in oklab,var(--tc-base-cool) 48%,white 52%);
-  /* Popup hover is deliberately much darker than the menu surface. The previous
-   * white-heavy mix read as a gray wash and was nearly indistinguishable from rest. */
   --tc-row-hover:color-mix(in oklab,var(--tc-base-accent) 74%,var(--tc-accent) 26%);
   --tc-shadow:color-mix(in srgb,color-mix(in oklab,var(--tc-base) 74%,black 26%) 44%,transparent 56%);
   --tc-tooltip-bg:color-mix(in oklab,var(--tc-effect) 16%,white 84%);
   --tc-tooltip-text:var(--tc-text-main);
 
-  /* Slider and OFF BoolSwitch share one light groove material. White dominates both
-   * bands so the groove stays subtle on pale editor surfaces, while Base supplies just
-   * enough blue-gray structure to keep the recessed hardware read. */
+  /* Slider and OFF BoolSwitch share one light groove material. */
   --tc-groove-outer:color-mix(in oklab,var(--tc-base) 18%,white 82%);
   --tc-groove-inner:color-mix(in oklab,var(--tc-base) 34%,white 66%);
   --tc-groove-border:color-mix(in oklab,var(--tc-base) 38%,white 62%);

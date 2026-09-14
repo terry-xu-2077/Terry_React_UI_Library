@@ -1,6 +1,17 @@
 @import "./bool-switch.css";
 
-/* Motion belongs to the shared UI library so every consumer gets the same behavior. */
+/*
+ * Shared motion language, synchronized with Rulesmd Editor.
+ * Fast state feedback: 120ms. Ordinary control transitions: 180ms. Panels/dialogs: 220ms.
+ * Motion stays compact: 1-2px translation only, no scale bounce.
+ */
+:root,
+.tc-theme{
+  --tc-motion-fast:120ms;
+  --tc-motion-normal:180ms;
+  --tc-motion-panel:220ms;
+  --tc-motion-ease:cubic-bezier(.2,.8,.2,1);
+}
 
 /* Popovers must sit above sticky headers and subsequent business rows. */
 .tc-pop{
@@ -25,38 +36,117 @@
   overflow:hidden;
 }
 
-/* Only animate controls that actually benefit from motion. Avoid transition:all. */
+/* Avoid transition:all. Every moving property is intentional. */
 .tc-control{
-  transition:outline-color .1s ease,box-shadow .1s ease!important;
+  transition:outline-color var(--tc-motion-fast) ease,box-shadow var(--tc-motion-fast) ease!important;
 }
+.tc-button,
+.tc-copy,
+.tc-select-button,
+.tc-select-item,
+.tc-check-row,
+.tc-segmented-item,
+.tc-sliding-tab,
+.tc-picker-actions button{
+  transition:
+    background-color var(--tc-motion-fast) ease,
+    border-color var(--tc-motion-fast) ease,
+    color var(--tc-motion-fast) ease,
+    box-shadow var(--tc-motion-normal) var(--tc-motion-ease),
+    filter var(--tc-motion-normal) var(--tc-motion-ease),
+    transform var(--tc-motion-fast) var(--tc-motion-ease)!important;
+}
+
+.tc-button:hover:not(:disabled),
+.tc-copy:hover{
+  transform:translateY(-1px);
+}
+.tc-button:active:not(:disabled),
+.tc-copy:active{
+  transform:translateY(0);
+}
+.tc-select-item:hover,
+.tc-check-row:hover{
+  transform:translateX(1px);
+}
+
+.tc-property-row{
+  transition:
+    background-color var(--tc-motion-fast) ease,
+    box-shadow var(--tc-motion-normal) var(--tc-motion-ease),
+    transform var(--tc-motion-fast) var(--tc-motion-ease)!important;
+}
+.tc-property-row:hover{transform:translateY(-1px)}
+
 .tc-pop-in{
-  animation:tcPopInCompact .12s cubic-bezier(.2,.8,.2,1) both!important;
+  animation:tcPopInCompact var(--tc-motion-normal) var(--tc-motion-ease) both!important;
   transform-origin:top center;
   will-change:transform,opacity;
 }
+.tc-select.opens-up .tc-pop-in,
+.tc-multi.opens-up .tc-pop-in{
+  transform-origin:bottom center;
+  animation-name:tcPopInCompactUp!important;
+}
+.tc-dialog-layer{
+  animation:tcDialogBackdropIn var(--tc-motion-panel) ease both;
+}
 .tc-dialog-in{
-  animation:tcDialogInCompact .14s cubic-bezier(.2,.8,.2,1) both!important;
+  animation:tcDialogInCompact var(--tc-motion-panel) var(--tc-motion-ease) both!important;
   will-change:transform,opacity;
 }
 
-.tc-bool-knob{
-  transition:transform .14s cubic-bezier(.2,.8,.2,1),background .12s ease,color .12s ease,border-color .12s ease!important;
+.tc-bool-knob,
+.tc-legacy-switch-knob{
+  transition:
+    transform var(--tc-motion-normal) var(--tc-motion-ease),
+    background var(--tc-motion-fast) ease,
+    color var(--tc-motion-fast) ease,
+    border-color var(--tc-motion-fast) ease!important;
   will-change:transform;
 }
-
+.tc-legacy-switch{
+  transition:
+    border-color var(--tc-motion-normal) ease,
+    background var(--tc-motion-normal) ease,
+    box-shadow var(--tc-motion-normal) ease!important;
+}
 .tc-reset{
-  transition:opacity .1s ease,background .1s ease,color .1s ease!important;
+  transition:
+    opacity var(--tc-motion-fast) ease,
+    background-color var(--tc-motion-fast) ease,
+    color var(--tc-motion-fast) ease,
+    transform var(--tc-motion-fast) var(--tc-motion-ease)!important;
 }
+.tc-reset:hover{transform:translateY(-1px)}
 .tc-tooltip{
-  transition:opacity .08s ease,transform .08s ease!important;
+  transition:opacity var(--tc-motion-fast) ease,transform var(--tc-motion-fast) var(--tc-motion-ease)!important;
 }
+.tc-segmented-indicator,
+.tc-sliding-tabs-indicator{
+  transition:
+    transform var(--tc-motion-normal) var(--tc-motion-ease),
+    left var(--tc-motion-normal) var(--tc-motion-ease),
+    width var(--tc-motion-normal) var(--tc-motion-ease),
+    background-color var(--tc-motion-fast) ease,
+    box-shadow var(--tc-motion-normal) ease!important;
+}
+.tc-changed{animation:tcChangedPulse var(--tc-motion-panel) var(--tc-motion-ease)}
 
 @keyframes tcPopInCompact{
-  from{opacity:0;transform:translateY(-3px)}
+  from{opacity:0;transform:translateY(-4px)}
   to{opacity:1;transform:translateY(0)}
 }
+@keyframes tcPopInCompactUp{
+  from{opacity:0;transform:translateY(4px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes tcDialogBackdropIn{
+  from{opacity:0}
+  to{opacity:1}
+}
 @keyframes tcDialogInCompact{
-  from{opacity:0;transform:translateY(5px)}
+  from{opacity:0;transform:translateY(8px)}
   to{opacity:1;transform:translateY(0)}
 }
 
@@ -68,8 +158,29 @@
 }
 
 @media(prefers-reduced-motion:reduce){
-  .tc-pop-in,.tc-dialog-in,.tc-bool-knob,.tc-reset,.tc-tooltip{
+  .tc-control,
+  .tc-button,
+  .tc-copy,
+  .tc-select-button,
+  .tc-select-item,
+  .tc-check-row,
+  .tc-segmented-item,
+  .tc-sliding-tab,
+  .tc-picker-actions button,
+  .tc-property-row,
+  .tc-pop-in,
+  .tc-dialog-layer,
+  .tc-dialog-in,
+  .tc-bool-knob,
+  .tc-legacy-switch,
+  .tc-legacy-switch-knob,
+  .tc-reset,
+  .tc-tooltip,
+  .tc-segmented-indicator,
+  .tc-sliding-tabs-indicator,
+  .tc-changed{
     animation:none!important;
     transition:none!important;
+    transform:none!important;
   }
 }
