@@ -20,12 +20,13 @@ export type SegmentedControlProps<T extends string = string> = {
 };
 
 /**
- * Compact grouped labels for mutually-exclusive choices.
+ * Equal-width pill segments for high-level mutually-exclusive modes.
  *
  * Visual contract:
- * - Two or more labels read as one grouped control.
- * - Adjacent edges stay square; only the outer left/right edges are rounded.
- * - The active label uses the shared Terry accent treatment.
+ * - Two or more labels read as one pill group.
+ * - Every item has equal width.
+ * - The outer ends are fully rounded while adjacent internal edges stay square.
+ * - The active label uses a slightly brighter surface and accent-colored text.
  * - Products own placement/width, not the internal geometry.
  */
 export function SegmentedControl<T extends string = string>({
