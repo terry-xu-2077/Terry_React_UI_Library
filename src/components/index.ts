@@ -4,6 +4,7 @@ export * from "./TextField";
 export * from "./BoolSwitch";
 export * from "./Select";
 export * from "./Slider";
+export * from "./SegmentedControl";
 export * from "./EntityHeader";
 export * from "./Dialog";
 export * from "./Button";
