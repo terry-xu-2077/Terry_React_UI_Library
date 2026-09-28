@@ -12,6 +12,7 @@
       "import": "./dist/index.js"
     },
     "./style.css": "./dist/style.css",
+    "./studio.css": "./dist/studio.css",
     "./base": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"

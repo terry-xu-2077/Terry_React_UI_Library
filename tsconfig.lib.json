@@ -12,6 +12,7 @@
   "include": [
     "src/index.ts",
     "src/components/**/*",
+    "src/studio/**/*",
     "src/styles/legacy-classic/register.ts"
   ]
 }

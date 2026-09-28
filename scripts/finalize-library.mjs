@@ -5,6 +5,7 @@ const root = process.cwd();
 const dist = path.join(root, "dist");
 const entry = path.join(dist, "index.js");
 const style = path.join(dist, "style.css");
+const studioStyle = path.join(dist, "studio.css");
 const declaration = path.join(dist, "index.d.ts");
 const styleImport = 'import "./style.css";\n';
 
@@ -16,6 +17,11 @@ if (!js.startsWith(styleImport)) {
   js = styleImport + js;
   await fs.writeFile(entry, js, "utf8");
 }
+
+await fs.copyFile(
+  path.join(root, "src", "studio", "studio-dark.css"),
+  studioStyle,
+);
 
 const baseOut = path.join(dist, "base");
 await fs.mkdir(baseOut, { recursive: true });
@@ -29,10 +35,11 @@ for (const file of ["theme.css", "theme-system.css"]) {
 const required = [
   entry,
   style,
+  studioStyle,
   declaration,
   path.join(baseOut, "theme.css"),
   path.join(baseOut, "theme-system.css"),
 ];
 await Promise.all(required.map(file => fs.access(file)));
 
-console.log("[library] package contract verified: JS + declarations + CSS exports");
+console.log("[library] package contract verified: JS + declarations + base CSS + Studio Dark CSS");

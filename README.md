@@ -24,35 +24,44 @@ import {
 } from "terry-react-ui-library";
 ```
 
-The generated `dist/index.js` imports `dist/style.css`, so consumers keep the one-import experience. `terry-react-ui-library/style.css` is also exported for hosts that prefer an explicit stylesheet import.
+The generated `dist/index.js` imports `dist/style.css`, so existing consumers keep the one-import experience. `terry-react-ui-library/style.css` is also exported for hosts that prefer an explicit stylesheet import.
+
+## Studio Dark
+
+`Studio Dark` is a separate fixed-dark visual category for creative-production tools. It was extracted from the refined TerryShotMill project/task UI without importing ShotMill business logic.
+
+```ts
+import {
+  ProjectFolderCard,
+  TaskCard,
+  PromptTag,
+  ParameterRow,
+  StudioSegmentedControl,
+  StudioSlidingTabs,
+  StudioSelect,
+  StudioNumberField,
+  StudioSwitch,
+} from "terry-react-ui-library";
+
+import "terry-react-ui-library/studio.css";
+```
+
+Studio styling is intentionally **not** imported by the package's normal `style.css`. All Studio selectors use the `tsd-` namespace and all palette variables are scoped below `.tsd-studio-dark`. Existing consumers such as Rulesmd Editor therefore keep their current base theme and light/dark behavior unchanged.
+
+Studio Dark itself has no light-mode variant.
 
 ## Package layout
 
 ```text
 src/
   index.ts                 public source entry
-  components/              canonical component implementations
-    BoolSwitch/
-      BoolSwitch.tsx
-      index.ts
-    Select/
-      Select.tsx
-      index.ts
-    TextField/
-    Slider/
-    Dialog/
-    Button/
-    EntityHeader/
-    MultiSelect/
-    ...
+  components/              canonical base component implementations
+  studio/                  fixed-dark creative studio components
+    components.tsx
+    index.ts
+    studio-dark.css
   visual-icons/            reusable icon-generation system
-    index.ts               resolver registry + public exports
-    tileIcons.ts           coordinate/sprite-sheet crop generator
-    semanticIcons.tsx      Lucide/open-source semantic icons
-    simpleIcons.tsx        element + text / text-card icons
-    visual-icons.css       shared icon presentation
   styles/base/             base theme, motion and component visual CSS
-    register.ts            single base-style registration entry
 scripts/
   finalize-library.mjs     verifies/finalizes dist CSS and base-style assets
 vite.config.lib.ts         library build
@@ -63,7 +72,7 @@ dist/                      generated package artifact (not committed)
 site-dist/                 generated showcase artifact (not committed)
 ```
 
-`src/components/` is the public module boundary and the canonical implementation location. The files under `src/styles/base/` own the shared visual styling rather than product-specific behavior.
+`src/components/` remains the existing base public module boundary. `src/studio/` is additive and does not change base component geometry or theme ownership.
 
 ## Visual icon module
 
@@ -93,6 +102,7 @@ dist/
   index.js
   index.d.ts
   style.css
+  studio.css
   base/
     theme.css
     theme-system.css
@@ -107,6 +117,7 @@ A Git dependency runs `prepare`, so consumers receive the generated `dist` packa
 - The package export map points consumers at `dist`, not `src`.
 - CSS is marked as a side effect so bundlers must not tree-shake component styling away.
 - CI installs the current Git SHA into a clean temporary Vite consumer and builds it; this protects the same install path used by Rulesmd Editor.
+- `studio.css` is an explicit opt-in export and is never injected into base consumers.
 
 ## Theme / style ownership
 
@@ -120,7 +131,7 @@ Primary public channels include:
 - `--tc-text-main`
 - `--tc-text-bright`
 
-The single style registration entry is `src/styles/base/register.ts`. New shared component CSS must be registered through the base style instead of being imported ad hoc by arbitrary component files.
+The single base-style registration entry remains `src/styles/base/register.ts`. Studio Dark is isolated under `src/studio/` and does not register into the base style.
 
 ## Component boundary rules
 
@@ -130,10 +141,9 @@ The single style registration entry is `src/styles/base/register.ts`. New shared
 - A component bug must be fixed here and verified in the showcase before a product adds a workaround.
 - Broad consumer selectors such as `.panel span`, `.row button` or `.dialog input` are unsafe around shared components.
 - Stateful icon rules must target the icon role itself. Selectors such as `.is-open svg`, `.is-active svg`, or `.control:hover svg` are forbidden because they also mutate nested action/check/status icons. Scope transforms to the trigger icon or an explicit icon class.
-- New component behavior belongs under `src/components/<Component>/`; reusable icon generation belongs under `src/visual-icons/`; new visual rules belong in the base style or the visual-icon module stylesheet.
 
 The BoolSwitch / Select cascade incident in Rulesmd Editor is the reference red-line case for these rules. The inverted MultiSelect checkmark caused by an open-state descendant `svg` transform is the corresponding icon-scope red-line case.
 
 ## Compatibility
 
-Package consumers use the standard `dist` export map. Existing component names and public props are intentionally preserved.
+Package consumers use the standard `dist` export map. Existing component names, public props and base theme behavior are intentionally preserved. Studio Dark is additive and opt-in.

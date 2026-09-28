@@ -6,16 +6,17 @@
 <meta name="color-scheme" content="dark light" />
 <title>Terry React UI Library</title>
 <link rel="stylesheet" href="./src/style.css" />
+<link rel="stylesheet" href="./src/studio/studio-dark.css" />
 <style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--tc-bg);color:var(--tc-text)}button,input{font:inherit}.shell{min-height:100vh}.topbar{position:sticky;top:0;z-index:20;height:58px;display:flex;align-items:center;gap:24px;padding:0 24px;background:color-mix(in srgb,var(--tc-bg) 94%,transparent);border-bottom:1px solid var(--tc-border-color);backdrop-filter:blur(14px)}.brand{font-weight:700}.tag{padding:4px 9px;border:1px solid var(--tc-border-color);border-radius:999px;color:var(--tc-text-muted);font-size:12px}.appearance{margin-left:auto;display:flex;gap:4px}.appearance button{height:28px;min-width:64px;border:var(--tc-border);border-radius:5px;background:var(--tc-panel);color:var(--tc-text-muted)}.appearance button.active{background:var(--tc-accent);color:var(--tc-text-bright)}.main{width:min(1080px,calc(100% - 32px));margin:28px auto 80px}.intro h1{margin:0 0 6px;font-size:28px}.intro p{margin:0;color:var(--tc-text-muted)}.section{margin-top:24px;border:1px solid var(--tc-border-color);background:var(--tc-surface);box-shadow:0 12px 28px var(--tc-shadow)}.section-title{padding:11px 14px;border-bottom:1px solid var(--tc-border-color);font-weight:600}.body{padding:20px}.grid{display:grid;grid-template-columns:repeat(2,minmax(320px,1fr));gap:24px 40px}.item{display:grid;grid-template-columns:120px 1fr;align-items:center;min-height:58px}.label{font-size:12px;color:var(--tc-text-muted)}.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}@media(max-width:760px){.grid{grid-template-columns:1fr}.main{width:calc(100% - 20px)}}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--tc-bg);color:var(--tc-text)}button,input,select{font:inherit}.shell{min-height:100vh}.topbar{position:sticky;top:0;z-index:20;height:58px;display:flex;align-items:center;gap:18px;padding:0 24px;background:color-mix(in srgb,var(--tc-bg) 94%,transparent);border-bottom:1px solid var(--tc-border-color);backdrop-filter:blur(14px)}.brand{font-weight:700}.tag,.nav-link{padding:4px 9px;border:1px solid var(--tc-border-color);border-radius:999px;color:var(--tc-text-muted);font-size:12px;text-decoration:none}.nav-link:hover{color:var(--tc-text-bright);border-color:var(--tc-accent)}.appearance{margin-left:auto;display:flex;gap:4px}.appearance button{height:28px;min-width:64px;border:var(--tc-border);border-radius:5px;background:var(--tc-panel);color:var(--tc-text-muted)}.appearance button.active{background:var(--tc-accent);color:var(--tc-text-bright)}.main{width:min(1080px,calc(100% - 32px));margin:28px auto 80px}.intro h1{margin:0 0 6px;font-size:28px}.intro p{margin:0;color:var(--tc-text-muted)}.section{margin-top:24px;border:1px solid var(--tc-border-color);background:var(--tc-surface);box-shadow:0 12px 28px var(--tc-shadow)}.section-title{padding:11px 14px;border-bottom:1px solid var(--tc-border-color);font-weight:600}.body{padding:20px}.grid{display:grid;grid-template-columns:repeat(2,minmax(320px,1fr));gap:24px 40px}.item{display:grid;grid-template-columns:120px 1fr;align-items:center;min-height:58px}.label{font-size:12px;color:var(--tc-text-muted)}.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.studio-section{margin-top:36px;border:0;background:transparent;box-shadow:none}.studio-stage{padding:26px;border:1px solid #30343a;border-radius:18px;background:#151618}.studio-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}.studio-head h2{margin:0;color:#f7fafc;font-size:22px}.studio-head p{margin:4px 0 0;color:#949ca7;font-size:13px}.studio-badge{padding:5px 9px;border:1px solid #41464e;border-radius:999px;color:#aab5ff;font-size:11px}.studio-grid{display:grid;grid-template-columns:288px minmax(230px,1fr);gap:28px;align-items:start}.studio-controls{display:grid;gap:18px;margin-top:28px;padding:20px;border:1px solid #30343a;border-radius:16px;background:#1d1f22}.studio-tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}@media(max-width:760px){.grid{grid-template-columns:1fr}.main{width:calc(100% - 20px)}.studio-grid{grid-template-columns:1fr}.appearance{display:none}}
 </style>
 </head>
 <body>
 <div id="shell" class="shell tc-theme" data-mode="dark">
-<header class="topbar"><div class="brand">Terry React UI Library</div><span class="tag">Base Style</span><div class="appearance"><button id="darkMode" class="active">Dark</button><button id="lightMode">Light</button></div></header>
+<header class="topbar"><div class="brand">Terry React UI Library</div><a class="nav-link" href="#base">Base Style</a><a class="nav-link" href="#studio">Studio Dark</a><div class="appearance"><button id="darkMode" class="active">Dark</button><button id="lightMode">Light</button></div></header>
 <main class="main">
-<div class="intro"><h1>Base Style</h1><p>共享基础样式、组件与视觉图标系统。</p></div>
-<section class="section"><div class="section-title">Components</div><div class="body grid">
+<div class="intro"><h1>UI Showcase</h1><p>Base Style 保持现有主题能力；Studio Dark 是独立、固定暗色的专业创作工具组件集。</p></div>
+<section class="section" id="base"><div class="section-title">Base Style · Components</div><div class="body grid">
 <div class="item"><span class="label">TextField</span><div class="tc-control tc-text"><input value="示例文本" /></div></div>
 <div class="item"><span class="label">BoolSwitch</span><button class="tc-control tc-bool is-on toggle"><span class="tc-bool-knob">ON 开</span></button></div>
 <div class="item"><span class="label">Select</span><div class="tc-control tc-select"><button class="tc-select-button"><span>Alpha</span><i class="tc-chevron"></i></button></div></div>
@@ -23,7 +24,35 @@
 <div class="item"><span class="label">MultiSelect</span><div class="tc-control tc-multi"><button class="tc-select-button"><span>Alpha, Gamma</span><i class="tc-chevron"></i></button></div></div>
 <div class="item"><span class="label">Status</span><div class="actions"><span class="tc-status-pill tone-active">Active</span><span class="tc-status-pill tone-warning">Warning</span><span class="tc-status-pill tone-danger">Danger</span></div></div>
 </div></section>
-<section class="section"><div class="section-title">Actions</div><div class="body actions"><button class="tc-button">Primary Action</button><button class="tc-button" disabled>Disabled</button></div></section>
+<section class="section"><div class="section-title">Base Style · Actions</div><div class="body actions"><button class="tc-button">Primary Action</button><button class="tc-button" disabled>Disabled</button></div></section>
+
+<section class="studio-section tsd-studio-dark" id="studio">
+  <div class="studio-stage">
+    <div class="studio-head"><div><h2>Studio Dark</h2><p>从 TerryShotMill 提炼的创作工作台视觉组件；固定暗色，不参与 Base Style 的亮暗主题切换。</p></div><span class="studio-badge">Creative Studio</span></div>
+    <svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs><clipPath id="showcase-folder-outline" clipPathUnits="objectBoundingBox"><path d="M0 .15 Q0 0 .06 0 H.32 C.36 0 .36 .13 .42 .13 H.94 Q1 .13 1 .27 V.87 Q1 1 .94 1 H.06 Q0 1 0 .87 Z"/></clipPath></defs></svg>
+    <div class="studio-grid">
+      <div class="tsd-project-folder-item is-running" style="--tsd-folder-clip:url(#showcase-folder-outline)">
+        <button class="tsd-project-folder-card is-empty">
+          <div class="tsd-project-folder-sheet tsd-project-folder-cover" style="display:grid;place-items:center;padding:0;font-size:13px">PROJECT COVER</div>
+          <div class="tsd-project-folder-front"><div class="tsd-project-folder-tab"><time>2026/9/28</time><i></i></div><h3>异星边境</h3><p>MiniMax H3 导演工作台项目</p><footer><span>12 个任务</span><span>28 个资产</span><span>已生成 7/12</span></footer></div>
+        </button>
+      </div>
+      <button class="tsd-task-card is-running is-selected">
+        <div class="tsd-task-card-preview"><span style="color:#59616c;font-size:13px">16:10 PREVIEW</span><span class="tsd-task-card-status"><i></i>生成中</span></div>
+        <div class="tsd-task-card-heading"><strong>#03 越野车跃过断层</strong><span>8s</span></div>
+        <p>镜头跟随越野车高速冲向断层边缘，车辆腾空后摄影机慢半拍追上...</p>
+        <footer>已检查 · 使用 3 个资产 · 2 个生成版本</footer>
+      </button>
+    </div>
+    <div class="studio-tag-row"><span class="tsd-prompt-tag tone-section">[Shot 1]</span><span class="tsd-prompt-tag tone-camera">手持跟拍</span><span class="tsd-prompt-tag tone-time">00:02.000</span><span class="tsd-prompt-tag tone-dialogue">对白</span><span class="tsd-prompt-tag tone-success">已检查</span><span class="tsd-prompt-tag tone-warning">待生成</span></div>
+    <div class="studio-controls">
+      <div class="tsd-parameter-row"><div class="tsd-parameter-copy"><strong>提示词来源</strong><span>当前提交生成使用哪份提示词</span></div><div class="tsd-parameter-control"><div class="tsd-segmented"><button class="tsd-segmented-item is-active">用户</button><button class="tsd-segmented-item">AI 增强</button></div></div></div>
+      <div class="tsd-parameter-row"><div class="tsd-parameter-copy"><strong>生成质量</strong><span>密集参数使用滑动标签</span></div><div class="tsd-parameter-control"><div class="tsd-sliding-tabs" style="--tsd-tab-count:3;--tsd-tab-index:1"><span class="tsd-sliding-track"></span><span class="tsd-sliding-indicator"></span><button class="tsd-sliding-tab">快速</button><button class="tsd-sliding-tab is-active">标准</button><button class="tsd-sliding-tab">高质</button></div></div></div>
+      <div class="tsd-parameter-row"><div class="tsd-parameter-copy"><strong>工作流</strong><span>紧凑参数控件</span></div><div class="tsd-parameter-control"><select class="tsd-select"><option>MiniMax H3 · 720P</option><option>MiniMax H3 · 1080P</option></select></div></div>
+      <div class="tsd-parameter-row"><div class="tsd-parameter-copy"><strong>二采</strong><span>Studio Dark 固定暗色开关</span></div><div class="tsd-parameter-control"><button class="tsd-switch is-on" role="switch" aria-checked="true"><span class="tsd-switch-knob"></span></button></div></div>
+    </div>
+  </div>
+</section>
 </main></div>
 <script>
 const shell=document.getElementById('shell'),dark=document.getElementById('darkMode'),light=document.getElementById('lightMode');
