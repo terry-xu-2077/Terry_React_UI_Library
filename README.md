@@ -32,6 +32,7 @@ The generated `dist/index.js` imports `dist/style.css`, so existing consumers ke
 
 ```ts
 import {
+  StudioDark,
   ProjectFolderCard,
   TaskCard,
   PromptTag,
@@ -44,6 +45,9 @@ import {
 } from "terry-react-ui-library";
 
 import "terry-react-ui-library/studio.css";
+
+// Wrap Studio components once at the workspace/page boundary.
+// <StudioDark>...</StudioDark>
 ```
 
 Studio styling is intentionally **not** imported by the package's normal `style.css`. All Studio selectors use the `tsd-` namespace and all palette variables are scoped below `.tsd-studio-dark`. Existing consumers such as Rulesmd Editor therefore keep their current base theme and light/dark behavior unchanged.
